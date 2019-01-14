@@ -12,33 +12,46 @@
     <!-- tab-container -->
     <mt-tab-container v-model="selected">
       <mt-tab-container-item id="1">
-        <mt-cell v-for="(n, key) in 10" :key="key" :title="'即时信息 ' + n"/>
+        <Cell v-for="(n, key) in 4" :key="key+Math.random()" @click.native="showMore"/>
       </mt-tab-container-item>
       <mt-tab-container-item id="2">
-        <mt-cell v-for="(n, key) in 4" :key="key" :title="'店铺推送 ' + n"/>
+        <Cell v-for="(n, key) in 4" :key="key+Math.random()" @click.native="showMore"/>
       </mt-tab-container-item>
       <mt-tab-container-item id="3">
-        <mt-cell v-for="(n, key) in 6" :key="key" :title="'系统通知 ' + n"/>
+        <Cell v-for="(n, key) in 4" :key="key+Math.random()" @click.native="showMore"/>
       </mt-tab-container-item>
     </mt-tab-container>
   </div>
 </template>
 
 <script>
-import { Navbar, TabItem, Header } from 'mint-ui';
+import { Navbar, TabItem, Header, CellSwipe, MessageBox } from 'mint-ui';
+import Cell from '@/components/message/Cell';
 export default {
   data() {
     return {
       selected: '1'
     }
   },
+  methods: {
+    showMore() {
+      MessageBox('海王星辰', '亲，仓库会根据亲的地亲，仓库会根据亲的地亲，仓库会根据亲的地亲，仓库会根据亲的地');
+    }
+  },
   components: {
     'mt-navbar': Navbar,
     'mt-tab-item': TabItem,
     'mt-header': Header,
+    'mt-cell-swipe': CellSwipe,
+    Cell
   }
 }
 </script>
 
-<style>
+<style lang="less">
+.mint-cell-title {
+  -webkit-box-flex: 0;
+  -ms-flex: 0;
+  flex: 0;
+}
 </style>

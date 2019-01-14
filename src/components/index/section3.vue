@@ -2,15 +2,19 @@
   <section class="section3">
     <h2 class="section3-title">
       店铺列表
-      <i class="icon-right"></i>
+      
+      <router-link :to="{path:'/shopList'}" >
+        <i class="icon-right"></i>
+      </router-link>
+      
     </h2>
     <ul class="section3-list">
-      <li v-for="k in list" :key='k.id'>
+      <li v-for="k in list" :key='k.id' @click="$router.push({path: '/shop'})">
         
-        <router-link :to="{name:'分类页'}" class="section3-list-right">
+        <a class="section3-list-right">
            <img src="../../assets/images/shop.jpg">
           <!-- <span>${{k.price}}</span> -->
-        </router-link>
+        </a>
         <div class="section3-list-left">
           <h4>店铺{{k.title}}</h4>
           <div class="time">

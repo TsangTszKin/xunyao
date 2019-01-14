@@ -2,7 +2,9 @@
   <section class="section4">
     <h2 class="section4-title">
       药品推荐
-      <i class="icon-right"></i>
+      <router-link :to="{path:'/goodsList'}" >
+        <i class="icon-right"></i>
+      </router-link>
     </h2>
     <ul class="section4-list">
       <li v-for="k in list" :key='k.id'>

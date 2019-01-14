@@ -5,7 +5,7 @@
     <router-link :to="{path:'/cityPicker'}" slot="left">
       <span style="font-size: 15px;"><i class="fa fa-map-marker fa-lg" style="font-size:17px;margin-right:5px;"></i>{{city}}</span>
     </router-link>
-    <router-link :to="{name:''}" slot="right">
+    <router-link :to="{path:'/search'}" slot="right">
       <mt-button icon="search"></mt-button>
     </router-link>
     
@@ -65,6 +65,5 @@ export default {
 
 <style lang="less" scoped>
 .mint-header {
-
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <li class="goods">
+  <li class="goods" @click="$router.push({path: '/detail'})">
     <div class="ui-img-div">
       <img src="../../assets/images/goods.jpg">
     </div>

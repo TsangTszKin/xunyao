@@ -5,7 +5,7 @@
     </v-header>
     <div class="shopInfo">
       <div class="ui-img-div">
-        <img src="../assets/images/goods.jpg">
+        <img src="../assets/images/shop.jpg">
       </div>
       <div class="bref" style=" width: calc(100% - 55px - 16px);">
         <p class="name">

@@ -8,6 +8,7 @@ const Index = resolve => require(['@/views/Index.vue'], resolve)
 const CityPicker = resolve => require(['@/components/CityPicker'], resolve)
 const Message = resolve => require(['@/views/Message'], resolve)
 const GoodsList = resolve => require(['@/views/GoodsList'], resolve)
+const ShopList = resolve => require(['@/views/ShopList'], resolve)
 const Shop = resolve => require(['@/views/Shop'], resolve)
 const GoodsSave = resolve => require(['@/views/GoodsSave'], resolve)
 const Category = resolve => require(['@/views/Category.vue'], resolve)
@@ -41,6 +42,10 @@ export default new Router({
     path: '/shop',
     name: '店铺主页',
     component: Shop
+  },  {
+    path: '/shopList',
+    name: '店铺列表',
+    component: ShopList
   }, {
     path: '/goodsSave',
     name: '商品保存',

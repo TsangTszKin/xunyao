@@ -5,6 +5,10 @@
       <router-link to="/goodsSave" slot="right">
         <mt-button>上传</mt-button>
       </router-link>
+
+      <router-link :to="{name:'搜索页'}" slot="right">
+        <mt-button icon="search" style="margin-left: 30px;"></mt-button>
+      </router-link>
     </mt-header>
     <ul
       v-infinite-scroll="loadMore"
@@ -19,7 +23,7 @@
 
 <script>
 // import Header from '@/common/_header.vue';
-import { InfiniteScroll, Indicator,Button, Header } from 'mint-ui';
+import { InfiniteScroll, Indicator, Button, Header, Search } from 'mint-ui';
 import GoodsItem from '@/components/goods/GoodsItem';
 import LoadingForList from '@/components/LoadingForList';
 
@@ -41,7 +45,8 @@ export default {
     'mt-header': Header,
     'goods-item': GoodsItem,
     'loading-for-list': LoadingForList,
-    'mt-button': Button
+    'mt-button': Button,
+    'mt-search': Search
   },
   methods: {
     loadMore() {
