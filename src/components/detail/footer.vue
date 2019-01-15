@@ -4,7 +4,10 @@
       <i class="icon-index"></i>
     </router-link>
     <router-link  :to="{name:'购物车页'}" class="footer-gocar">
-      <i class="icon-car"></i>
+      <!-- <i class="icon-car"></i> -->
+      <i class="fa fa-shopping-cart fa-lg" style="position: relative;
+    top: -5px;
+    font-size: 29px;" ></i>
       <span v-if="count">{{count}}</span>
     </router-link>
     <span class="footer-addcar" @click="addIntoCar">
@@ -19,26 +22,26 @@ import { Toast } from 'mint-ui';
 export default {
   computed: {
 
-    count () {
+    count() {
       //页面刷新后 数据会消失,解决:加判断
       if (this.$store.state.detail.count == '') {
         this.$store.commit('CHANGE_COUNT');
       }
       return this.$store.state.detail.count
     },
-    productDatasView () {
+    productDatasView() {
       return this.$store.state.detail.productDatas.view
     },
-    colSelected () {
+    colSelected() {
       return this.$store.state.detail.colSelected
     },
-    sizeSelected () {
+    sizeSelected() {
       return this.$store.state.detail.sizeSelected
     }
   },
 
   methods: {
-    addIntoCar () {
+    addIntoCar() {
       //  mint-ui的弹出式提示框
       const product = [{
         title: this.productDatasView.title,
@@ -107,10 +110,10 @@ export default {
     padding-top: 1.5vw;
     border-right-color: #f7f7f7;
     border-right-style: solid;
-    .fz(border-right-width,1);
+    .fz(border-right-width, 1);
 
     i {
-      .fz(font-size,45);
+      .fz(font-size, 45);
     }
     &:active {
       background-color: #f1f1f1;
@@ -135,14 +138,14 @@ export default {
       background-color: @cl;
       border-radius: 50%;
       color: #fff;
-      .fz(font-size,24);
+      .fz(font-size, 24);
     }
 
     &:active {
       background-color: #f1f1f1;
     }
     i {
-      .fz(font-size,48);
+      .fz(font-size, 48);
     }
   }
 

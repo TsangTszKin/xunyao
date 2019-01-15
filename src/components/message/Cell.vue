@@ -33,7 +33,7 @@ export default {
 .msg-cell {
   > img {
     float: left;
-    margin: 7px 0;
+    margin: 13px 0;
     width: 40px;
     height: 40px;
     border-radius: 7px;
@@ -41,7 +41,7 @@ export default {
   > .right {
     float: left;
     position: relative;
-    padding: 10px 0 0 10px;
+    padding: 17px 0 0 10px;
     > .name {
       font-size: 15px;
       color: #000;
@@ -61,6 +61,7 @@ export default {
       -webkit-line-clamp: 1; //四行
       -webkit-box-orient: vertical;
       overflow: hidden;
+      line-height: initial;
     }
   }
 }

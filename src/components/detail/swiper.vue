@@ -2,7 +2,7 @@
     <div class="swiper">
       <mt-swipe :auto="4000">
         <mt-swipe-item v-for="k in swiper" :key="k.id">
-           <img :src="k.imgSrc">
+           <img src="../../assets/images/goods.jpg">
         </mt-swipe-item>
       </mt-swipe>
       <div class="back" @click="$router.go(-1)">

@@ -13,7 +13,7 @@
           <p>{{k.intro}}</p>
         </router-link>
         <h3>{{k.title}}</h3>
-        <span>$ {{k.price}}</span>
+        <span>￥ {{k.price}}</span>
       </li>
 
     </ul>

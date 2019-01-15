@@ -74,7 +74,7 @@ export default {
       -webkit-line-clamp: 2; //四行
       -webkit-box-orient: vertical;
       overflow: hidden;
-      font-size: 15px;
+      font-size: 13px;
     }
     > .size {
       font-size: 12px;
@@ -90,12 +90,16 @@ export default {
       -webkit-line-clamp: 1; //四行
       -webkit-box-orient: vertical;
       overflow: hidden;
+      position: relative;
       > .price {
-        font-size: 20px;
+        font-size: 18px;
         color: red;
+        font-weight: bold;
       }
       > .stock {
         font-size: 13px;
+        position: absolute;
+        right: 0;
       }
     }
     > .shop {

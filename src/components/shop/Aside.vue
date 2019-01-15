@@ -37,12 +37,14 @@ export default {
   width: 20%;
   float: left;
   > .cate {
+    background-color: #dcdcdc4a;
     .cell {
       text-align: center;
       font-size: 13px;
       height: 40px;
       line-height: 40px;
       position: relative;
+      background-color: transparent;
     }
     .active-cell::before {
       width: 3px;

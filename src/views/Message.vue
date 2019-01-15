@@ -54,4 +54,7 @@ export default {
   -ms-flex: 0;
   flex: 0;
 }
+.mint-cell-swipe-button {
+  line-height: 66px;
+}
 </style>

@@ -155,7 +155,7 @@ export default {
           .time-num {
             display: inline-block;
             text-align: center;
-            padding: 1.6vw;
+            padding: 0.6vw;
             color: #fff;
             border-radius: 0.5vw;
             background-color: #444;
