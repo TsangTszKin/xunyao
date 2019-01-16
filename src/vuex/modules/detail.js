@@ -4,14 +4,14 @@ import Vue from 'vue'
 
 // 容器
 const state = {
-  productDatas:'',  //detail父组件请求的当前页面商品数据
-  colSelected:0,   //0是index,表示第一个
-  sizeSelected:0,  //0是index,表示第一个
-  count:0,    //购物车里的商品数量
-  carList:'',      //购物车的商品列表
-  fetchLoading:false,     //全局加载状态的Loading
-  selectedList:'',         //已选择的购物车商品列表
-  unSelectedList:'',      //未选择的购物车商品列表,提交订单后用它替换carList
+  productDatas: '',  //detail父组件请求的当前页面商品数据
+  colSelected: 0,   //0是index,表示第一个
+  sizeSelected: 0,  //0是index,表示第一个
+  count: 0,    //购物车里的商品数量
+  carList: '',      //购物车的商品列表
+  fetchLoading: false,     //全局加载状态的Loading
+  selectedList: '',         //已选择的购物车商品列表
+  unSelectedList: '',      //未选择的购物车商品列表,提交订单后用它替换carList
 }
 
 //更改 store 中的状态的唯一方法:提交 mutation
@@ -26,54 +26,54 @@ const state = {
 const mutations = {
 
 
-//异步请求的数据
-  [types.SET_DATAS](state,res) {
+  //异步请求的数据
+  [types.SET_DATAS](state, res) {
     state.productDatas = res
   },
 
   //详情页商品颜色的选择
-  [types.CHANGE_COL_SELECTED](state,res) {
-      state.colSelected = res;
+  [types.CHANGE_COL_SELECTED](state, res) {
+    state.colSelected = res;
   },
 
   //详情页商品尺寸的选择
 
-  [types.CHANGE_SIZE_SELECTED] (state,res) {
-      state.sizeSelected = res;
+  [types.CHANGE_SIZE_SELECTED](state, res) {
+    state.sizeSelected = res;
   },
 
   // 向购物车商品列表添加商品
-  [types.ADD_PRODUCT] (state) {
+  [types.ADD_PRODUCT](state) {
     state.carList = Util.getLocal('carList');
   },
 
   //获取当前购物车商品数量
-  [types.CHANGE_COUNT] (state) {
+  [types.CHANGE_COUNT](state) {
     state.count = Util.getLocal('count')
   },
 
-// 重置购物车
-  [types.RESET_CARLIST] (state) {
+  // 重置购物车
+  [types.RESET_CARLIST](state) {
     state.carList = Util.getLocal('carList')
   },
 
-// 重置购物车数量
-  [types.RESET_COUNT] (state) {
+  // 重置购物车数量
+  [types.RESET_COUNT](state) {
     state.count = Util.getLocal('carList').length
   },
 
-// loading开关
-  [types.SET_LOADING] (state,res) {
+  // loading开关
+  [types.SET_LOADING](state, res) {
     state.fetchLoading = res
   },
-// 购物车里打钩的商品
-  ['SET_SELECTEDLIST'] (state,res) {
+  // 购物车里打钩的商品
+  ['SET_SELECTEDLIST'](state, res) {
     state.selectedList = Util.getLocal('selectedList')
   },
 
-//购物车里没打钩的商品
+  //购物车里没打钩的商品
 
-  ['SET_UNSELECTEDLIST'] (state) {
+  ['SET_UNSELECTEDLIST'](state) {
     state.unSelectedList = Util.getLocal('unSelectedList')
   }
 
@@ -84,58 +84,63 @@ let vm = new Vue({});
 // action提交mutations，不直接更改状态（通过store.dispatch触发）
 const actions = {
 
-// 父组件发送异步请求
-  setDatas({commit}) {
-    vm.$api({
-        method:'post',
-        url:"/detail"
-      }).then(response=>{
-        commit('SET_DATAS',response.data);
-      })
+  // 父组件发送异步请求
+  setDatas({ commit }) {
+    // vm.$api({
+    //     method:'post',
+    //     url:"/detail"
+    //   }).then(response=>{
+    //     console.log("response.data", JSON.stringify(response.data))
+    //     commit('SET_DATAS',response.data);
+    //   })
+
+    commit('SET_DATAS',
+      { "view": { "title": "小米6 全网通 6GB+128GB 陶瓷尊享版 移动联通电信4G手机 ", "intro": "层风小深儿面完因百提外车确教开种。任名声广生位提争思军况车难调。", "id": "330000200812294271", "price": 338, "chose": [{ "col": "土豪金", "size": "128g" }, { "col": "东北银", "size": "64g" }, { "col": "喜庆红", "size": "32g" }] }, "swiper": [{ "imgSrc": "http://dummyimage.com/400x400/ffcc33/FFF.png", "id": "530000197101255260" }, { "imgSrc": "http://dummyimage.com/400x400/ffcc33/FFF.png", "id": "620000199812090379" }], "contentImgSrc": [{ "imgSrc": "http://dummyimage.com/600x600/5a9e6e/FFF.png" }, { "imgSrc": "http://dummyimage.com/600x600/5a9e6e/FFF.png" }, { "imgSrc": "http://dummyimage.com/600x600/5a9e6e/FFF.png" }, { "imgSrc": "http://dummyimage.com/600x600/5a9e6e/FFF.png" }, { "imgSrc": "http://dummyimage.com/600x600/5a9e6e/FFF.png" }, { "imgSrc": "http://dummyimage.com/600x600/5a9e6e/FFF.png" }, { "imgSrc": "http://dummyimage.com/600x600/5a9e6e/FFF.png" }, { "imgSrc": "http://dummyimage.com/600x600/5a9e6e/FFF.png" }] }
+    );
   },
 
-// 购物车数量增减,true是加,false是减
-  setLocalCount({commit},bool = true) {
+  // 购物车数量增减,true是加,false是减
+  setLocalCount({ commit }, bool = true) {
     let count = Util.getLocal('count') || 0;
-    if(bool) {
-      Util.setLocal(++count,'count');
-    }else {
-        Util.setLocal(--count,'count');
+    if (bool) {
+      Util.setLocal(++count, 'count');
+    } else {
+      Util.setLocal(--count, 'count');
     }
     commit(types.CHANGE_COUNT);
   },
 
   //网购物车列表添加数据
-  addCarList({commit},res) {
-    Util.setLocal(res,'carList',true);
+  addCarList({ commit }, res) {
+    Util.setLocal(res, 'carList', true);
     commit(types.ADD_PRODUCT)
   },
 
   //重新设置购物车商品列表,把打钩并提交的商品去掉,即保留unSelectedList
 
-  resetCarList({commit,getters}) {
+  resetCarList({ commit, getters }) {
     const unSelectedList = Util.getLocal('unSelectedList');
-    Util.setLocal(unSelectedList,'carList');
+    Util.setLocal(unSelectedList, 'carList');
     commit(types.RESET_CARLIST)
   },
-// 重置购物车数量Count,即没打钩的商品的数量
-  resetCount({commit,getters}) {
+  // 重置购物车数量Count,即没打钩的商品的数量
+  resetCount({ commit, getters }) {
     const count = Util.getLocal('unSelectedList').length;
-    Util.setLocal(count,'count');
+    Util.setLocal(count, 'count');
     commit(types.RESET_COUNT);
   },
 
-// 删除购物车列表的某一项 （用新的数组直接替换）
-  cutCarList({commit},res) {
-    Util.setLocal(res,'carList');
+  // 删除购物车列表的某一项 （用新的数组直接替换）
+  cutCarList({ commit }, res) {
+    Util.setLocal(res, 'carList');
     commit(types.RESET_CARLIST);
   },
 
-// 分别保存打钩的商品和为打钩的商品
-  setSelectedList({commit,getters}) {
-    Util.setLocal(getters.selectedList,'selectedList');
+  // 分别保存打钩的商品和为打钩的商品
+  setSelectedList({ commit, getters }) {
+    Util.setLocal(getters.selectedList, 'selectedList');
     commit('SET_SELECTEDLIST');
-    Util.setLocal(getters.unSelectedList,'unSelectedList');
+    Util.setLocal(getters.unSelectedList, 'unSelectedList');
     commit('SET_UNSELECTEDLIST');
 
   }
@@ -145,24 +150,24 @@ const actions = {
 // 如同计算属性,处理state的某个状态
 const getters = {
 
-    selectedList(state) {
-        // choseBool为真的商品 即打钩的商品
-       if(state.carList!=='') {
-         let arr = state.carList.filter((ele)=>{
-           return ele.choseBool == true
-         });
-         return arr
-       }
-    },
-
-    unSelectedList(state) {
-      if(state.carList !=='') {
-        let arr = state.carList.filter((ele)=>{
-          return ele.choseBool == false
-        });
-        return arr
-      }
+  selectedList(state) {
+    // choseBool为真的商品 即打钩的商品
+    if (state.carList !== '') {
+      let arr = state.carList.filter((ele) => {
+        return ele.choseBool == true
+      });
+      return arr
     }
+  },
+
+  unSelectedList(state) {
+    if (state.carList !== '') {
+      let arr = state.carList.filter((ele) => {
+        return ele.choseBool == false
+      });
+      return arr
+    }
+  }
 
 }
 

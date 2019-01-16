@@ -36,7 +36,7 @@ import { Lazyload } from 'mint-ui';
 export default {
   data() {
     return {
-      list: [],
+      list: [1,2,3,4,5,6,7,8],
       banner: '',
       dom: [{
         num1: '',
@@ -58,48 +58,6 @@ export default {
     }
   },
   mounted() {
-    this.$api({
-      url: '/index',
-    }).then(response => {
-      const resDatas = response.data.section3
-      this.list = resDatas.list
-      this.banner = resDatas.banner
-      // 将拿到的时间数据处理成倒计时
-      let setTime = ((ending, dom) => {
-        let endTime = ending;
-        let timeMsg = endTime.toString();
-        let end = new Date(timeMsg).getTime();
-        setInterval(() => {
-          let now = new Date().getTime();
-          let sy = parseInt((end - now) / 1000);
-          let minute = parseInt(sy % 3600 / 60);
-          let second = parseInt(sy % 60);
-
-          minute < 10 ? minute = "0" + minute : minute;
-          second < 10 ? second = "0" + second : second;
-          let ms = (100 - Number(parseInt(now / 10).toString().substr(-2))).toString();
-
-          if (end - now <= 0) {
-            minute = '00';
-            second = '00';
-            ms = '00';
-            dom.num2 = ms;
-            return
-          }
-          dom.num1 = minute;
-          dom.num2 = second;
-          dom.num3 = ms;
-        }, 40)
-      })
-
-      for (let i of this.dom.keys()) {
-        setTime(resDatas.list[i].end, this.dom[i])
-        this.list[i].dom = this.dom[i]
-      }
-
-    }).catch((error) => {
-      console.log(error)
-    })
 
 
   }

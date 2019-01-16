@@ -4,14 +4,14 @@ import Vuex from 'vuex';
 import App from './App';
 import router from './router';
 import store from '@/vuex/store.js';  //vuex
-import api from '@/http/api.js';       //http请求
+// import api from '@/http/api.js';       //http请求
 import less from 'less';
 import Mint from 'mint-ui';    //移动端UI
 import 'mint-ui/lib/style.css';
 import '@/assets/index.less'
 Vue.use(Mint);
 Vue.config.productionTip = false;
-Vue.prototype.$api = api;
+// Vue.prototype.$api = api;
 
 
 // 用钩子函数beforeEach()对路由进行判断
