@@ -25,27 +25,45 @@ export default new Router({
   routes: [{
     path: '/',
     name: '首页',
-    component: Index
+    component: Index,
+    meta: {
+      requireAuth: true
+    }
   },{
     path: '/message',
     name: '消息',
-    component: Message
+    component: Message,
+    meta: {
+      requireAuth: true
+    }
   },{
     path: '/cityPicker',
     name: '城市选择',
-    component: CityPicker
+    component: CityPicker,
+    meta: {
+      requireAuth: true
+    }
   }, {
     path: '/goodsList',
     name: '商品列表',
-    component: GoodsList
+    component: GoodsList,
+    meta: {
+      requireAuth: true
+    }
   }, {
     path: '/shop',
     name: '店铺主页',
-    component: Shop
+    component: Shop,
+    meta: {
+      requireAuth: true
+    }
   },  {
     path: '/shopList',
     name: '店铺列表',
-    component: ShopList
+    component: ShopList,
+    meta: {
+      requireAuth: true
+    }
   }, {
     path: '/goodsSave',
     name: '商品保存',
