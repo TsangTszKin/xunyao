@@ -6,7 +6,11 @@
         <i class="icon-right"></i>
       </router-link>
     </h2>
-    <ul class="section4-list">
+    <ul class="section4-list"
+     v-infinite-scroll="loadMore"
+      infinite-scroll-disabled="loading"
+      infinite-scroll-distance="10"
+    >
       <li v-for="k in list" :key='k.id'>
         <router-link :to="{name:'详情页'}">
            <img src="../../assets/images/goods.jpg">
@@ -24,7 +28,7 @@
 </template>
 
 <script>
-import { Lazyload } from 'mint-ui';
+import { Lazyload, Indicator, InfiniteScroll } from 'mint-ui';
 export default {
   props: {
     banner: {
@@ -36,6 +40,34 @@ export default {
       default: function () {
         return []
       }
+    }
+  },
+  data() {
+    return {
+      loading: false
+    }
+  },
+  methods: {
+    loadMore() {
+      console.log("loadMore")
+      this.loading = true;
+      let self = this;
+      Indicator.open('加载中...');
+      setTimeout(() => {
+        let last = self.list[self.list.length - 1];
+        for (let i = 1; i <= 10; i++) {
+          self.list.push({
+            goodsImgUrl: 'https://gw.alicdn.com/bao/uploaded/TB1oVIdcTlYBeNjSszcXXbwhFXa_!!0-item_pic.jpg_460x460xz.jpg',
+            goodsName: '添色彩绘 客厅欧式照片墙创意美式钟表置物架装饰画挂墙相框组合',
+            size: '黑色',
+            price: '13999',
+            stock: '7',
+            shopName: '添色彩绘旗舰店'
+          });
+        }
+        self.loading = false;
+        Indicator.close();
+      }, 1000);
     }
   }
 }
@@ -60,7 +92,7 @@ export default {
       right: 6vw;
       top: 50%;
       .fz(font-size, 36);
-      .fz(margin-top,-16);
+      .fz(margin-top, -16);
       &::before {
         color: #9f9f9f;
       }
@@ -109,7 +141,7 @@ export default {
 
       > h3 {
         padding-top: 3vw;
-        .fz(font-size,40);
+        .fz(font-size, 40);
       }
       > span {
         display: inline-block;

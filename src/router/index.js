@@ -79,7 +79,7 @@ export default new Router({
     }]
   }, {
     path: '/car',
-    name: '购物车页',
+    name: '购物车',
     component: Car
   }, {
     path: '/car/pay',
@@ -88,7 +88,7 @@ export default new Router({
   },
   {
     path: '/user',
-    name: '用户页',
+    name: '我的',
     component: User,
     meta: {
       requireAuth: true,  // 添加该字段，表示进入这个路由是需要登录才能进入的

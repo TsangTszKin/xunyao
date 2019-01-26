@@ -1,7 +1,7 @@
 <template>
   <div class="message">
     <mt-header title="消息">
-      <mt-button icon="back" slot="left" @click="$router.go(-1)"></mt-button>
+      <!-- <mt-button icon="back" slot="left" @click="$router.go(-1)"></mt-button> -->
     </mt-header>
     <mt-navbar v-model="selected">
       <mt-tab-item id="1">店铺消息列表</mt-tab-item>
@@ -21,12 +21,15 @@
         <Cell v-for="(n, key) in 4" :key="key+Math.random()" @click.native="showMore"/>
       </mt-tab-container-item>
     </mt-tab-container>
+    <v-footer  />
   </div>
 </template>
 
 <script>
 import { Navbar, TabItem, Header, CellSwipe, MessageBox } from 'mint-ui';
 import Cell from '@/components/message/Cell';
+import Footer from '@/common/_footer.vue'
+
 export default {
   data() {
     return {
@@ -43,7 +46,8 @@ export default {
     'mt-tab-item': TabItem,
     'mt-header': Header,
     'mt-cell-swipe': CellSwipe,
-    Cell
+    Cell,
+     'v-footer': Footer
   }
 }
 </script>

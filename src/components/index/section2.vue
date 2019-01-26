@@ -7,8 +7,18 @@
             <img src="../../assets/images/goods.jpg">
           </router-link>
           <h2 class="section2-list-title ac">频道{{k.title}}</h2>
-          <p class="section2-list-intro">{{k.intro}}</p>
-          <p class="section2-list-price">￥{{k.price}}</p>
+          <!-- <p class="section2-list-intro">{{k.intro}}</p>
+          <p class="section2-list-price">￥{{k.price}}</p>-->
+        </li>
+      </ul>
+      <ul>
+        <li v-for="k in list" :key="k.id">
+          <router-link :to="{name:'详情页'}">
+            <img src="../../assets/images/goods.jpg">
+          </router-link>
+          <h2 class="section2-list-title ac">频道{{k.title}}</h2>
+          <!-- <p class="section2-list-intro">{{k.intro}}</p>
+          <p class="section2-list-price">￥{{k.price}}</p>-->
         </li>
       </ul>
     </div>
@@ -52,11 +62,18 @@ export default {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
-    padding: 6vw;
-    width: 380%;
+    // padding: 6vw;
+    width: 100%;
+    // height: 50vw;
     li {
-      margin-right: 10vw;
-      width: 26vw;
+      // margin-right: 10vw;
+      width: 14vw;
+      height: 25vw;
+      flex-wrap: wrap;
+      justify-content: space-around;
+      align-items: center;
+      align-content: center;
+      margin: 3vw;
       a {
         border: 1px solid gainsboro;
         border-radius: 5px;

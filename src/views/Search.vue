@@ -2,12 +2,14 @@
   <div class="search">
     <mt-search
       v-model="searchValue"
+      :result.sync="searchResult"
       cancel-text="取消"
       placeholder="搜索"
       :autofocus="true"
       :show="true"
       @keyup.enter.native="search"
     ></mt-search>
+    <div>111</div>
   </div>
 </template>
 
@@ -16,7 +18,8 @@ import { Search, Header, Button } from 'mint-ui';
 export default {
   data() {
     return {
-      searchValue: ''
+      searchValue: '',
+      searchResult: ['搜索结果1', '搜索结果2', '搜索结果3', '搜索结果4', '搜索结果5']
     }
   },
   components: {

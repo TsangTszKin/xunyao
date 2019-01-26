@@ -20,7 +20,7 @@
 export default {
   computed: {
     // 勾选的商品数量
-    count () {
+    count() {
       // 如果已选择列表为空 就返回0
       if (this.$store.getters.selectedList == undefined) {
         return 0
@@ -30,7 +30,7 @@ export default {
     },
 
     //勾选的商品的价格总和
-    allpay () {
+    allpay() {
       let all = 0;
       // 如果有勾选商品,计算总价格
       if (this.$store.getters.selectedList != undefined) {
@@ -49,7 +49,7 @@ export default {
 
   methods: {
     //点击跳转到支付页
-    goPay () {
+    goPay() {
 
       // 如果有选择商品才能跳转
       if (this.$store.getters.selectedList.length) {
@@ -79,7 +79,7 @@ export default {
   display: flex;
   align-items: center;
   position: fixed;
-  bottom: 0;
+  bottom: 16vw;
   left: 0;
   background-color: #ffffff;
   .footer-result,
@@ -92,7 +92,7 @@ export default {
 
   .footer-result {
     p {
-      .fz(font-size,24);
+      .fz(font-size, 24);
       color: #999;
     }
 
@@ -100,7 +100,7 @@ export default {
       padding: 1vw 0 0 1vw;
       span {
         color: @cl;
-        .fz(font-size,42);
+        .fz(font-size, 42);
       }
     }
   }

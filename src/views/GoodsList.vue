@@ -1,7 +1,7 @@
 <template>
   <div class="goods-list">
     <mt-header title="商品列表">
-      <mt-button icon="back" slot="left" @click="$router.go(-1)"></mt-button>
+      <!-- <mt-button icon="back" slot="left" @click="$router.go(-1)"></mt-button> -->
       <router-link to="/goodsSave" slot="right">
         <mt-button>上传</mt-button>
       </router-link>
@@ -18,6 +18,7 @@
       <goods-item v-for="(item, key) in list" class="goods" :key="key" :data="item"/>
     </ul>
     <loading-for-list v-show="!loading"></loading-for-list>
+    <Footer />
   </div>
 </template>
 
@@ -26,6 +27,7 @@
 import { InfiniteScroll, Indicator, Button, Header, Search } from 'mint-ui';
 import GoodsItem from '@/components/goods/GoodsItem';
 import LoadingForList from '@/components/LoadingForList';
+import Footer from '@/common/_footer.vue'
 
 export default {
   data() {
@@ -46,7 +48,8 @@ export default {
     'goods-item': GoodsItem,
     'loading-for-list': LoadingForList,
     'mt-button': Button,
-    'mt-search': Search
+    'mt-search': Search,
+    Footer
   },
   methods: {
     loadMore() {

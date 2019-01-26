@@ -1,7 +1,7 @@
 <template lang="html">
   <section class="section3">
     <h2 class="section3-title">
-      店铺列表
+      附近药店
       
       <router-link :to="{path:'/shopList'}" >
         <i class="icon-right"></i>
@@ -36,7 +36,7 @@ import { Lazyload } from 'mint-ui';
 export default {
   data() {
     return {
-      list: [1,2,3,4,5,6,7,8],
+      list: [1,2,3,4,5],
       banner: '',
       dom: [{
         num1: '',

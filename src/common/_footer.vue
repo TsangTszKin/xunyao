@@ -10,7 +10,7 @@
       <i slot="icon" class="fa fa-envelope-o fa-lg" style="font-size: 25px;"></i>
         消息
     </mt-tab-item>
-    <mt-tab-item id="购物车页">
+    <mt-tab-item id="购物车">
       <i slot="icon" class="fa fa-shopping-cart fa-lg" style="font-size: 27px;"></i>
       购物车
     </mt-tab-item>
@@ -18,7 +18,7 @@
        <i slot="icon" class="fa fa-th-large fa-lg" style="font-size: 25px;"></i>
       商品列表
     </mt-tab-item>
-    <mt-tab-item id="用户页">
+    <mt-tab-item id="我的">
       <i slot="icon" class="fa fa-user-o fa-lg" style="font-size: 25px;"></i>
       我的
     </mt-tab-item>
@@ -49,16 +49,19 @@ export default {
       case '首页':
         this.selected = '首页';
         break;
-      case '分类页':
-        this.selected = '分类页';
+      case '消息':
+        this.selected = '消息';
+        break;
+      case '购物车':
+        this.selected = '购物车';
 
         break;
-      case '购物车页':
-        this.selected = '购物车页';
+      case '商品列表':
+        this.selected = '商品列表';
 
         break;
-      case '用户页':
-        this.selected = '用户页';
+      case '我的':
+        this.selected = '我的';
         break;
     }
   }
