@@ -22,6 +22,7 @@ const Login = resolve => require(['@/views/login.vue'], resolve)
 
 
 export default new Router({
+  
   routes: [{
     path: '/',
     name: '首页',
