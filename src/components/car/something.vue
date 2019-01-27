@@ -1,7 +1,7 @@
 <template lang="html">
 
   <div class="wrap">
-    <v-gologin></v-gologin>
+    <!-- <v-gologin></v-gologin> -->
     <ul class="something" v-if='carList'>
       <li v-for="(k,i) in carList">
           <div class="something-left" @click="toggle">
@@ -15,7 +15,7 @@
           <div class="something-right">
             <p>{{k.title}}</p>
             <p style="color:rgb(199, 108, 28)"> {{k.col}} - {{k.size}}</p>
-            <p>售价：{{k.price}}元</p>
+            <p>参考价：{{k.price}}元</p>
             <div class="something-right-bottom" @click="cut(i)">
               <span></span>
             </div>

@@ -3,7 +3,7 @@
     <router-link :to="{name:'首页'}" class="footer-index">
       <i class="icon-index"></i>
     </router-link>
-    <router-link  :to="{name:'购物车页'}" class="footer-gocar">
+    <router-link  :to="{name:'购物车'}" class="footer-gocar">
       <!-- <i class="icon-car"></i> -->
       <i class="fa fa-shopping-cart fa-lg" style="position: relative;
     top: -5px;

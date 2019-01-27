@@ -1,57 +1,31 @@
-<template lang="html">
+<template>
   <footer class="footer">
-
     <div class="footer-result">
-      <p>共{{count}}件 金额：</p>
-      <p><span>{{allpay}} </span>元</p>
+      <p>合计保证金：</p>
+      <p>
+        <span>{{totalMoney}}</span>元
+      </p>
     </div>
-    <!-- <router-link :to="{ name: '分类页'}" class="footer-goon" >
-      继续购物
-    </router-link> -->
-    <div class="footer-result">
-      <p>保证金：</p>
-      <p><span>{{allpay}} </span>元</p>
-    </div>
-    <a class="footer-pay" @click="goPay">
-      去结算
-    </a>
+    <a class="footer-pay" @click="goPay">提交订单</a>
   </footer>
-
 </template>
 
 <script>
-import {Toast} from 'mint-ui';
+import { Toast } from 'mint-ui';
 
 export default {
-  computed: {
-    // 勾选的商品数量
-    count() {
-      // 如果已选择列表为空 就返回0
-      if (this.$store.getters.selectedList == undefined) {
-        return 0
-      } else {
-        return this.$store.getters.selectedList.length
-      }
-    },
-
-    //勾选的商品的价格总和
-    allpay() {
-      let all = 0;
-      // 如果有勾选商品,计算总价格
-      if (this.$store.getters.selectedList != undefined) {
-
-        for (let i = 0; i < this.$store.getters.selectedList.length; i++) {
-
-          all += this.$store.getters.selectedList[i].price;
-
-        }
-
-      }
-      // 没有勾选 即为0
-      return all
+  mounted() {
+  },
+  props: {
+    totalMoney: {
+      type: Number,
+      default: 0
     }
   },
-
+  data() {
+    return {
+    }
+  },
   methods: {
     //点击跳转到支付页
     goPay() {
@@ -74,7 +48,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import "../../assets/fz.less";
+@import "../../../assets/fz.less";
 
 .footer {
   width: 100%;
@@ -84,7 +58,7 @@ export default {
   display: flex;
   align-items: center;
   position: fixed;
-  bottom: 16vw;
+  bottom: 0;
   left: 0;
   background-color: #ffffff;
   .footer-result,

@@ -29,7 +29,7 @@ export default new Router({
     name: '首页',
     component: Index,
     meta: {
-      requireAuth: true
+      requireAuth: false
     }
   }, {
     path: '/message',
@@ -43,7 +43,7 @@ export default new Router({
     name: '城市选择',
     component: CityPicker,
     meta: {
-      requireAuth: true
+      requireAuth: false
     }
   }, {
     path: '/goodsList',
@@ -74,7 +74,10 @@ export default new Router({
   {
     path: '/shopApply',
     name: '商铺入驻申请',
-    component: ShopApply
+    component: ShopApply,
+    meta: {
+      requireAuth: true
+    }
   }, {
     path: '/category',
     name: '分类页',
@@ -87,11 +90,17 @@ export default new Router({
   }, {
     path: '/car',
     name: '购物车',
-    component: Car
+    component: Car,
+    meta: {
+      requireAuth: true
+    }
   }, {
     path: '/car/pay',
     name: '支付页',
-    component: Pay
+    component: Pay,
+    meta: {
+      requireAuth: true
+    }
   },
   {
     path: '/user',
@@ -103,11 +112,17 @@ export default new Router({
   }, {
     path: '/detail',
     name: '详情页',
-    component: Detail
+    component: Detail,
+    meta: {
+      requireAuth: true
+    }
   }, {
     path: '/search',
     name: '搜索页',
-    component: Search
+    component: Search,
+    meta: {
+      requireAuth: true
+    }
   }, {
     path: '/login',
     name: '登录页',

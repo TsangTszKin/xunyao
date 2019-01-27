@@ -3,9 +3,13 @@
   <div class="car">
       <header class="header">
           <div class="header-icon">
-              <span class="icon2-user"></span>
+              <img :src="getUserImg" />
           </div>
-          <span>登录/注册</span>
+          <div>
+            <p class="name">{{getUserNickName}}</p>
+            <p class="mobile"><i class="fa fa-mobile fa-lg"></i>{{getUserMobile}}</p>
+          </div>
+          
       </header>
       <div class="main">
           <router-link class="my-indent" :to="{ name: ''}">
@@ -125,6 +129,17 @@ export default {
   },
   mounted() {
     window.scrollTo(0, 0);
+  },
+  computed: {
+    getUserNickName() {
+      return this.$store.state.user.user.nickname
+    },
+    getUserImg() {
+      return this.$store.state.user.user.headimgurl
+    },
+    getUserMobile() {
+      return this.$store.state.user.user.mobile
+    }
   }
 }
 </script>
@@ -141,7 +156,7 @@ export default {
   .header {
     width: 100%;
     height: 16vw;
-    background: url(../../static/carbg.png) center 0 #f37d0f;
+    background: url(../../static/carbg.png) center 0 #38af43;
     background-size: auto 100%;
     padding: 3.2vw 0;
     display: -webkit-box;
@@ -161,18 +176,40 @@ export default {
       line-height: 16vw;
       text-align: center;
       border-radius: 50%;
-      span {
-        .fz(font-size, 54);
-        &::before {
-          color: #ffffff;
+
+      display: webkit-flex;
+      display: flex;
+      justify-content: center;
+      overflow: hidden;
+      align-items: center;
+
+      > img {
+        width: 100%;
+      }
+      // span {
+      //   .fz(font-size, 54);
+      //   &::before {
+      //     color: #ffffff;
+      //   }
+      // }
+    }
+    > div {
+      > .name {
+        margin-left: 3.2vw;
+        .fz(font-size, 35);
+        color: #ffffff;
+        letter-spacing: 0.2vw;
+      }
+      > .mobile {
+        margin-left: 3.2vw;
+        .fz(font-size, 10);
+        color: #ffffff;
+        letter-spacing: 0.2vw;
+        > .fa {
+          font-size: 3em;
+          margin-right: 3px;
         }
       }
-    }
-    > span {
-      margin-left: 3.2vw;
-      .fz(font-size, 30);
-      color: #ffffff;
-      letter-spacing: 0.2vw;
     }
   }
   .main {

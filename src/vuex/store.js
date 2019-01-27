@@ -7,6 +7,8 @@ import detail from './modules/detail'
 import category from './modules/category'
 import login from './modules/login'
 import shop from './modules/shop'
+import user from './modules/user'
+
 
 
 Vue.use(Vuex)
@@ -16,6 +18,7 @@ export default new Vuex.Store({
     detail,
     category,
     login,
-    shop
+    shop,
+    user
   }
 })

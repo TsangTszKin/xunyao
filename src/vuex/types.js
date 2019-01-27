@@ -48,3 +48,6 @@ export const CHANGE_TABINDEX = 'CHANGE_TABINDEX'
 
 // 店铺主页aside index
 export const CHANGE_SHOP_SELECT_CATE = 'CHANGE_SHOP_SELECT_CATE'
+
+// 当前用户信息
+export const CHANGE_USER_INFO = 'CHANGE_USER_INFO'

@@ -8,7 +8,7 @@ const state = {
   colSelected: 0,   //0是index,表示第一个
   sizeSelected: 0,  //0是index,表示第一个
   count: 0,    //购物车里的商品数量
-  carList: '',      //购物车的商品列表
+  carList: [],      //购物车的商品列表
   fetchLoading: false,     //全局加载状态的Loading
   selectedList: '',         //已选择的购物车商品列表
   unSelectedList: '',      //未选择的购物车商品列表,提交订单后用它替换carList

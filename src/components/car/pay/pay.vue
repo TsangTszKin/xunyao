@@ -2,7 +2,7 @@
 
   <div class="pay">
     <v-header>
-      <h1 slot="title">支付订单</h1>
+      <h1 slot="title">确认订单</h1>
     </v-header>
 
     <div class="pay-address">
@@ -33,10 +33,11 @@
         购物车列表重新设置
       </div>
     </div>
-    <h3 class="pay-allpay">总需要支付 : <i>￥</i><span>{{allpay}}</span></h3>
-    <footer class="pay-footer" ontouchstrat="" @click="payConfirm">
-      <span>立即支付</span>
-    </footer>
+    <!-- <h3 class="pay-allpay">总需要支付 : <i>￥</i><span>{{allpay}}</span></h3> -->
+    <!-- <footer class="pay-footer" ontouchstrat="" @click="payConfirm">
+      <span>提交订单</span>
+    </footer> -->
+    <v-footer :totalMoney="totalMoney" ></v-footer>
 
 
   </div>
@@ -45,29 +46,33 @@
 <script>
 import Util from '../../../util/common'
 import Header from '@/common/_header.vue'
+import Footer from '@/components/car/pay/footer.vue'
 import {
   MessageBox
 } from 'mint-ui';
+
 export default {
   components: {
-    'v-header': Header
+    'v-header': Header,
+    'v-footer': Footer
   },
-  data () {
+  data() {
     return {
-      confirm: ''
+      confirm: '',
+      totalMoney: 0
     }
   },
 
   computed: {
 
     //所有商品列表
-    carList () {
+    carList() {
 
       return this.$store.state.detail.selectedList
     },
 
     // 商品价格总和
-    allpay () {
+    allpay() {
       let allpay = 0, selectedList = this.carList
       for (let i = 0; i < selectedList.length; i++) {
         allpay += selectedList[i].price
@@ -75,15 +80,21 @@ export default {
       return allpay
     }
   },
-  mounted () {
+  mounted() {
     // 防止页面刷新后数据丢失
     if (this.$store.state.detail.selectedList == '') {
       this.$store.commit('SET_SELECTEDLIST')
     }
+
+    let allpay = 0, selectedList = this.$store.state.detail.selectedList
+    for (let i = 0; i < selectedList.length; i++) {
+      allpay += selectedList[i].price
+    }
+    this.totalMoney = allpay;
   },
 
   methods: {
-    payConfirm () {
+    payConfirm() {
       if (this.carList) { //还未提交了订单,数据还未清空
         MessageBox
           .confirm(
@@ -130,12 +141,12 @@ export default {
 
       p {
         color: #868686;
-        .fz(font-size,32px);
+        .fz(font-size, 32px);
       }
     }
 
     > p {
-      .fz(font-size,28px);
+      .fz(font-size, 28px);
       color: #868686;
       padding-top: 30 * 10vw/75;
       letter-spacing: 3 * 10vw/75;
@@ -155,7 +166,7 @@ export default {
         box-sizing: border-box;
         padding: 20 * 10vw/75 30 * 10vw/75;
         color: #4d4d4d;
-        .fz(font-size,30px);
+        .fz(font-size, 30px);
         border-bottom: 1 * 10vw/75 solid #dedede;
 
         > img {
@@ -178,7 +189,7 @@ export default {
 
           p {
             text-align: right;
-            .fz(font-size,24px);
+            .fz(font-size, 24px);
             padding-top: 1.4 * 10vw;
           }
         }
@@ -190,7 +201,7 @@ export default {
     text-align: right;
     margin-top: 6vw;
     padding: 4vw 5vw;
-    .fz(font-size,32px);
+    .fz(font-size, 32px);
     color: #999999;
     background-color: #fff;
     i,
@@ -227,7 +238,7 @@ export default {
     text-align: center;
     color: #fff;
     line-height: 30px;
-    .fz(font-size,40);
+    .fz(font-size, 40);
   }
 }
 </style>
