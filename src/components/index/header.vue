@@ -124,6 +124,7 @@ export default {
 <style lang="less">
 .index-header {
   background-color: #38af43 !important;
+  height: 90px;
   header {
     background-color: #38af43 !important;
   }

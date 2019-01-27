@@ -68,7 +68,7 @@ export default {
     li {
       // margin-right: 10vw;
       width: 14vw;
-      height: 25vw;
+      height: 22vw;
       flex-wrap: wrap;
       justify-content: space-around;
       align-items: center;
@@ -94,7 +94,7 @@ export default {
       }
       h2 {
         .fz(font-size, 32);
-        padding-top: 3vw;
+        padding-top: 1vw;
         color: #333;
       }
 
