@@ -18,7 +18,7 @@ import Nothing from '@/components/car/nothing.vue'
 import Something from '@/components/car/something.vue'
 import Footer from '@/components/car/footer.vue'
 import FooterIndex from '@/common/_footer.vue'
-import {Header} from 'mint-ui'
+import { Header } from 'mint-ui'
 
 export default {
   components: {
@@ -39,6 +39,7 @@ export default {
     if (this.$store.state.detail.count == "") {
       this.$store.commit('RESET_COUNT')
     }
+    window.scrollTo(0, 0);
   }
 
 }

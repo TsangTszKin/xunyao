@@ -18,7 +18,7 @@
       <goods-item v-for="(item, key) in list" class="goods" :key="key" :data="item"/>
     </ul>
     <loading-for-list v-show="!loading"></loading-for-list>
-    <Footer />
+    <Footer/>
   </div>
 </template>
 
@@ -50,6 +50,9 @@ export default {
     'mt-button': Button,
     'mt-search': Search,
     Footer
+  },
+  mounted() {
+    window.scrollTo(0, 0);
   },
   methods: {
     loadMore() {

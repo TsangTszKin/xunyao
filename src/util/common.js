@@ -1,6 +1,7 @@
 const STORAGE_USER_KEY = 'STORAGE_USER_KEY'
 // const STORAGE_CARTLIST_KEY = 'STORAGE_CARTLIST_KEY'
 // const STORAGE_QUERYMYLIST_KEY = 'STORAGE_QUERYMYLIST_KEY'
+import { Toast } from 'mint-ui';
 
 export default {
   // 获取
@@ -82,5 +83,19 @@ export default {
     let m = date.getMinutes() < 10 ? '0' + date.getMinutes() + ':' : date.getMinutes() + ':';
     let s = date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds();
     return Y + M + D + h + m + s;
+  },
+  isOk(res) {
+    if (this.isEmpty(res)) {
+      Toast("后台返回数据有误");
+      return false
+    } else {
+      if (res.data.code != 0) {
+        Toast(res.data.message);
+        return false
+      } else {
+        return true
+      }
+    }
+
   }
 }

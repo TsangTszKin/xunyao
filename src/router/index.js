@@ -11,6 +11,7 @@ const GoodsList = resolve => require(['@/views/GoodsList'], resolve)
 const ShopList = resolve => require(['@/views/ShopList'], resolve)
 const Shop = resolve => require(['@/views/Shop'], resolve)
 const GoodsSave = resolve => require(['@/views/GoodsSave'], resolve)
+const ShopApply = resolve => require(['@/views/ShopApply'], resolve)
 const Category = resolve => require(['@/views/Category.vue'], resolve)
 const CategoryMain = resolve => require(['@/components/category/main.vue'], resolve)
 const Car = resolve => require(['@/views/Car.vue'], resolve)
@@ -22,7 +23,7 @@ const Login = resolve => require(['@/views/login.vue'], resolve)
 
 
 export default new Router({
-  
+
   routes: [{
     path: '/',
     name: '首页',
@@ -30,14 +31,14 @@ export default new Router({
     meta: {
       requireAuth: true
     }
-  },{
+  }, {
     path: '/message',
     name: '消息',
     component: Message,
     meta: {
       requireAuth: true
     }
-  },{
+  }, {
     path: '/cityPicker',
     name: '城市选择',
     component: CityPicker,
@@ -58,7 +59,7 @@ export default new Router({
     meta: {
       requireAuth: true
     }
-  },  {
+  }, {
     path: '/shopList',
     name: '店铺列表',
     component: ShopList,
@@ -69,6 +70,11 @@ export default new Router({
     path: '/goodsSave',
     name: '商品保存',
     component: GoodsSave
+  },
+  {
+    path: '/shopApply',
+    name: '商铺入驻申请',
+    component: ShopApply
   }, {
     path: '/category',
     name: '分类页',

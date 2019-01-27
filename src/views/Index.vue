@@ -61,6 +61,7 @@ export default {
     // }).catch(function(error) {
     //   alert(error)
     // })
+     window.scrollTo(0, 0);
 
     this.datas = {
       "swiper": [
