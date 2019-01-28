@@ -32,7 +32,8 @@ router.beforeEach((to, from, next) => {
       if (!store.state.user.user.userId) getMyInfo();
 
     } else {    //如果没有权限,重定向到登录页,进行登录
-      authService.goWxOauth2();
+      // authService.goWxOauth2();
+      next();
     }
   } else { //不需要权限 直接跳转
     next();

@@ -5,13 +5,24 @@
       <h1 slot="title">确认订单</h1>
     </v-header>
 
-    <div class="pay-address">
+    <mt-radio
+      title="收货方式"
+       align="right"
+      v-model="saveData.takeWay"
+      :options="[{label: '到店自取',value: '0'},{label: '货到付款',value: '1'}]">
+    </mt-radio>
+    
+
+    <div class="pay-address" v-if="saveData.takeWay === '1'">
       <div>
         <p class="main-address-per">收货人:<span>王先生</span></p>
         <p class="main-address-tel">15985698749</p>
       </div>
       <p>收货地址:<span>河南省郑州市中原区秦岭路8号院59号单元28层15号东户第三家</span></p>
     </div>
+
+    <mt-field label="配送时间" placeholder="请选择配送时间" type="text" :readonly="true" v-model="saveData.sendTime" @click="isShowPickerCallBack(true)"></mt-field>
+    <v-picker @isShowCallBack="isShowPickerCallBack" :isShow="isShowPicker" />
 
     <div class="pay-product">
       <ul v-if="!confirm">
@@ -40,26 +51,49 @@
     <v-footer :totalMoney="totalMoney" ></v-footer>
 
 
+
   </div>
 </template>
 
 <script>
 import Util from '../../../util/common'
 import Header from '@/common/_header.vue'
-import Footer from '@/components/car/pay/footer.vue'
+import Footer from '@/components/car/pay/footer.vue';
+import Picker from '@/components/Picker';
 import {
-  MessageBox
+  MessageBox, Radio, Field
 } from 'mint-ui';
 
 export default {
   components: {
     'v-header': Header,
-    'v-footer': Footer
+    'v-footer': Footer,
+    'mt-radio': Radio,
+    'mt-field': Field,
+    'v-picker': Picker
   },
   data() {
     return {
       confirm: '',
-      totalMoney: 0
+      totalMoney: 0,
+      saveData: {
+        takeWay: '0',//0到店自取.1货到付款
+        contact: {
+          name: '',
+          mobile: '',
+          address: ''
+        },
+        sendTime: ''
+      },
+      slots: [
+        {
+          flex: 1,
+          values: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24],
+          className: 'slot1',
+          textAlign: 'center'
+        }
+      ],
+      isShowPicker: false
     }
   },
 
@@ -116,6 +150,15 @@ export default {
         alert('请勿重复提交订单')
       }
 
+    },
+    onValuesChange(picker, values) {
+      // if (values[0] > values[1]) {
+      //   picker.setSlotValue(1, values[0]);
+      // }
+    },
+    isShowPickerCallBack(value) {
+      alert(value)
+      this.isShowPicker = value
     }
   }
 
