@@ -14,6 +14,37 @@
     <mt-field label="地址" placeholder="请输入地址" v-model="saveData.address"></mt-field>
     <mt-field label="电话" placeholder="请输入电话" v-model="saveData.telephone"></mt-field>
     <mt-field label="店长姓名" placeholder="请输入店长姓名" v-model="saveData.realName"></mt-field>
+    <a class="mint-cell mint-field">
+      <!---->
+      <div class="mint-cell-left"></div>
+      <div class="mint-cell-wrapper">
+        <div class="mint-cell-title">
+          <!---->
+          <span class="mint-cell-text">经纬度</span>
+          <!---->
+        </div>
+        <div class="mint-cell-value">
+          <div>
+            <input
+              placeholder="请输入经纬度"
+              type="text"
+              @click="isShowMap = true"
+              style="font-size: inherit;"
+              :value="!saveData.longitude?'':`${saveData.longitude}，${saveData.latitude}`"
+            >
+          </div>
+          <div class="mint-field-clear" style="display: none;">
+            <i class="mintui mintui-field-error"></i>
+          </div>
+          <span class="mint-field-state is-default">
+            <i class="mintui mintui-field-default"></i>
+          </span>
+          <div class="mint-field-other"></div>
+        </div>
+      </div>
+      <div class="mint-cell-right"></div>
+      <!---->
+    </a>
     <ImgPicker label="身份证正面" :value="saveData.cardId1" fieldKey="cardId1" @changeFile="changeFile"/>
     <ImgPicker label="身份证反面" :value="saveData.cardId2" fieldKey="cardId2" @changeFile="changeFile"/>
     <ImgPicker
@@ -46,11 +77,18 @@
       fieldKey="drugRegisterCert"
       @changeFile="changeFile"
     />
+    <ImgPicker
+      label="开户许可证"
+      :value="saveData.openAccountCert"
+      fieldKey="openAccountCert"
+      @changeFile="changeFile"
+    />
     <mt-field label="备注" placeholder="请输入备注" v-model="saveData.remarks"></mt-field>
 
     <p>
       <mt-button type="primary" size="large" @click="save">保存</mt-button>
     </p>
+    <v-map @getPoint="getPoint" v-show="isShowMap"/>
   </div>
 </template>
 
@@ -59,6 +97,7 @@ import { Button, Header, Field, Indicator, Toast } from 'mint-ui';
 import ImgPicker from '@/components/ImgPicker';
 import shopService from '@/api/shopService';
 import common from '@/util/common';
+import Map from '@/components/Map';
 
 export default {
   components: {
@@ -66,7 +105,8 @@ export default {
     'mt-button': Button,
     'mt-field': Field,
     'mt-button': Button,
-    ImgPicker
+    ImgPicker,
+    'v-map': Map
   },
   data() {
     return {
@@ -84,7 +124,10 @@ export default {
         'drugQualityCert': '',// '药品经营质量管理规范',(图片)
         'drugRegisterCert': '',// '执业药师注册证',(图片)
         'remarks': '',//'备注',
-      }
+        'longitude': '',
+        'latitude': ''
+      },
+      isShowMap: false
     }
   },
   methods: {
@@ -103,6 +146,7 @@ export default {
       return url
     },
     save() {
+      console.log(this.saveData);
       if (this.verify()) {
         Indicator.open();
         shopService.shopApply(this.saveData).then(res => {
@@ -167,8 +211,21 @@ export default {
         Toast("请选择执业药师注册证");
         return false
       }
+      if (common.isEmpty(this.saveData.openAccountCert)) {
+        Toast("请选择开户许可证");
+        return false
+      }
+      if (common.isEmpty(this.saveData.longitude) || common.isEmpty(this.saveData.latitude)) {
+        Toast("请选择经纬度");
+        return false
+      }
       return true
 
+    },
+    getPoint(point) {
+      this.isShowMap = false;
+      this.saveData.longitude = point.longitude;
+      this.saveData.latitude = point.latitude;
     }
   }
 }

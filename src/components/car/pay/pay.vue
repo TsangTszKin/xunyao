@@ -21,8 +21,38 @@
       <p>收货地址:<span>河南省郑州市中原区秦岭路8号院59号单元28层15号东户第三家</span></p>
     </div>
 
-    <mt-field label="配送时间" placeholder="请选择配送时间" type="text" :readonly="true" v-model="saveData.sendTime" @click="isShowPickerCallBack(true)"></mt-field>
-    <v-picker @isShowCallBack="isShowPickerCallBack" :isShow="isShowPicker" />
+    <a class="mint-cell mint-field">
+      <!---->
+      <div class="mint-cell-left"></div>
+      <div class="mint-cell-wrapper">
+        <div class="mint-cell-title">
+          <!---->
+          <span class="mint-cell-text">配送时间</span>
+          <!---->
+        </div>
+        <div class="mint-cell-value">
+          <div>
+            <input
+              placeholder="请选择配送时间"
+              type="text"
+              @click="isShowPicker = true"
+              style="font-size: inherit;"
+             :value="saveData.sendTime+'小时后配送'"
+            >
+          </div>
+          <div class="mint-field-clear" style="display: none;">
+            <i class="mintui mintui-field-error"></i>
+          </div>
+          <span class="mint-field-state is-default">
+            <i class="mintui mintui-field-default"></i>
+          </span>
+          <div class="mint-field-other"></div>
+        </div>
+      </div>
+      <div class="mint-cell-right"></div>
+      <!---->
+    </a>
+    <v-picker @getValue="getValue" :isShow="isShowPicker" />
 
     <div class="pay-product">
       <ul v-if="!confirm">
@@ -156,9 +186,9 @@ export default {
       //   picker.setSlotValue(1, values[0]);
       // }
     },
-    isShowPickerCallBack(value) {
-      alert(value)
-      this.isShowPicker = value
+    getValue(value) {
+      this.isShowPicker = false;
+      this.saveData.sendTime = value;
     }
   }
 

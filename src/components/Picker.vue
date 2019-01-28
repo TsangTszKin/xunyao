@@ -1,5 +1,5 @@
 <template>
-  <div class="v-picker" @click="" v-show="isShow">
+  <div class="v-picker" @click="getValue" v-show="isShow">
     <mt-picker :slots="slots" valueKey="name" @change="onValuesChange"></mt-picker>
   </div>
 </template>
@@ -13,6 +13,10 @@ export default {
     isShow: {
       type: Boolean,
       default: false
+    },
+    value: {
+      type: Number,
+      default: 5
     }
   },
   components: {
@@ -26,16 +30,22 @@ export default {
           values: [],
           className: 'slot1',
           textAlign: 'center',
+          defaultIndex: 5
         }
-      ]
+      ],
+      dataValue: '6'
     }
   },
   methods: {
     onValuesChange(picker, values) {
       console.log(picker, values)
+      if (values && values[0]) {
+        this.dataValue = values[0].value;
+      }
+
     },
-    close() {
-        this.$emit('isShowCallBack', false)
+    getValue() {
+      this.$emit('getValue', this.dataValue)
     }
   },
   mounted() {
@@ -48,6 +58,12 @@ export default {
       })
     }
     this.slots[0].values = tempArray;
+  },
+  watch: {
+    value(value) {
+      this.dataValue = value;
+      this.slots[0].defaultIndex = value - 1;
+    }
   }
 
 }

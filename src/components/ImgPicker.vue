@@ -59,12 +59,13 @@ export default {
   },
   methods: {
     changeFile(e) {
-      console.log(e);
+      // console.log(e);
+      if (e.target.files.length <= 0) return
       Indicator.open('上传中...');
       commonService.fileUpload(e).then((res) => {
         Indicator.close();
         if (res.data.code == 0) {
-          let filepath = res.data.filepath;
+          let filepath = res.data.url;
           this.imgUrl = filepath;
           this.$emit("changeFile", filepath, this.fieldKey);
         }
