@@ -7,7 +7,7 @@
         首页
     </mt-tab-item>
      <mt-tab-item id="消息">
-      <i slot="icon" class="fa fa-envelope-o fa-lg" style="font-size: 25px;"></i>
+      <i slot="icon" class="fa fa-envelope fa-lg" style="font-size: 25px;"></i>
         消息
     </mt-tab-item>
     <mt-tab-item id="购物车">
@@ -19,7 +19,7 @@
       商品列表
     </mt-tab-item>
     <mt-tab-item id="我的">
-      <i slot="icon" class="fa fa-user-o fa-lg" style="font-size: 25px;"></i>
+      <i slot="icon" class="fa fa-user fa-lg" style="font-size: 25px;"></i>
       我的
     </mt-tab-item>
   </mt-tabbar>

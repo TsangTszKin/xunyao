@@ -20,6 +20,9 @@ const Detail = resolve => require(['@/views/Detail.vue'], resolve)
 const Search = resolve => require(['@/views/Search.vue'], resolve)
 const Pay = resolve => require(['@/components/car/pay/pay.vue'], resolve)
 const Login = resolve => require(['@/views/login.vue'], resolve)
+const UserInfo = resolve => require(['@/views/my/UserInfo.vue'], resolve)
+const Order = resolve => require(['@/views/my/Order.vue'], resolve)
+const Wallet = resolve => require(['@/views/my/Wallet.vue'], resolve)
 
 
 export default new Router({
@@ -127,6 +130,30 @@ export default new Router({
     path: '/login',
     name: '登录页',
     component: Login
+  },
+  {
+    path: '/UserInfo',
+    name: '个人信息',
+    component: UserInfo,
+    meta: {
+      requireAuth: true
+    }
+  },
+  {
+    path: '/Order',
+    name: '我的订单',
+    component: Order,
+    meta: {
+      requireAuth: true
+    }
+  },
+  {
+    path: '/Wallet',
+    name: '钱包',
+    component: Wallet,
+    meta: {
+      requireAuth: true
+    }
   }
   ]
 })

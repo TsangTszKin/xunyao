@@ -19,7 +19,47 @@
         <p class="main-address-tel">15985698749</p>
       </div>
       <p>收货地址:<span>河南省郑州市中原区秦岭路8号院59号单元28层15号东户第三家</span></p>
+      <i class="fa fa-angle-right fa-lg"></i>
     </div>
+
+    <div class="pay-address" style="padding-left: 3vw">
+      <div>
+        <p class="main-address-per" style="line-height: 32px;"> 好友代取</p>
+        <p class="main-address-tel"><mt-switch v-model="saveData.isFriendGet"></mt-switch></p>
+      </div>
+    </div>
+
+    <a class="mint-cell mint-field" v-if="saveData.isFriendGet">
+      <!---->
+      <div class="mint-cell-left"></div>
+      <div class="mint-cell-wrapper">
+        <div class="mint-cell-title">
+          <!---->
+          <span class="mint-cell-text">代取好友</span>
+          <!---->
+        </div>
+        <div class="mint-cell-value">
+          <div>
+            <input
+              placeholder="请选择代收的好友"
+              type="text"
+              @click="$router.push({name: '搜索页'})"
+              style="font-size: inherit;"
+             v-model="saveData.friend"
+            >
+          </div>
+          <div class="mint-field-clear" style="display: none;">
+            <i class="mintui mintui-field-error"></i>
+          </div>
+          <span class="mint-field-state is-default">
+            <i class="mintui mintui-field-default"></i>
+          </span>
+          <div class="mint-field-other"></div>
+        </div>
+      </div>
+      <div class="mint-cell-right"></div>
+      <!---->
+    </a>
 
     <a class="mint-cell mint-field">
       <!---->
@@ -54,6 +94,10 @@
     </a>
     <v-picker @getValue="getValue" :isShow="isShowPicker" />
 
+    <mt-field label="留言" placeholder="买家留言" type="textarea" rows="1" v-modal="saveData.remark"></mt-field>
+    <mt-field label="保证金抵扣券" type="text" :value="saveData.coupon1"></mt-field>
+    <mt-field label="配送费抵扣券" type="text" :value="saveData.coupon2"></mt-field>
+
     <div class="pay-product">
       <ul v-if="!confirm">
         <li v-for="k in carList">
@@ -80,8 +124,6 @@
     </footer> -->
     <v-footer :totalMoney="totalMoney" ></v-footer>
 
-
-
   </div>
 </template>
 
@@ -91,7 +133,7 @@ import Header from '@/common/_header.vue'
 import Footer from '@/components/car/pay/footer.vue';
 import Picker from '@/components/Picker';
 import {
-  MessageBox, Radio, Field
+  MessageBox, Radio, Field, Switch
 } from 'mint-ui';
 
 export default {
@@ -100,7 +142,8 @@ export default {
     'v-footer': Footer,
     'mt-radio': Radio,
     'mt-field': Field,
-    'v-picker': Picker
+    'v-picker': Picker,
+    'mt-switch': Switch
   },
   data() {
     return {
@@ -113,7 +156,12 @@ export default {
           mobile: '',
           address: ''
         },
-        sendTime: ''
+        sendTime: '',
+        isFriendGet: false,
+        friend: '',
+        remark: '',
+        coupon1: '-10',
+        coupon2: '-5'
       },
       slots: [
         {
@@ -205,16 +253,22 @@ export default {
     background-color: #fff;
     border-bottom: 1 * 10vw/75 solid #dedede;
     padding: 30 * 10vw/75;
-
+    position: relative;
     > div {
       display: -webkit-flex;
       display: -ms-flex;
       display: flex;
       justify-content: space-between;
-
+      padding-right: 17px;
       p {
         color: #868686;
         .fz(font-size, 32px);
+        padding-right: 5px;
+      }
+      i {
+        position: absolute;
+        right: 10px;
+        top: 54px;
       }
     }
 
@@ -312,6 +366,9 @@ export default {
     color: #fff;
     line-height: 30px;
     .fz(font-size, 40);
+  }
+  .mint-field-core {
+    text-align: right;
   }
 }
 </style>

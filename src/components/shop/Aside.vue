@@ -36,8 +36,11 @@ export default {
 .aside {
   width: 20%;
   float: left;
+  height: 100%;
   > .cate {
     background-color: #dcdcdc4a;
+    height: 100%;
+    overflow-y: scroll;
     .cell {
       text-align: center;
       font-size: 13px;

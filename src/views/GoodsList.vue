@@ -1,23 +1,16 @@
 <template>
-  <div class="goods-list">
+  <div class="goods-list" style="height: calc(100% - 55px)">
     <mt-header title="商品列表">
       <!-- <mt-button icon="back" slot="left" @click="$router.go(-1)"></mt-button> -->
-      <router-link to="/goodsSave" slot="right">
+      <!-- <router-link to="/goodsSave" slot="right">
         <mt-button>上传</mt-button>
-      </router-link>
+      </router-link> -->
 
       <router-link :to="{name:'搜索页'}" slot="right">
         <mt-button icon="search" style="margin-left: 30px;"></mt-button>
       </router-link>
     </mt-header>
-    <ul
-      v-infinite-scroll="loadMore"
-      infinite-scroll-disabled="loading"
-      infinite-scroll-distance="10"
-    >
-      <goods-item v-for="(item, key) in list" class="goods" :key="key" :data="item"/>
-    </ul>
-    <loading-for-list v-show="!loading"></loading-for-list>
+    <shop-main/>
     <Footer/>
   </div>
 </template>
@@ -28,6 +21,7 @@ import { InfiniteScroll, Indicator, Button, Header, Search } from 'mint-ui';
 import GoodsItem from '@/components/goods/GoodsItem';
 import LoadingForList from '@/components/LoadingForList';
 import Footer from '@/common/_footer.vue'
+import Main from '@/components/shop/Main';
 
 export default {
   data() {
@@ -49,7 +43,8 @@ export default {
     'loading-for-list': LoadingForList,
     'mt-button': Button,
     'mt-search': Search,
-    Footer
+    Footer,
+    'shop-main': Main
   },
   mounted() {
     window.scrollTo(0, 0);
@@ -81,5 +76,8 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.goods-list {
+  // height: clac(100% - 95px);
+}
 </style>
 

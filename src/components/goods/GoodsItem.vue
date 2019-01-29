@@ -7,14 +7,21 @@
       <p class="name">{{this.data.goodsName}}</p>
       <p class="size">{{this.data.size}}</p>
       <p class="status">
-        <span style="font-size: 13px;color:red;">￥</span>
+        <span style="font-size: 13px;color:red;">参考价￥</span>
         <span class="price">{{this.data.price}}</span>
-        <span class="stock">
+        <!-- <span class="stock">
           库存
-          <i style="margin: 0 3px;">{{this.data.stock}}</i>件
+          <i style="margin: 0 3px;">有</i>
+        </span> -->
+      </p>
+       <p class="status" style="height: 20px;">
+        <span class="stock" style="position: relative;">
+          库存
+          <!-- <i style="margin: 0 3px;">{{this.data.stock}}</i>件 -->
+          <i style="margin: 0 3px;">有</i>
         </span>
       </p>
-      <div class="shop">
+      <!-- <div class="shop">
         <p class="name">{{this.data.shopName}}</p>
         <router-link :to="{name: '店铺主页'}">
           <p class="in">
@@ -22,7 +29,7 @@
             <i class="fa fa-angle-right fa-lg"></i>
           </p>
         </router-link>
-      </div>
+      </div> -->
     </div>
   </li>
 </template>
@@ -55,7 +62,8 @@ export default {
     height: 100%;
     float: left;
     width: 40%;
-    border-radius: 8px;
+    // border-radius: 8px;
+    -moz-box-shadow:0px 1px 3px #808080; -webkit-box-shadow:0px 1px 3px #808080; box-shadow:0px 1px 3px #808080;
     > img {
       width: 100%;
     }
@@ -83,6 +91,7 @@ export default {
       border: 1px orange solid;
       width: fit-content;
       padding: 0 4px;
+      margin: 7px 0 0 0;
     }
     > .status {
       word-break: break-all;

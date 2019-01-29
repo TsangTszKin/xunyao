@@ -6,7 +6,7 @@
         <p>请输入:</p>
         <input
           type="text"
-          id="component-map-suggestId"
+          id="suggestId"
           size="20"
           value="百度"
           style="width: calc(100% - 60px);"
@@ -65,7 +65,7 @@ export default {
 
 
       var ac = new BMap.Autocomplete(    //建立一个自动完成的对象
-        {          "input": "component-map-suggestId"
+        {          "input": "suggestId"
           , "location": map
         });
 

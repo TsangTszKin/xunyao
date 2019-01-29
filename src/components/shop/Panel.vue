@@ -28,6 +28,8 @@ export default {
 .panel {
   width: 80%;
   float: left;
+  height: 100%;
+  overflow-y: scroll;
   > .cate {
     text-align: left;
     font-size: 13px;

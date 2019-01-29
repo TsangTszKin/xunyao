@@ -1,78 +1,38 @@
 <template lang="html">
 
   <div class="car">
-      <router-link class="my-indent" :to="{ name: '个人信息'}">
-        <header class="header">
-            <div class="header-icon">
-                <img :src="getUserImg" />
-            </div>
-            <div>
-              <p class="name">{{getUserNickName}}</p>
-              <p class="mobile"><i class="fa fa-mobile fa-lg"></i>{{getUserMobile}}</p>
-            </div>
-            <i class="icon-go" style="position: absolute;
-      right: 20px;
-      z-index: 999;"></i>
-        </header>
-      </router-link>
+
+    <mt-header title="钱包">
+      <mt-button icon="back" slot="left" @click="$router.go(-1)"></mt-button>
+    </mt-header>
+
       <div class="main">
-          <router-link class="my-indent" :to="{ name: '我的订单'}">
-              <span class="my-indent-left">我的订单</span>
-              <div class="my-indent-right">
-                  <span>全部订单</span>
-                  <i class="icon-go"></i>
-              </div>
-          </router-link>
-
-          <section class="my-pay">
-              <router-link :to="{ name: ''}">
-                <div style="position: relative;">
- <span class="icon2-money"></span>
-                  <p>代付款</p>
-                  <mt-badge size="small" type="error" style="position: absolute;
-    top: 0;
-    right: 30px;">30</mt-badge>
-                </div>
-                 
-              </router-link>
-              <router-link :to="{ name: ''}">
-                  <span class="icon2-thecar"></span>
-                  <p>待收货</p>
-              </router-link>
-              <router-link :to="{ name: ''}">
-                  <span class="icon2-fixed"></span>
-                  <p>已完成</p>
-              </router-link>
-
-          </section>
+          
 
           <section class="my-vip">
-           
-            <router-link class="my-vip-top ho" :to="{ name: ''}" >
-              <div class="my-vip-top-div">
-                <i class="fa fa-cube fa-lg"></i>
-              </div>
-              <p>
-                <span>店员通</span><i class="icon-go"></i>
-              </p>
-            </router-link>
-          </section>
-
-          <section class="my-vip">
-            <router-link class="my-vip-bottom ho" :to="{ name: '钱包'}">
+            <router-link class="my-vip-bottom ho" :to="{ name: ''}">
               <div>
                 <i class="fa fa-cny fa-lg"></i>
               </div>
               <p>
-                <span>钱包</span><i class="icon-go"></i>
+                <span>余额</span><span style="position: absolute;
+    right: 6vw;">￥66.66</span>
               </p>
             </router-link>
             <router-link class="my-vip-bottom ho" :to="{ name: ''}">
               <div>
-                <i class="fa fa-ticket fa-lg"></i>
+                <!-- <i class="fa fa-cny fa-lg"></i> -->
               </div>
               <p>
-                <span>优惠券</span><i class="icon-go"></i>
+                <span>充值</span><i class="icon-go"></i>
+              </p>
+            </router-link>
+            <router-link class="my-vip-bottom ho" :to="{ name: ''}">
+              <div>
+                <!-- <i class="fa fa-cny fa-lg"></i> -->
+              </div>
+              <p>
+                <span>提现</span><i class="icon-go"></i>
               </p>
             </router-link>
           </section>
@@ -80,92 +40,19 @@
            <section class="my-vip">
             <router-link class="my-vip-top ho" :to="{ name: ''}" >
               <div class="my-vip-top-div">
-                <i class="fa fa-map-marker fa-lg"></i>
+                <i class="fa fa-credit-card-alt fa-lg"></i>
               </div>
               <p>
-                <span>收货地址</span><i class="icon-go"></i>
+                <span>银行卡管理</span><i class="icon-go"></i>
               </p>
             </router-link>
-            <router-link class="my-vip-top ho" :to="{ name: ''}" >
-              <div class="my-vip-top-div">
-                <i class="fa fa-users fa-lg"></i>
-              </div>
-              <p>
-                <span>我的好友</span><i class="icon-go"></i>
-              </p>
-            </router-link>
-            <router-link class="my-vip-bottom ho" :to="{ name: ''}">
-              <div>
-                <i class="fa fa-eye fa-lg"></i>
-              </div>
-              <p>
-                <span>足迹</span><i class="icon-go"></i>
-              </p>
-            </router-link>
-            <router-link class="my-vip-bottom ho" :to="{ name: ''}">
-              <div>
-                 <i class="fa fa-heart fa-lg"></i>
-              </div>
-              <p>
-                <span>我的关注</span><i class="icon-go"></i>
-              </p>
-            </router-link>
-            <router-link class="my-vip-bottom ho" :to="{ name: ''}">
-              <div>
-                 <i class="fa fa-feed fa-lg"></i>
-              </div>
-              <p>
-                <span>反馈</span><i class="icon-go"></i>
-              </p>
-            </router-link>
+            
           </section>
 
-          <!-- <section class="my-service">
-              <router-link class="my-service-top" :to="{ name: ''}">
-                  <div>
-                    <span class="icon2-service">
-                        <span class="path1"></span><span class="path2"></span><span class="path3"></span>
-                    </span>
-                  </div>
-                  <p>
-                    <span>服务中心</span><i class="icon-go"></i>
-                  </p>
-              </router-link>
-              <router-link class="my-service-bottom" :to="{ name: ''}">
-                  <div>
-                    <span class="icon2-milogo"></span>
-                  </div>
-                  <p>
-                    <span>电商之家</span><i class="icon-go"></i>
-                  </p>
-              </router-link>
-          </section> -->
-
-
-           <section class="my-settle">
-             <router-link :to="{ name: ''}" class="my-settle-top">
-                  <div>
-                   <i class="fa fa-cog fa-lg"></i>
-                  </div>
-
-                  <p>
-                    <span>设置</span><i class="icon-go"></i>
-                  </p>
-              </router-link>
-              <router-link :to="{ name: '商铺入驻申请'}" class="my-settle-top">
-                  <div>
-                   <i class="fa fa-handshake-o fa-lg"></i>
-                  </div>
-
-                  <p>
-                    <span>商家入驻</span><i class="icon-go"></i>
-                  </p>
-              </router-link>
-          </section>
+         
 
       </div>
       <!-- <v-baseline></v-baseline> -->
-      <v-footer></v-footer>
     </div>
 </template>
 
@@ -174,13 +61,14 @@
 
 import Baseline from '@/common/_baseline.vue'
 import Footer from '@/common/_footer.vue'
-import { Badge } from 'mint-ui';
+import { Badge, Header } from 'mint-ui';
 
 export default {
   components: {
     'v-baseline': Baseline,
     'v-footer': Footer,
-    'mt-badge': Badge
+    'mt-badge': Badge,
+    'mt-header': Header,
   },
   mounted() {
     window.scrollTo(0, 0);
@@ -200,9 +88,9 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import "../assets/fz.less";
-@import "../assets/index/style.css";
-@import "../assets/user/icon/carstyle.css";
+@import "../../assets/fz.less";
+@import "../../assets/index/style.css";
+@import "../../assets/user/icon/carstyle.css";
 
 .car {
   width: 100%;
