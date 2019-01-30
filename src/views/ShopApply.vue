@@ -108,6 +108,9 @@ export default {
     ImgPicker,
     'v-map': Map
   },
+  mounted() {
+    window.scrollTo(0, 0);
+  },
   data() {
     return {
       saveData: {

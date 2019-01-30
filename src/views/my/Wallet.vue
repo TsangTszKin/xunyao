@@ -29,7 +29,6 @@
             </router-link>
             <router-link class="my-vip-bottom ho" :to="{ name: ''}">
               <div>
-                <!-- <i class="fa fa-cny fa-lg"></i> -->
               </div>
               <p>
                 <span>提现</span><i class="icon-go"></i>
@@ -37,7 +36,7 @@
             </router-link>
           </section>
 
-           <section class="my-vip">
+           <!-- <section class="my-vip">
             <router-link class="my-vip-top ho" :to="{ name: ''}" >
               <div class="my-vip-top-div">
                 <i class="fa fa-credit-card-alt fa-lg"></i>
@@ -47,7 +46,7 @@
               </p>
             </router-link>
             
-          </section>
+          </section> -->
 
          
 

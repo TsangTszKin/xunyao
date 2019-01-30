@@ -67,7 +67,7 @@
                 <span>钱包</span><i class="icon-go"></i>
               </p>
             </router-link>
-            <router-link class="my-vip-bottom ho" :to="{ name: ''}">
+            <router-link class="my-vip-bottom ho" :to="{ name: '优惠券'}">
               <div>
                 <i class="fa fa-ticket fa-lg"></i>
               </div>
@@ -78,7 +78,7 @@
           </section>
 
            <section class="my-vip">
-            <router-link class="my-vip-top ho" :to="{ name: ''}" >
+            <router-link class="my-vip-top ho" :to="{ name: '收货地址'}" >
               <div class="my-vip-top-div">
                 <i class="fa fa-map-marker fa-lg"></i>
               </div>
@@ -86,7 +86,7 @@
                 <span>收货地址</span><i class="icon-go"></i>
               </p>
             </router-link>
-            <router-link class="my-vip-top ho" :to="{ name: ''}" >
+            <router-link class="my-vip-top ho" :to="{ name: '我的好友'}" >
               <div class="my-vip-top-div">
                 <i class="fa fa-users fa-lg"></i>
               </div>
@@ -94,7 +94,7 @@
                 <span>我的好友</span><i class="icon-go"></i>
               </p>
             </router-link>
-            <router-link class="my-vip-bottom ho" :to="{ name: ''}">
+            <router-link class="my-vip-bottom ho" :to="{ name: '足迹'}">
               <div>
                 <i class="fa fa-eye fa-lg"></i>
               </div>
@@ -102,7 +102,7 @@
                 <span>足迹</span><i class="icon-go"></i>
               </p>
             </router-link>
-            <router-link class="my-vip-bottom ho" :to="{ name: ''}">
+            <router-link class="my-vip-bottom ho" :to="{ name: '我的关注'}">
               <div>
                  <i class="fa fa-heart fa-lg"></i>
               </div>

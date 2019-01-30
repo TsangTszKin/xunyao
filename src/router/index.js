@@ -23,6 +23,11 @@ const Login = resolve => require(['@/views/login.vue'], resolve)
 const UserInfo = resolve => require(['@/views/my/UserInfo.vue'], resolve)
 const Order = resolve => require(['@/views/my/Order.vue'], resolve)
 const Wallet = resolve => require(['@/views/my/Wallet.vue'], resolve)
+const Ticket = resolve => require(['@/views/my/Ticket.vue'], resolve)
+const Address = resolve => require(['@/views/my/Address.vue'], resolve)
+const Friends = resolve => require(['@/views/my/Friends.vue'], resolve)
+const FootPrint = resolve => require(['@/views/my/FootPrint.vue'], resolve)
+const Favorite = resolve => require(['@/views/my/Favorite.vue'], resolve)
 
 
 export default new Router({
@@ -132,7 +137,7 @@ export default new Router({
     component: Login
   },
   {
-    path: '/UserInfo',
+    path: '/userInfo',
     name: '个人信息',
     component: UserInfo,
     meta: {
@@ -140,7 +145,7 @@ export default new Router({
     }
   },
   {
-    path: '/Order',
+    path: '/order',
     name: '我的订单',
     component: Order,
     meta: {
@@ -148,9 +153,49 @@ export default new Router({
     }
   },
   {
-    path: '/Wallet',
+    path: '/wallet',
     name: '钱包',
     component: Wallet,
+    meta: {
+      requireAuth: true
+    }
+  },
+  {
+    path: '/ticket',
+    name: '优惠券',
+    component: Ticket,
+    meta: {
+      requireAuth: true
+    }
+  },
+  {
+    path: '/address',
+    name: '收货地址',
+    component: Address,
+    meta: {
+      requireAuth: true
+    }
+  },
+  {
+    path: '/friends',
+    name: '我的好友',
+    component: Friends,
+    meta: {
+      requireAuth: true
+    }
+  },
+  {
+    path: '/footPrint',
+    name: '足迹',
+    component: FootPrint,
+    meta: {
+      requireAuth: true
+    }
+  },
+  {
+    path: '/favorite',
+    name: '我的关注',
+    component: Favorite,
     meta: {
       requireAuth: true
     }
