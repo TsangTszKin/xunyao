@@ -10,7 +10,7 @@
 
 <script>
 import { Navbar, TabItem, Header, CellSwipe, MessageBox } from 'mint-ui';
-import Cell from '@/components/message/Cell';
+import Cell from '@/components/user/address/Cell';
 import Footer from '@/common/_footer.vue'
 
 export default {
@@ -39,12 +39,4 @@ export default {
 </script>
 
 <style lang="less">
-.mint-cell-title {
-  -webkit-box-flex: 0;
-  -ms-flex: 0;
-  flex: 0;
-}
-.mint-cell-swipe-button {
-  line-height: 66px;
-}
 </style>

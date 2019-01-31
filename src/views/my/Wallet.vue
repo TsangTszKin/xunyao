@@ -94,7 +94,7 @@ export default {
 .car {
   width: 100%;
   padding-bottom: 14vw;
-  background-color: #f8fcff;
+  background-color: #fff;
   .header {
     width: 100%;
     height: 16vw;

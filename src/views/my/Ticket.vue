@@ -22,7 +22,7 @@
 
 <script>
 import { Navbar, TabItem, Header, CellSwipe, MessageBox } from 'mint-ui';
-import Cell from '@/components/message/Cell';
+import Cell from '@/components/user/ticket/Cell';
 import Footer from '@/common/_footer.vue'
 
 export default {
