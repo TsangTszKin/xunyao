@@ -28,7 +28,7 @@ const Address = resolve => require(['@/views/my/Address.vue'], resolve)
 const Friends = resolve => require(['@/views/my/Friends.vue'], resolve)
 const FootPrint = resolve => require(['@/views/my/FootPrint.vue'], resolve)
 const Favorite = resolve => require(['@/views/my/Favorite.vue'], resolve)
-
+const AddressSave = resolve => require(['@/views/my/AddressSave.vue'], resolve)
 
 export default new Router({
 
@@ -196,6 +196,14 @@ export default new Router({
     path: '/favorite',
     name: '我的关注',
     component: Favorite,
+    meta: {
+      requireAuth: true
+    }
+  },
+  {
+    path: '/addressSave',
+    name: '地址保存',
+    component: AddressSave,
     meta: {
       requireAuth: true
     }

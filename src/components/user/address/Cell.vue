@@ -20,6 +20,7 @@
       label="广东省广州市天河区车陂街道车陂大街车陂1号车陂1号车陂1号车陂1号"
       is-link
       style="float: left;width: calc(100% - 40px);"
+      to="/addressSave"
     ></mt-cell>
     <div style="clear: both;"></div>
   </div>
