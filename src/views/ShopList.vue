@@ -49,6 +49,9 @@ export default {
     'mt-button': Button,
     'mt-search': Search
   },
+  mounted() {
+    window.scrollTo(0, 0);
+  },
   methods: {
     loadMore() {
       console.log("loadMore")

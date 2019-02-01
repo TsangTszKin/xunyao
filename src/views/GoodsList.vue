@@ -4,14 +4,31 @@
       <!-- <mt-button icon="back" slot="left" @click="$router.go(-1)"></mt-button> -->
       <!-- <router-link to="/goodsSave" slot="right">
         <mt-button>上传</mt-button>
-      </router-link> -->
-
+      </router-link>-->
+      <i
+        class="fa fa-th-large fa-lg"
+        slot="right"
+        v-if="$store.state.goods.listType === 1"
+        @click="changeGoodsListShowType(2)"
+      ></i>
+      <i
+        class="fa fa-th-list fa-lg"
+        slot="right"
+        v-if="$store.state.goods.listType === 2"
+        @click="changeGoodsListShowType(3)"
+      ></i>
+      <i
+        class="fa fa-align-justify fa-lg"
+        slot="right"
+        v-if="$store.state.goods.listType === 3"
+        @click="changeGoodsListShowType(1)"
+      ></i>
       <router-link :to="{name:'搜索页'}" slot="right">
         <mt-button icon="search" style="margin-left: 30px;"></mt-button>
       </router-link>
     </mt-header>
     <shop-main/>
-    <Footer/>
+    <v-footer/>
   </div>
 </template>
 
@@ -43,13 +60,16 @@ export default {
     'loading-for-list': LoadingForList,
     'mt-button': Button,
     'mt-search': Search,
-    Footer,
+    'v-footer': Footer,
     'shop-main': Main
   },
   mounted() {
     window.scrollTo(0, 0);
   },
   methods: {
+    changeGoodsListShowType(value) {
+      this.$store.commit('CHANGE_GOODSLIST_SHOWTYPE', value);
+    },
     loadMore() {
       console.log("loadMore")
       this.loading = true;

@@ -36,5 +36,10 @@ export default {
 }
 </script>
 
-<style lang="less" scoped>
+<style lang="less" >
+.mint-cell-title {
+  -webkit-box-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+}
 </style>

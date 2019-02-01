@@ -102,7 +102,7 @@
                 <span>足迹</span><i class="icon-go"></i>
               </p>
             </router-link>
-            <router-link class="my-vip-bottom ho" :to="{ name: '我的关注'}">
+            <router-link class="my-vip-bottom ho" :to="{ name: '店铺列表'}">
               <div>
                  <i class="fa fa-heart fa-lg"></i>
               </div>
@@ -110,7 +110,7 @@
                 <span>我的关注</span><i class="icon-go"></i>
               </p>
             </router-link>
-            <router-link class="my-vip-bottom ho" :to="{ name: ''}">
+            <router-link class="my-vip-bottom ho" :to="{ name: '反馈'}">
               <div>
                  <i class="fa fa-feed fa-lg"></i>
               </div>
