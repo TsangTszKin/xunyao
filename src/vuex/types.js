@@ -34,6 +34,9 @@ export const SET_SELECTEDLIST = 'SET_SELECTEDLIST'
 
 export const SET_UNSELECTEDLIST = 'SET_UNSELECTEDLIST'
 
+//购物车里没打钩的商品
+
+export const SET_CARLIST = 'SET_CARLIST'
 
 
 //全局loading状态

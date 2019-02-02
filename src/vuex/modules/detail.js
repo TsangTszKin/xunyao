@@ -62,6 +62,11 @@ const mutations = {
     state.count = Util.getLocal('carList').length
   },
 
+  // 设置购物车列表
+  [types.SET_CARLIST](state, res) {
+    state.carList = res;
+  },
+
   // loading开关
   [types.SET_LOADING](state, res) {
     state.fetchLoading = res

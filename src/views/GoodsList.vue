@@ -6,13 +6,13 @@
         <mt-button>上传</mt-button>
       </router-link>-->
       <i
-        class="fa fa-th-large fa-lg"
+        class="fa fa-th-list fa-lg"
         slot="right"
         v-if="$store.state.goods.listType === 1"
         @click="changeGoodsListShowType(2)"
       ></i>
       <i
-        class="fa fa-th-list fa-lg"
+        class="fa fa-th-large fa-lg"
         slot="right"
         v-if="$store.state.goods.listType === 2"
         @click="changeGoodsListShowType(3)"

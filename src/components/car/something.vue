@@ -6,7 +6,7 @@
       <li v-for="(k,i) in carList">
           <div class="something-left" @click="toggle(i ,k.choseBool)">
             <label class="true" :class="{false:!k.choseBool}">
-              <input type="checkbox" v-model="k.choseBool">
+              <input type="checkbox" :value="k.choseBool">
             </label>
           </div>
           <div class="something-middle">
@@ -35,7 +35,7 @@ import Util from '../../util/common'
 export default {
   components: {
     'v-gologin': Gologin,
-    
+
   },
   computed: {
 
@@ -69,7 +69,9 @@ export default {
     },
     toggle(i, isCkecked) {
       // 每点击一下都会改变choseBool的布尔值,所以要重置数组
-      let carList = this.carList;
+       let carList = this.carList;
+      // alert(i + '  ' + isCkecked + '  ' + carList[i].choseBool)
+     
       carList[i].choseBool = !isCkecked;
       this.$nextTick(() => {
         this.$store.dispatch('cutCarList', carList)
