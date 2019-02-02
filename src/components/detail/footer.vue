@@ -1,6 +1,6 @@
 <template lang="html">
   <footer class="footer">
-    <router-link :to="{name:'首页'}" class="footer-index">
+    <router-link :to="{name:'店铺主页'}" class="footer-index">
       <i class="icon-index"></i>
     </router-link>
     <router-link  :to="{name:'购物车'}" class="footer-gocar">
