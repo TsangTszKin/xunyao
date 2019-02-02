@@ -33,7 +33,9 @@ export default {
     'v-baseline': Baseline,
     'goods-item': GoodsItem,
   },
-
+  mounted() {
+    window.scrollTo(0, 0);
+  },
   beforeCreate() {
     this.$store.dispatch('setDatas');
   },
