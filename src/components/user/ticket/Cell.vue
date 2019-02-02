@@ -33,6 +33,7 @@
       style="position: absolute;
     top: 27px;
     right: 8px;"
+    @click="$router.push({name: '详情页'})"
     >去使用</mt-button>
   </div>
 </template>

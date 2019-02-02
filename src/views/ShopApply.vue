@@ -238,7 +238,7 @@ export default {
 .goods-save {
   > p {
     // text-align: center;
-    margin-top: 20px;
+    margin: 20px;
     padding: 0 10%;
   }
 }

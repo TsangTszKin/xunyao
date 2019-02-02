@@ -13,13 +13,15 @@
     </mt-radio>
     
 
-    <div class="pay-address" v-if="saveData.takeWay === '1'">
+    <div class="pay-address" v-if="saveData.takeWay === '1'" @click="modal.address = true">
       <div>
         <p class="main-address-per">收货人:<span>王先生</span></p>
         <p class="main-address-tel">15985698749</p>
       </div>
       <p>收货地址:<span>河南省郑州市中原区秦岭路8号院59号单元28层15号东户第三家</span></p>
-      <i class="fa fa-angle-right fa-lg"></i>
+      <i class="fa fa-angle-right fa-lg" style="    position: absolute;
+    top: 53px;
+    right: 5px;"></i>
     </div>
 
     <div class="pay-address" style="padding-left: 3vw">
@@ -43,9 +45,10 @@
             <input
               placeholder="请选择代收的好友"
               type="text"
-              @click="$router.push({name: '搜索页'})"
+              @click="modal.friends = true"
               style="font-size: inherit;"
              v-model="saveData.friend"
+              readOnly
             >
           </div>
           <div class="mint-field-clear" style="display: none;">
@@ -75,9 +78,10 @@
             <input
               placeholder="请选择配送时间"
               type="text"
-              @click="isShowPicker = true"
+              @click="modal.sendTime = true"
               style="font-size: inherit;"
              :value="saveData.sendTime+'小时后配送'"
+             readOnly
             >
           </div>
           <div class="mint-field-clear" style="display: none;">
@@ -92,11 +96,83 @@
       <div class="mint-cell-right"></div>
       <!---->
     </a>
-    <v-picker @getValue="getValue" :isShow="isShowPicker" />
+
+
+    
+    <!-- <v-picker @getValue="getValue" :isShow="isShowPicker" /> -->
 
     <mt-field label="留言" placeholder="买家留言" type="textarea" rows="1" v-modal="saveData.remark"></mt-field>
-    <mt-field label="保证金抵扣券" type="text" :value="saveData.coupon1"></mt-field>
-    <mt-field label="配送费抵扣券" type="text" :value="saveData.coupon2"></mt-field>
+
+    <a class="mint-cell mint-field">
+      <!---->
+      <div class="mint-cell-left"></div>
+      <div class="mint-cell-wrapper">
+        <div class="mint-cell-title">
+          <!---->
+          <span class="mint-cell-text">保证金抵扣券</span>
+          <!---->
+        </div>
+        <div class="mint-cell-value">
+          <div>
+            <input
+              placeholder=""
+              type="text"
+              @click="modal.coupon1 = true"
+              style="font-size: inherit;"
+             v-model="saveData.coupon1"
+             readOnly
+            >
+          </div>
+          <div class="mint-field-clear" style="display: none;">
+            <i class="mintui mintui-field-error"></i>
+          </div>
+          <span class="mint-field-state is-default">
+            <i class="mintui mintui-field-default"></i>
+          </span>
+          <div class="mint-field-other"></div>
+        </div>
+      </div>
+      <div class="mint-cell-right"></div>
+      <!---->
+    </a>
+
+    <a class="mint-cell mint-field">
+      <!---->
+      <div class="mint-cell-left"></div>
+      <div class="mint-cell-wrapper">
+        <div class="mint-cell-title">
+          <!---->
+          <span class="mint-cell-text">配送费抵扣券</span>
+          <!---->
+        </div>
+        <div class="mint-cell-value">
+          <div>
+            <input
+              placeholder=""
+              type="text"
+              @click="modal.coupon2 = true"
+              style="font-size: inherit;"
+             v-model="saveData.coupon2"
+             readOnly
+            >
+          </div>
+          <div class="mint-field-clear" style="display: none;">
+            <i class="mintui mintui-field-error"></i>
+          </div>
+          <span class="mint-field-state is-default">
+            <i class="mintui mintui-field-default"></i>
+          </span>
+          <div class="mint-field-other"></div>
+        </div>
+      </div>
+      <div class="mint-cell-right"></div>
+      <!---->
+    </a>
+
+    
+
+    <!-- <mt-field label="保证金抵扣券" type="text" :value="saveData.coupon1"></mt-field> -->
+    <!-- <mt-field label="配送费抵扣券" type="text" :value="saveData.coupon2"></mt-field> -->
 
     <div class="pay-product">
       <ul v-if="!confirm">
@@ -112,16 +188,54 @@
       </ul>
 
       <!-- 支付成功后的提示 -->
-      <div class="pay-confirm" v-else>
+      <!-- <div class="pay-confirm" v-else>
         支付成功!!!</br>
         当页面数据清空</br>
         购物车列表重新设置
-      </div>
+      </div> -->
     </div>
-    <!-- <h3 class="pay-allpay">总需要支付 : <i>￥</i><span>{{allpay}}</span></h3> -->
-    <!-- <footer class="pay-footer" ontouchstrat="" @click="payConfirm">
-      <span>提交订单</span>
-    </footer> -->
+
+        <mt-popup
+            v-model="modal.address"
+            position="bottom"
+            style="width: 100%;"
+            >
+            <AddressPicker />
+        </mt-popup>
+        <mt-popup
+            v-model="modal.friends"
+            position="bottom"
+            style="width: 100%;"
+            >
+            <FriendsPicker />
+        </mt-popup>
+    
+        <mt-popup
+            v-model="modal.coupon1"
+            position="bottom"
+            style="width: 100%;"
+            >
+            <mt-picker :slots="pickerData.coupon1" ></mt-picker>
+        </mt-popup>
+
+        <mt-popup
+            v-model="modal.coupon2"
+            position="bottom"
+            style="width: 100%;"
+            >
+            <mt-picker :slots="pickerData.coupon2" ></mt-picker>
+        </mt-popup>
+
+         <mt-popup
+            v-model="modal.sendTime"
+            position="bottom"
+            style="width: 100%;"
+            >
+            <mt-picker :slots="pickerData.sendTime" ></mt-picker>
+        </mt-popup>
+    
+
+    
     <v-footer :totalMoney="totalMoney" ></v-footer>
 
   </div>
@@ -131,9 +245,13 @@
 import Util from '../../../util/common'
 import Header from '@/common/_header.vue'
 import Footer from '@/components/car/pay/footer.vue';
-import Picker from '@/components/Picker';
+// import Picker from '@/components/Picker';
+import AddressPicker from '@/components/AddressPicker';
+import FriendsPicker from '@/components/FriendsPicker';
+import $ from 'jquery';
+
 import {
-  MessageBox, Radio, Field, Switch
+  MessageBox, Radio, Field, Switch, Popup, Picker
 } from 'mint-ui';
 
 export default {
@@ -142,11 +260,48 @@ export default {
     'v-footer': Footer,
     'mt-radio': Radio,
     'mt-field': Field,
-    'v-picker': Picker,
-    'mt-switch': Switch
+    // 'v-picker': Picker,
+    'mt-switch': Switch,
+    'mt-popup': Popup,
+    AddressPicker,
+    FriendsPicker,
+    'mt-picker': Picker
   },
   data() {
     return {
+      modal: {
+        address: false,
+        friends: false,
+        coupon1: false,
+        coupon2: false,
+        sendTime: false
+      },
+      pickerData: {
+        coupon1: [
+          {
+            flex: 1,
+            values: ['-10', '-15', '-30'],
+            className: 'slot1',
+            textAlign: 'center'
+          }
+        ],
+        coupon2: [
+          {
+            flex: 1,
+            values: ['-15', '-20', '-30'],
+            className: 'slot1',
+            textAlign: 'center'
+          }
+        ],
+        sendTime: [
+          {
+            flex: 1,
+            values: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24],
+            className: 'slot1',
+            textAlign: 'center'
+          }
+        ]
+      },
       confirm: '',
       totalMoney: 0,
       saveData: {
@@ -156,22 +311,16 @@ export default {
           mobile: '',
           address: ''
         },
-        sendTime: '',
+        sendTime: '1',
         isFriendGet: false,
-        friend: '',
+        friend: '李小白',
         remark: '',
         coupon1: '-10',
         coupon2: '-5'
       },
-      slots: [
-        {
-          flex: 1,
-          values: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24],
-          className: 'slot1',
-          textAlign: 'center'
-        }
-      ],
+      // slots: ,
       isShowPicker: false
+
     }
   },
 
@@ -203,6 +352,17 @@ export default {
       allpay += selectedList[i].price
     }
     this.totalMoney = allpay;
+
+
+    $(".v-picker").height($('#app').height());
+    let tempArray = [];
+    for (let i = 1; i <= 24; i++) {
+      tempArray.push({
+        name: `${i}小时后派送`,
+        value: i
+      })
+    }
+    this.slots[0].values = tempArray;
   },
 
   methods: {

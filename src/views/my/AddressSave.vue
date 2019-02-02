@@ -23,6 +23,7 @@
               @click="isShowAddress = true"
               style="font-size: inherit;width: 100%;"
               :value="`${myAddressProvince} ${myAddressCity} ${myAddresscounty}`"
+              readonly
             >
           </div>
           <div class="mint-field-clear" style="display: none;">
@@ -44,7 +45,7 @@
     </mt-cell>
 
     <div style="padding: 20px 20px;">
-      <mt-button type="primary" size="large">保存</mt-button>
+      <mt-button type="primary" size="large" @click="save">保存</mt-button>
     </div>
 
     <mt-popup v-model="isShowAddress" position="bottom" style="width: 100%;">
@@ -54,7 +55,7 @@
 </template>
 
 <script>
-　　import { Picker, Popup, Field, Cell, Switch, Button } from 'mint-ui';
+　　import { Picker, Popup, Field, Cell, Switch, Button, Toast } from 'mint-ui';
 　　import myaddress from '@/assets/city.json'
 　　export default {
   name: '',
@@ -131,8 +132,19 @@
         this.myAddresscounty = values[2];
       }
     },
+    save() {
+      Toast({
+        message: '操作成功',
+        iconClass: 'fa fa-check'
+      });
+      let seft = this;
+      setTimeout(() => {
+        seft.goBack();
+      }, 1000)
+    }
   },
   mounted() {
+    window.scrollTo(0, 0);
     this.$nextTick(() => { //vue里面全部加载好了再执行的函数 （类似于setTimeout）
       this.myAddressSlots[0].defaultIndex = 0
       // 这里的值需要和 data里面 defaultIndex 的值不一样才能够初始化
