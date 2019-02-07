@@ -30,6 +30,7 @@ const FootPrint = resolve => require(['@/views/my/FootPrint.vue'], resolve)
 const Favorite = resolve => require(['@/views/my/Favorite.vue'], resolve)
 const AddressSave = resolve => require(['@/views/my/AddressSave.vue'], resolve)
 const FeedBack = resolve => require(['@/views/my/FeedBack.vue'], resolve)
+const Location = resolve => require(['@/views/Location.vue'], resolve)
 
 export default new Router({
 
@@ -213,6 +214,14 @@ export default new Router({
     path: '/feedBack',
     name: '反馈',
     component: FeedBack,
+    meta: {
+      requireAuth: true
+    }
+  },
+  {
+    path: '/location',
+    name: '定位',
+    component: Location,
     meta: {
       requireAuth: true
     }

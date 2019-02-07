@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import city from "@/assets/city"//导入所有城市的JSON
+import city from "@/assets/city2"//导入所有城市的JSON
 import { makePy } from "@/assets/pinyin"//导入插件获取所有城市中文的大写首字母
 
 export default {
@@ -74,7 +74,7 @@ export default {
   methods: {
     gotoHomePage(city) {
       this.$router.push({
-        path: '/',
+        name: '定位',
         query: {city: city}
       })
     }

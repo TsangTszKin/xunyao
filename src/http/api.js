@@ -9,7 +9,12 @@ api.defaults.baseURL = 'http://47.106.168.53:8091';
 // api.defaults.baseURL = 'http://zwdjack.iok.la:40229';
 api.defaults.timeout = 5000;
 api.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
-api.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest'
+api.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';
+api.defaults.headers['Access-Control-Allow-Origin'] = '*';
+api.defaults.headers['Access-Control-Allow-Headers'] = 'X-Requested-With,Content-Type';
+api.defaults.headers['Access-Control-Allow-Methods'] = 'PUT,POST,GET,DELETE,OPTIONS';
+api.defaults.headers['Access-Control-Allow-Credentials'] = true;
+
 
 // 请求拦截
 api.interceptors.request.use(function (config) {

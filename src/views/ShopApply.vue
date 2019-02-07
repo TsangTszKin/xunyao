@@ -4,6 +4,8 @@
       <mt-button icon="back" slot="left" @click="$router.go(-1)"></mt-button>
     </mt-header>
 
+    <div id="shopApply-map"></div>
+
     <mt-field label="店铺名称" placeholder="请输入店铺名称" v-model="saveData.shopName"></mt-field>
     <ImgPicker
       label="店铺logo"
@@ -11,26 +13,25 @@
       fieldKey="shopLogo"
       @changeFile="changeFile"
     />
-    <mt-field label="地址" placeholder="请输入地址" v-model="saveData.address"></mt-field>
-    <mt-field label="电话" placeholder="请输入电话" v-model="saveData.telephone"></mt-field>
-    <mt-field label="店长姓名" placeholder="请输入店长姓名" v-model="saveData.realName"></mt-field>
+
     <a class="mint-cell mint-field">
       <!---->
       <div class="mint-cell-left"></div>
       <div class="mint-cell-wrapper">
         <div class="mint-cell-title">
           <!---->
-          <span class="mint-cell-text">经纬度</span>
+          <span class="mint-cell-text">店铺地址</span>
           <!---->
         </div>
         <div class="mint-cell-value">
           <div>
             <input
-              placeholder="请输入经纬度"
+              placeholder="请输入地址"
               type="text"
-              @click="isShowMap = true"
               style="font-size: inherit;"
-              :value="!saveData.longitude?'':`${saveData.longitude}，${saveData.latitude}`"
+              v-model="saveData.address"
+              id="shopApply-suggestId"
+              @blur="blurFunc"
             >
           </div>
           <div class="mint-field-clear" style="display: none;">
@@ -45,6 +46,19 @@
       <div class="mint-cell-right"></div>
       <!---->
     </a>
+
+    <mt-field
+      label="经纬度"
+      :readonly="true"
+      placeholder="显示经纬度"
+      :disableClear="true"
+      :value="!saveData.longitude?'':`${saveData.longitude}，${saveData.latitude}`"
+    ></mt-field>
+
+    <!-- <mt-field label="地址" placeholder="请输入地址" v-model="saveData.address"></mt-field> -->
+    <mt-field label="电话" placeholder="请输入电话" v-model="saveData.telephone"></mt-field>
+    <mt-field label="店长姓名" placeholder="请输入店长姓名" v-model="saveData.realName"></mt-field>
+    
     <ImgPicker label="身份证正面" :value="saveData.cardId1" fieldKey="cardId1" @changeFile="changeFile"/>
     <ImgPicker label="身份证反面" :value="saveData.cardId2" fieldKey="cardId2" @changeFile="changeFile"/>
     <ImgPicker
@@ -98,6 +112,7 @@ import ImgPicker from '@/components/ImgPicker';
 import shopService from '@/api/shopService';
 import common from '@/util/common';
 import Map from '@/components/Map';
+import $ from 'jquery';
 
 export default {
   components: {
@@ -110,6 +125,13 @@ export default {
   },
   mounted() {
     window.scrollTo(0, 0);
+    let self = this;
+    let timer = setInterval(() => {
+      if (!common.isEmpty(window.BMap)) {
+        self.init();
+        clearInterval(timer);
+      }
+    }, 500)
   },
   data() {
     return {
@@ -229,6 +251,130 @@ export default {
       this.isShowMap = false;
       this.saveData.longitude = point.longitude;
       this.saveData.latitude = point.latitude;
+    },
+    init() {
+      let self = this;
+      // 百度地图API功能
+      function G(id) {
+        return document.getElementById(id);
+      }
+
+      var map = new BMap.Map("shopApply-map");
+      map.centerAndZoom("北京", 12);                   // 初始化地图,设置城市和地图级别。
+
+      function myFun(result) {
+        var cityName = result.name;
+        map.centerAndZoom(cityName, 12);
+        self.city = cityName;
+      }
+      var myCity = new BMap.LocalCity();
+      myCity.get(myFun);
+
+      // 添加带有定位的导航控件
+      var navigationControl = new BMap.NavigationControl({
+        // 靠左上角位置
+        anchor: BMAP_ANCHOR_TOP_LEFT,
+        // LARGE类型
+        type: BMAP_NAVIGATION_CONTROL_LARGE,
+        // 启用显示定位
+        enableGeolocation: true
+      });
+      map.addControl(navigationControl);
+
+
+      var ac = new BMap.Autocomplete(    //建立一个自动完成的对象
+        {          "input": "shopApply-suggestId"
+          , "location": map
+        });
+
+      ac.addEventListener("onhighlight", function (e) {  //鼠标放在下拉列表上的事件
+
+        var str = "";
+        var _value = e.fromitem.value;
+        var value = "";
+        if (e.fromitem.index > -1) {
+          value = _value.province + _value.city + _value.district + _value.street + _value.business;
+        }
+        str = "FromItem<br />index = " + e.fromitem.index + "<br />value = " + value;
+
+        value = "";
+        if (e.toitem.index > -1) {
+          _value = e.toitem.value;
+          value = _value.province + _value.city + _value.district + _value.street + _value.business;
+        }
+        str += "<br />ToItem<br />index = " + e.toitem.index + "<br />value = " + value;
+        G("searchResultPanel").innerHTML = str;
+      });
+
+      var myValue;
+      ac.addEventListener("onconfirm", function (e) {    //鼠标点击下拉列表后的事件
+        var _value = e.item.value;
+        console.log("e", e)
+        // self.$router.push({ name: '首页', query: { business: e.item.value.business } })
+        myValue = _value.province + _value.city + _value.district + _value.street + _value.business;
+        self.getLngAndLatBtAddressForApi(myValue)
+        self.saveData.address = myValue;
+        G("searchResultPanel").innerHTML = "onconfirm<br />index = " + e.item.index + "<br />myValue = " + myValue;
+
+        setPlace();
+
+      });
+
+      function setPlace() {
+        map.clearOverlays();    //清除地图上所有覆盖物
+        function myFun2() {
+          var pp = local.getResults().getPoi(0).point;    //获取第一个智能搜索的结果
+          map.centerAndZoom(pp, 18);
+          map.addOverlay(new BMap.Marker(pp));    //添加标注
+        }
+        var local = new BMap.LocalSearch(map, { //智能搜索
+          onSearchComplete: myFun2
+        });
+        local.search(myValue);
+      }
+
+      map.addEventListener("click", (e) => {
+        MessageBox.confirm(`拾取经纬度${e.point.lng}，${e.point.lat}?`).then(action => {
+          self.$emit('getPoint', { longitude: e.point.lng, latitude: e.point.lat })
+        });
+      });
+    },
+    getLngAndLatBtAddressForApi(address) {
+      // shopService.getLngAndLatBtAddress(address).then(res => {
+      //   if (res.data.status == 0) {
+      //     this.saveData.lng = res.data.result.location.lng;
+      //     this.saveData.lat = res.data.result.location.lat;
+      //   } else {
+      //     this.saveData.lng = null;
+      //     this.saveData.lat = null;
+      //     Toast("获取地址经纬度失败");
+      //   }
+      // })
+      let self = this;
+      $.ajax({
+        type: "GET",
+        url: "http://api.map.baidu.com/geocoder/v2/?address=%E5%B9%BF%E5%B7%9E%E5%B8%82%E6%B5%B7%E7%8F%A0%E5%8C%BA%E5%B9%BF%E5%B7%9E%E5%A1%94&output=json&ak=AuOY7KgIDlUnzBsTxL7YZeo8UAfpYXmQ",
+        dataType: "jsonp",  //数据格式设置为jsonp
+        jsonp: "callback",  //Jquery生成验证参数的名称
+        success: function (res) {  //成功的回调函数
+          // alert(res);
+          console.log(res)
+          if (res.status == 0) {
+            self.saveData.longitude = res.result.location.lng;
+            self.saveData.latitude = res.result.location.lat;
+          } else {
+            self.saveData.longitude = null;
+            self.saveData.latitude = null;
+            Toast("获取地址经纬度失败");
+          }
+        },
+        error: function (e) {
+          alert("error");
+        }
+      });
+    },
+    blurFunc(e) {
+      this.getLngAndLatBtAddressForApi(e.target.value);
     }
   }
 }

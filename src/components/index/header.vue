@@ -2,7 +2,7 @@
 
 <div class="index-header">
   <mt-header title="">
-    <router-link :to="{path:'/cityPicker'}" slot="left">
+    <router-link :to="{name:'定位'}" slot="left">
       <span style="font-size: 15px;"><i class="fa fa-map-marker fa-lg" style="font-size:17px;margin-right:5px;"></i>{{city}}</span>
     </router-link>
   
@@ -43,15 +43,17 @@ export default {
   },
   mounted() {
     let self = this;
-    let timer = setInterval(() => {
-      if (!common.isEmpty(BMap)) {
-        self.locationInit();
-        clearInterval(timer);
-      }
-    }, 500)
-    if (!common.isEmpty(this.$route.query.city)) {
-      this.city = this.$route.query.city;
+    if (!common.isEmpty(this.$route.query.business)) {
+      this.city = this.$route.query.business;
+    } else if (!localStorage.cityName) {
+      let timer = setInterval(() => {
+        if (!common.isEmpty(BMap)) {
+          self.locationInit();
+          clearInterval(timer);
+        }
+      }, 500)
     }
+
     setInterval(function () { $(".index-search .mint-searchbar").css("background-color", '#38af43 !important') }, 100)
   },
   methods: {
