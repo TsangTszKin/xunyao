@@ -6,7 +6,8 @@
       <mt-button icon="back" slot="left" @click="$router.go(-1)"></mt-button>
     </mt-header>
 
-      <div class="main">
+
+      <div class="main v-content">
           
 
           <section class="my-vip">

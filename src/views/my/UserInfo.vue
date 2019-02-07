@@ -3,34 +3,37 @@
     <mt-header title="个人信息">
       <mt-button icon="back" slot="left" @click="$router.go(-1)"></mt-button>
     </mt-header>
-    <a class="mint-cell mint-field">
-      <!---->
-      <div class="mint-cell-left"></div>
-      <div class="mint-cell-wrapper">
-        <div class="mint-cell-title">
-          <!---->
-          <span class="mint-cell-text">头像</span>
-          <!---->
-        </div>
-        <div class="mint-cell-value">
-          <div class="goods-ui-div">
-            <img src="../../assets/images/goods.jpg">
-          </div>
-          <div class="mint-field-clear" style="display: none;">
-            <i class="mintui mintui-field-error"></i>
-          </div>
-          <span class="mint-field-state is-default">
-            <i class="mintui mintui-field-default"></i>
-          </span>
-          <div class="mint-field-other"></div>
-        </div>
-      </div>
-      <div class="mint-cell-right"></div>
-      <!---->
-    </a>
 
-    <mt-field label="姓名" placeholder="" v-model="saveData.name"></mt-field>
-    <mt-field label="年龄" placeholder="" type="number" v-model="saveData.age"></mt-field>
+    <div class="v-content">
+      <a class="mint-cell mint-field">
+        <!---->
+        <div class="mint-cell-left"></div>
+        <div class="mint-cell-wrapper">
+          <div class="mint-cell-title">
+            <!---->
+            <span class="mint-cell-text">头像</span>
+            <!---->
+          </div>
+          <div class="mint-cell-value">
+            <div class="goods-ui-div">
+              <img src="../../assets/images/goods.jpg">
+            </div>
+            <div class="mint-field-clear" style="display: none;">
+              <i class="mintui mintui-field-error"></i>
+            </div>
+            <span class="mint-field-state is-default">
+              <i class="mintui mintui-field-default"></i>
+            </span>
+            <div class="mint-field-other"></div>
+          </div>
+        </div>
+        <div class="mint-cell-right"></div>
+        <!---->
+      </a>
+
+      <mt-field label="姓名" placeholder v-model="saveData.name"></mt-field>
+      <mt-field label="年龄" placeholder type="number" v-model="saveData.age"></mt-field>
+    </div>
   </div>
 </template>
 
@@ -82,8 +85,8 @@ export default {
 
     }
   },
-  mounted(){
-     window.scrollTo(0, 0);
+  mounted() {
+    window.scrollTo(0, 0);
   }
 }
 </script>

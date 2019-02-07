@@ -4,7 +4,9 @@
       <mt-button icon="back" slot="left" @click="$router.go(-1)"></mt-button>
     </mt-header>
 
-    <Cell v-for="(n, key) in 4" :key="key+Math.random()" @click.native="showMore"/>
+    <div class="v-content">
+      <Cell v-for="(n, key) in 4" :key="key+Math.random()" @click.native="showMore"/>
+    </div>
   </div>
 </template>
 

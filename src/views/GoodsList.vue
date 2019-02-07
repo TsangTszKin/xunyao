@@ -27,7 +27,10 @@
         <mt-button icon="search" style="margin-left: 30px;"></mt-button>
       </router-link>
     </mt-header>
-    <shop-main/>
+    <div class="v-content">
+      <shop-main/>
+    </div>
+
     <v-footer/>
   </div>
 </template>

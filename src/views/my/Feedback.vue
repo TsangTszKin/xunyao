@@ -4,17 +4,19 @@
       <mt-button icon="back" slot="left" @click="$router.go(-1)"></mt-button>
     </mt-header>
 
-    <mt-field
-      label
-      placeholder="请留下您的宝故意意见或建议，我们将努力改进"
-      type="textarea"
-      rows="5"
-      v-model="saveData.address"
-    ></mt-field>
-    <mt-field label placeholder="留下手机号码，以便我们回复您" v-model="saveData.mobile"></mt-field>
+    <div class="v-content">
+      <mt-field
+        label
+        placeholder="请留下您的宝故意意见或建议，我们将努力改进"
+        type="textarea"
+        rows="5"
+        v-model="saveData.address"
+      ></mt-field>
+      <mt-field label placeholder="留下手机号码，以便我们回复您" v-model="saveData.mobile"></mt-field>
 
-    <div style="padding: 20px 20px;">
-      <mt-button type="primary" size="large" @click="save">提交</mt-button>
+      <div style="padding: 20px 20px;">
+        <mt-button type="primary" size="large" @click="save">提交</mt-button>
+      </div>
     </div>
   </div>
 </template>
@@ -65,7 +67,7 @@
     }
   },
   mounted() {
-     window.scrollTo(0, 0);
+    window.scrollTo(0, 0);
   }
 }
 </script>

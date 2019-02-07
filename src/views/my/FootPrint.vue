@@ -1,50 +1,68 @@
 <template>
-  <div class="message">
+  <div class="footprint">
     <mt-header title="足迹">
       <mt-button icon="back" slot="left" @click="$router.go(-1)"></mt-button>
     </mt-header>
-
-    <Cell v-for="(n, key) in 4" :key="key+Math.random()" @click.native="showMore"/>
+    <div class="v-content">
+      <div
+        v-infinite-scroll="loadMore"
+        infinite-scroll-disabled="loading"
+        infinite-scroll-distance="3"
+      >
+        <v-panel v-for="(n, key) in list" :key="key"/>
+      </div>
+      <v-baseline v-if="list.length > 0" />
+    </div>
   </div>
 </template>
 
 <script>
-import { Navbar, TabItem, Header, CellSwipe, MessageBox } from 'mint-ui';
-import Cell from '@/components/message/Cell';
+import { Navbar, TabItem, Header, MessageBox, Indicator, InfiniteScroll } from 'mint-ui';
 import Footer from '@/common/_footer.vue'
+import Panel from '@/components/user/footprint/Panel';
+import Baseline from '@/common/_baseline.vue'
 
 export default {
+  components: {
+    'mt-navbar': Navbar,
+    'mt-tab-item': TabItem,
+    'mt-header': Header,
+    'v-footer': Footer,
+    'v-panel': Panel,
+    'v-baseline': Baseline,
+  },
   data() {
     return {
-      selected: '1'
+      selected: '1',
+      loading: false,
+      list: []
     }
   },
   mounted() {
     window.scrollTo(0, 0);
   },
   methods: {
-    showMore() {
-      // MessageBox('海王星辰', '亲，仓库会根据亲的地亲，仓库会根据亲的地亲，仓库会根据亲的地亲，仓库会根据亲的地');
+    loadMore() {
+      console.log("loadMore")
+      this.loading = true;
+      let self = this;
+      Indicator.open('加载中...');
+      setTimeout(() => {
+        self.list.push(1);
+        self.list.push(1);
+        self.list.push(1);
+        self.loading = false;
+        Indicator.close();
+      }, 1000);
     }
   },
-  components: {
-    'mt-navbar': Navbar,
-    'mt-tab-item': TabItem,
-    'mt-header': Header,
-    'mt-cell-swipe': CellSwipe,
-    Cell,
-    'v-footer': Footer
-  }
+
 }
 </script>
 
-<style lang="less">
-.mint-cell-title {
-  -webkit-box-flex: 0;
-  -ms-flex: 0;
-  flex: 0;
-}
-.mint-cell-swipe-button {
-  line-height: 66px;
+<style lang="less" scoped>
+.footprint {
+  // height: 100%;
+  background-color: #dcdcdc38;
 }
 </style>

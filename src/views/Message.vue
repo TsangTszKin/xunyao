@@ -3,24 +3,30 @@
     <mt-header title="消息">
       <!-- <mt-button icon="back" slot="left" @click="$router.go(-1)"></mt-button> -->
     </mt-header>
-    <mt-navbar v-model="selected">
-      <mt-tab-item id="1">店铺消息列表</mt-tab-item>
-      <mt-tab-item id="2">订阅</mt-tab-item>
-      <mt-tab-item id="3">通知</mt-tab-item>
-    </mt-navbar>
+    <div class="v-content">
+      <mt-navbar v-model="selected" style="    position: ralative;
+    top: 40px;
+    width: 100%;
+    z-index: 999;">
+        <mt-tab-item id="1">店铺消息列表</mt-tab-item>
+        <mt-tab-item id="2">订阅</mt-tab-item>
+        <mt-tab-item id="3">通知</mt-tab-item>
+      </mt-navbar>
 
-    <!-- tab-container -->
-    <mt-tab-container v-model="selected">
-      <mt-tab-container-item id="1">
-        <Cell v-for="(n, key) in 4" :key="key+Math.random()" @click.native="showMore"/>
-      </mt-tab-container-item>
-      <mt-tab-container-item id="2">
-        <Cell v-for="(n, key) in 4" :key="key+Math.random()" @click.native="showMore"/>
-      </mt-tab-container-item>
-      <mt-tab-container-item id="3">
-        <Cell v-for="(n, key) in 4" :key="key+Math.random()" @click.native="showMore"/>
-      </mt-tab-container-item>
-    </mt-tab-container>
+      <!-- tab-container -->
+      <mt-tab-container v-model="selected">
+        <mt-tab-container-item id="1">
+          <Cell v-for="(n, key) in 4" :key="key+Math.random()" @click.native="showMore"/>
+        </mt-tab-container-item>
+        <mt-tab-container-item id="2">
+          <Cell v-for="(n, key) in 4" :key="key+Math.random()" @click.native="showMore"/>
+        </mt-tab-container-item>
+        <mt-tab-container-item id="3">
+          <Cell v-for="(n, key) in 4" :key="key+Math.random()" @click.native="showMore"/>
+        </mt-tab-container-item>
+      </mt-tab-container>
+    </div>
+
     <v-footer/>
   </div>
 </template>

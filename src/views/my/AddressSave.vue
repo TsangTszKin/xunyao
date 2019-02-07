@@ -3,49 +3,52 @@
     <mt-header title="收货地址">
       <mt-button icon="back" slot="left" @click="$router.go(-1)"></mt-button>
     </mt-header>
-    <mt-field label="收货人" placeholder="请输入收货人姓名" v-model="saveData.name"></mt-field>
-    <mt-field label="联系电话" placeholder="请输入联系电话" v-model="saveData.mobile"></mt-field>
 
-    <a class="mint-cell mint-field">
-      <!---->
-      <div class="mint-cell-left"></div>
-      <div class="mint-cell-wrapper">
-        <div class="mint-cell-title">
-          <!---->
-          <span class="mint-cell-text">省份城市</span>
-          <!---->
-        </div>
-        <div class="mint-cell-value">
-          <div style="width: 100%;">
-            <input
-              placeholder="请选择省份城市"
-              type="text"
-              @click="isShowAddress = true"
-              style="font-size: inherit;width: 100%;"
-              :value="`${myAddressProvince} ${myAddressCity} ${myAddresscounty}`"
-              readonly
-            >
+    <div class="v-content">
+      <mt-field label="收货人" placeholder="请输入收货人姓名" v-model="saveData.name"></mt-field>
+      <mt-field label="联系电话" placeholder="请输入联系电话" v-model="saveData.mobile"></mt-field>
+
+      <a class="mint-cell mint-field">
+        <!---->
+        <div class="mint-cell-left"></div>
+        <div class="mint-cell-wrapper">
+          <div class="mint-cell-title">
+            <!---->
+            <span class="mint-cell-text">省份城市</span>
+            <!---->
           </div>
-          <div class="mint-field-clear" style="display: none;">
-            <i class="mintui mintui-field-error"></i>
+          <div class="mint-cell-value">
+            <div style="width: 100%;">
+              <input
+                placeholder="请选择省份城市"
+                type="text"
+                @click="isShowAddress = true"
+                style="font-size: inherit;width: 100%;"
+                :value="`${myAddressProvince} ${myAddressCity} ${myAddresscounty}`"
+                readonly
+              >
+            </div>
+            <div class="mint-field-clear" style="display: none;">
+              <i class="mintui mintui-field-error"></i>
+            </div>
+            <span class="mint-field-state is-default">
+              <i class="mintui mintui-field-default"></i>
+            </span>
+            <div class="mint-field-other"></div>
           </div>
-          <span class="mint-field-state is-default">
-            <i class="mintui mintui-field-default"></i>
-          </span>
-          <div class="mint-field-other"></div>
         </div>
+        <div class="mint-cell-right"></div>
+        <!---->
+      </a>
+      <mt-field label="详细街道地址" placeholder type="textarea" rows="2" v-model="saveData.address"></mt-field>
+
+      <mt-cell title="设为默认地址">
+        <mt-switch v-model="saveData.isDefault"></mt-switch>
+      </mt-cell>
+
+      <div style="padding: 20px 20px;">
+        <mt-button type="primary" size="large" @click="save">保存</mt-button>
       </div>
-      <div class="mint-cell-right"></div>
-      <!---->
-    </a>
-    <mt-field label="详细街道地址" placeholder type="textarea" rows="2" v-model="saveData.address"></mt-field>
-
-    <mt-cell title="设为默认地址">
-      <mt-switch v-model="saveData.isDefault"></mt-switch>
-    </mt-cell>
-
-    <div style="padding: 20px 20px;">
-      <mt-button type="primary" size="large" @click="save">保存</mt-button>
     </div>
 
     <mt-popup v-model="isShowAddress" position="bottom" style="width: 100%;">

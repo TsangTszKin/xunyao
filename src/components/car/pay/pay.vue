@@ -1,11 +1,12 @@
 <template lang="html">
 
   <div class="pay">
-    <v-header>
+    <v-header class="mint-header">
       <h1 slot="title">确认订单</h1>
     </v-header>
 
-    <mt-radio
+    <div class="v-content">
+<mt-radio
       title="收货方式"
        align="right"
       v-model="saveData.takeWay"
@@ -233,9 +234,8 @@
             >
             <mt-picker :slots="pickerData.sendTime" ></mt-picker>
         </mt-popup>
-    
+    </div>
 
-    
     <v-footer :totalMoney="totalMoney" ></v-footer>
 
   </div>

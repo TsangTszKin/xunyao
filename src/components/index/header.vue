@@ -18,6 +18,8 @@
         cancel-text="取消"
         placeholder="搜索"
         class="index-search"
+        style="    position: relative;
+    top: 40px;"
         >
       </mt-search>
     </router-link>

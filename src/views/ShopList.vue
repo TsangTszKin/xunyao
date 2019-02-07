@@ -8,27 +8,29 @@
       </router-link>
     </mt-header>
 
-    <ul
-      v-infinite-scroll="loadMore"
-      infinite-scroll-disabled="loading"
-      infinite-scroll-distance="10"
-      class="section3-list"
-    >
-      <li v-for="k in list" :key="k.id" @click="$router.push({path: '/shop'})">
-        <a class="section3-list-right">
-          <img src="../assets/images/shop.jpg">
-          <!-- <span>${{k.price}}</span> -->
-        </a>
-        <div class="section3-list-left">
-          <h4>店铺{{k.title}}</h4>
-          <div class="time">
-            <span class="time-num">店铺描述店铺描述</span>
+    <div class="v-content">
+      <ul
+        v-infinite-scroll="loadMore"
+        infinite-scroll-disabled="loading"
+        infinite-scroll-distance="10"
+        class="section3-list"
+      >
+        <li v-for="k in list" :key="k.id" @click="$router.push({path: '/shop'})">
+          <a class="section3-list-right">
+            <img src="../assets/images/shop.jpg">
+            <!-- <span>${{k.price}}</span> -->
+          </a>
+          <div class="section3-list-left">
+            <h4>店铺{{k.title}}</h4>
+            <div class="time">
+              <span class="time-num">店铺描述店铺描述</span>
+            </div>
+            <p class="start">店铺地址： 广东省广州市天河区车陂社区</p>
           </div>
-          <p class="start">店铺地址： 广东省广州市天河区车陂社区</p>
-        </div>
-      </li>
-    </ul>
-    <loading-for-list v-show="!loading"></loading-for-list>
+        </li>
+      </ul>
+      <loading-for-list v-show="!loading"></loading-for-list>
+    </div>
   </div>
 </template>
 

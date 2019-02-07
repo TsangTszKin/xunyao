@@ -5,8 +5,11 @@
        <mt-header title="购物车">
       </mt-header>
       <!-- 根据购物车是否有商品加载不同的组件 -->
-      <v-something v-if="count"/>
-      <v-nothing v-else/>
+      <div class="v-content">
+        <v-something v-if="count"/>
+        <v-nothing v-else/>
+      </div>
+     
       <v-footer/>
       <FooterIndex />
     </div>

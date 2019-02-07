@@ -44,6 +44,7 @@ export default {
 .shop {
   > .shopInfo {
     padding: 10px 10px 0 10px;
+    margin-top: 40px;
     > .ui-img-div {
       display: webkit-flex;
       display: flex;

@@ -3,20 +3,23 @@
     <mt-header title="优惠券">
       <mt-button icon="back" slot="left" @click="$router.go(-1)"></mt-button>
     </mt-header>
-    <mt-navbar v-model="selected">
-      <mt-tab-item id="1">抵扣运费</mt-tab-item>
-      <mt-tab-item id="2">抵扣保证金</mt-tab-item>
-    </mt-navbar>
 
-    <!-- tab-container -->
-    <mt-tab-container v-model="selected">
-      <mt-tab-container-item id="1">
-        <Cell v-for="(n, key) in 4" :key="key+Math.random()" @click.native="showMore"/>
-      </mt-tab-container-item>
-      <mt-tab-container-item id="2">
-        <Cell v-for="(n, key) in 4" :key="key+Math.random()" @click.native="showMore"/>
-      </mt-tab-container-item>
-    </mt-tab-container>
+    <div class="v-content">
+      <mt-navbar v-model="selected">
+        <mt-tab-item id="1">抵扣运费</mt-tab-item>
+        <mt-tab-item id="2">抵扣保证金</mt-tab-item>
+      </mt-navbar>
+
+      <!-- tab-container -->
+      <mt-tab-container v-model="selected">
+        <mt-tab-container-item id="1">
+          <Cell v-for="(n, key) in 4" :key="key+Math.random()" @click.native="showMore"/>
+        </mt-tab-container-item>
+        <mt-tab-container-item id="2">
+          <Cell v-for="(n, key) in 4" :key="key+Math.random()" @click.native="showMore"/>
+        </mt-tab-container-item>
+      </mt-tab-container>
+    </div>
   </div>
 </template>
 
