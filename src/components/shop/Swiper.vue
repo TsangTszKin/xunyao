@@ -1,10 +1,22 @@
 <template>
-  <mt-swipe :auto="4000" style="height:120px;">
-    <mt-swipe-item><img src="../../assets/images/banner.jpg" /></mt-swipe-item>
-    <mt-swipe-item><img src="../../assets/images/banner.jpg" /></mt-swipe-item>
-    <mt-swipe-item><img src="../../assets/images/banner.jpg" /></mt-swipe-item>
-    <mt-swipe-item><img src="../../assets/images/banner.jpg" /></mt-swipe-item>
-    <mt-swipe-item><img src="../../assets/images/banner.jpg" /></mt-swipe-item>
+  <mt-swipe :auto="4000" style="height: 70px;
+    padding: 5px;
+    background-color: #dcdcdc80;">
+    <mt-swipe-item>
+      <img src="../../assets/images/banner.jpg">
+    </mt-swipe-item>
+    <mt-swipe-item>
+      <img src="../../assets/images/banner.jpg">
+    </mt-swipe-item>
+    <mt-swipe-item>
+      <img src="../../assets/images/banner.jpg">
+    </mt-swipe-item>
+    <mt-swipe-item>
+      <img src="../../assets/images/banner.jpg">
+    </mt-swipe-item>
+    <mt-swipe-item>
+      <img src="../../assets/images/banner.jpg">
+    </mt-swipe-item>
   </mt-swipe>
 </template>
 

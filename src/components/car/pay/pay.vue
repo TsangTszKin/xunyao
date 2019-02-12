@@ -6,7 +6,7 @@
     </v-header>
 
     <div class="v-content">
-<mt-radio
+    <mt-radio
       title="收货方式"
        align="right"
       v-model="saveData.takeWay"
@@ -32,7 +32,7 @@
       </div>
     </div>
 
-    <a class="mint-cell mint-field" v-if="saveData.isFriendGet">
+    <a class="mint-cell mint-field" v-if="saveData.isFriendGet"  >
       <!---->
       <div class="mint-cell-left"></div>
       <div class="mint-cell-wrapper">
@@ -41,17 +41,16 @@
           <span class="mint-cell-text">代取好友</span>
           <!---->
         </div>
-        <div class="mint-cell-value">
-          <div>
-            <input
-              placeholder="请选择代收的好友"
-              type="text"
-              @click="modal.friends = true"
-              style="font-size: inherit;"
-             v-model="saveData.friend"
-              readOnly
-            >
+        <div class="mint-cell-value" style="position: relative;">
+          <div @click="modal.friends = true">
+            {{saveData.friend}}
+            
           </div>
+          <router-link :to="{path:'/search'}" >
+          <i class="fa fa-search fa-lg" style="position: absolute;
+    right: 10px;
+    font-size: 14px;top: 4px;"></i>
+   </router-link>
           <div class="mint-field-clear" style="display: none;">
             <i class="mintui mintui-field-error"></i>
           </div>
@@ -65,7 +64,7 @@
       <!---->
     </a>
 
-    <a class="mint-cell mint-field">
+    <a class="mint-cell mint-field" v-if="saveData.takeWay === '1'" @click="modal.sendTime = true">
       <!---->
       <div class="mint-cell-left"></div>
       <div class="mint-cell-wrapper">
@@ -76,14 +75,7 @@
         </div>
         <div class="mint-cell-value">
           <div>
-            <input
-              placeholder="请选择配送时间"
-              type="text"
-              @click="modal.sendTime = true"
-              style="font-size: inherit;"
-             :value="saveData.sendTime+'小时后配送'"
-             readOnly
-            >
+            {{saveData.sendTime+'小时后配送'}}
           </div>
           <div class="mint-field-clear" style="display: none;">
             <i class="mintui mintui-field-error"></i>
@@ -104,7 +96,7 @@
 
     <mt-field label="留言" placeholder="买家留言" type="textarea" rows="1" v-modal="saveData.remark"></mt-field>
 
-    <a class="mint-cell mint-field">
+    <a class="mint-cell mint-field"  @click="modal.coupon1 = true">
       <!---->
       <div class="mint-cell-left"></div>
       <div class="mint-cell-wrapper">
@@ -115,14 +107,7 @@
         </div>
         <div class="mint-cell-value">
           <div>
-            <input
-              placeholder=""
-              type="text"
-              @click="modal.coupon1 = true"
-              style="font-size: inherit;"
-             v-model="saveData.coupon1"
-             readOnly
-            >
+            {{saveData.coupon1}}
           </div>
           <div class="mint-field-clear" style="display: none;">
             <i class="mintui mintui-field-error"></i>
@@ -137,7 +122,7 @@
       <!---->
     </a>
 
-    <a class="mint-cell mint-field">
+    <a class="mint-cell mint-field" @click="modal.coupon2 = true">
       <!---->
       <div class="mint-cell-left"></div>
       <div class="mint-cell-wrapper">
@@ -148,14 +133,8 @@
         </div>
         <div class="mint-cell-value">
           <div>
-            <input
-              placeholder=""
-              type="text"
-              @click="modal.coupon2 = true"
-              style="font-size: inherit;"
-             v-model="saveData.coupon2"
-             readOnly
-            >
+            {{saveData.coupon2}}
+            
           </div>
           <div class="mint-field-clear" style="display: none;">
             <i class="mintui mintui-field-error"></i>

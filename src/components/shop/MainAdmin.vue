@@ -9,7 +9,7 @@
 <script>
 import GoodsItem from '@/components/goods/GoodsItem';
 import Aside from '@/components/shop/Aside';
-import Panel from '@/components/shop/Panel';
+import Panel from '@/components/shop/PanelAdmin';
 
 export default {
   mounted() {

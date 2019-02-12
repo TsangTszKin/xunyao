@@ -394,7 +394,7 @@ export default {
 
 <style lang="less" scoped>
 .goods-save {
-  > p {
+  > div > p {
     // text-align: center;
     margin: 20px;
     padding: 0 10%;

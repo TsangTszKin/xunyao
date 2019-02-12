@@ -1,40 +1,37 @@
 <template>
-  <li class="goods" style="width: calc(50% - 20px)" @click="$router.push({path: '/detail'})">
-    <div class="ui-img-div">
-      <img src="../../assets/images/goods.jpg">
-    </div>
+  <li class="goods">
     <div class="brief">
-      <p class="name">{{this.data.goodsName}}</p>
-      <p class="size">{{this.data.size}}</p>
-      <p class="status">
+      <p class="name" @click="$router.push({path: '/detail'})">{{this.data.goodsName}}</p>
+      <p class="size" @click="$router.push({path: '/detail'})">{{this.data.size}}</p>
+      <p class="status" @click="$router.push({path: '/detail'})">
         <span style="font-size: 13px;color:red;">参考价￥</span>
         <span class="price">{{this.data.price}}</span>
-        <!-- <span class="stock">
-          库存
-          <i style="margin: 0 3px;">有</i>
-        </span>-->
       </p>
       <p class="status" style="height: 20px;">
-        <span class="stock" style="position: relative;">库存
-          <i style="margin: 0 3px;">{{this.data.stock}}</i>件
-          <!-- <i style="margin: 0 3px;">有</i> -->
+        <span class="stock" style="position: relative;" v-if="isHave">
+          库存
+          <i
+            style="margin: 0 3px;color: #38af43;"
+            class="fa fa-toggle-on fa-lg"
+            @click="changeIsHave"
+          ></i>有
+        </span>
+        <span class="stock" style="position: relative;" v-if="!isHave">
+          库存
+          <i style="margin: 0 3px;" class="fa fa-toggle-off fa-lg" @click="changeIsHave"></i>无
+        </span>
+        
+        <span class="delete">
+          <i style="margin: 0 3px;" class="fa fa-trash-o fa-lg" @click="deleteFunc"></i>
         </span>
       </p>
-      <!-- <div class="shop">
-        <p class="name">{{this.data.shopName}}</p>
-        <router-link :to="{name: '店铺主页'}">
-          <p class="in">
-            进店
-            <i class="fa fa-angle-right fa-lg"></i>
-          </p>
-        </router-link>
-      </div>-->
     </div>
-    <div style="clear: both;"></div>
   </li>
 </template>
 
 <script>
+import { MessageBox } from 'mint-ui';
+
 export default {
   props: {
     data: {
@@ -43,6 +40,23 @@ export default {
         return {}
       }
     },
+  },
+  data() {
+    return {
+      isHave: true
+    }
+  },
+  methods: {
+    changeIsHave() {
+      this.isHave = !this.isHave;
+    },
+    deleteFunc() {
+      MessageBox.confirm('确定删除该商品?', '提示').then(action => {
+        MessageBox.alert('删除成功', '提示');
+      }).catch(action => {
+        // MessageBox.alert('取消删除', '提示');
+      });
+    }
   }
 }
 </script>
@@ -50,11 +64,9 @@ export default {
 
 <style lang="less" scoped>
 .goods {
-  // height: 110px;
-  // padding: 5px 10px;
-  // width: 50%;
-  float: left;
-  padding: 10px;
+  height: 110px;
+  padding: 10px 10px;
+  border-top: 1px solid #eee;
   > .ui-img-div {
     display: webkit-flex;
     display: flex;
@@ -64,7 +76,7 @@ export default {
 
     height: 100%;
     float: left;
-    width: 100%;
+    width: 40%;
     // border-radius: 8px;
     -moz-box-shadow: 0px 1px 3px #808080;
     -webkit-box-shadow: 0px 1px 3px #808080;
@@ -76,8 +88,9 @@ export default {
   > .brief {
     height: 100%;
     float: left;
-    padding: 7px 7px 0 7px;
-    width: 100%;
+    padding: 0 7px;
+    // width: calc(55% - 14);
+
     > p {
       margin-bottom: 4px;
     }
@@ -111,6 +124,11 @@ export default {
         font-weight: bold;
       }
       > .stock {
+        font-size: 13px;
+        position: absolute;
+        right: 0;
+      }
+      > .delete {
         font-size: 13px;
         position: absolute;
         right: 0;

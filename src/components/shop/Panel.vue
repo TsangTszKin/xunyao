@@ -17,7 +17,7 @@ export default {
   components: {
     'goods-item': GoodsItem,
     'goods-item2': GoodsItem2,
-    'goods-item3': GoodsItem3
+    'goods-item3': GoodsItem3,
   },
   props: {
     goods: {

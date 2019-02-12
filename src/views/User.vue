@@ -86,14 +86,14 @@
                 <span>收货地址</span><i class="icon-go"></i>
               </p>
             </router-link>
-            <router-link class="my-vip-top ho" :to="{ name: '我的好友'}" >
+            <!-- <router-link class="my-vip-top ho" :to="{ name: '我的好友'}" >
               <div class="my-vip-top-div">
                 <i class="fa fa-users fa-lg"></i>
               </div>
               <p>
                 <span>我的好友</span><i class="icon-go"></i>
               </p>
-            </router-link>
+            </router-link> -->
             <router-link class="my-vip-bottom ho" :to="{ name: '足迹'}">
               <div>
                 <i class="fa fa-eye fa-lg"></i>

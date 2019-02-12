@@ -8,9 +8,10 @@
     top: 40px;
     width: 100%;
     z-index: 999;">
-        <mt-tab-item id="1">店铺消息列表</mt-tab-item>
+        <mt-tab-item id="1">店铺消息</mt-tab-item>
         <mt-tab-item id="2">订阅</mt-tab-item>
         <mt-tab-item id="3">通知</mt-tab-item>
+        <mt-tab-item id="4">好友</mt-tab-item>
       </mt-navbar>
 
       <!-- tab-container -->
@@ -19,10 +20,13 @@
           <Cell v-for="(n, key) in 4" :key="key+Math.random()" @click.native="showMore"/>
         </mt-tab-container-item>
         <mt-tab-container-item id="2">
-          <Cell v-for="(n, key) in 4" :key="key+Math.random()" @click.native="showMore"/>
+          <Cell v-for="(n, key) in 6" :key="key+Math.random()" @click.native="showMore"/>
         </mt-tab-container-item>
         <mt-tab-container-item id="3">
-          <Cell v-for="(n, key) in 4" :key="key+Math.random()" @click.native="showMore"/>
+          <Cell v-for="(n, key) in 8" :key="key+Math.random()" @click.native="showMore"/>
+        </mt-tab-container-item>
+         <mt-tab-container-item id="4">
+          <Cell v-for="(n, key) in 9" :key="key+Math.random()" @click.native="showMore"/>
         </mt-tab-container-item>
       </mt-tab-container>
     </div>

@@ -16,11 +16,14 @@
           <!-- <span>${{k.price}}</span> -->
         </a>
         <div class="section3-list-left">
-          <h4>店铺{{k.title}}</h4>
+          <h4>海王星辰（天河店）{{k.title}}</h4>
           <div class="time">
-            <span class="time-num">店铺描述店铺描述</span>
+            <span class="time-num">距离1.7km</span>
           </div>
           <p class="start">店铺地址： 广东省广州市天河区车陂社区</p>
+          <p class="coupon">
+              <span>满减</span>满20减5，满50减10
+            </p>
         </div>
       </li>
     </ul>
@@ -36,7 +39,7 @@ import { Lazyload } from 'mint-ui';
 export default {
   data() {
     return {
-      list: [1,2,3,4,5],
+      list: [1, 2, 3, 4, 5],
       banner: '',
       dom: [{
         num1: '',
@@ -100,6 +103,8 @@ export default {
       -webkit-box-sizing: border-box;
       box-sizing: border-box;
       width: 100%;
+
+      border-bottom: 1px solid #dcdcdc85;
       .section3-list-left {
         padding: 5vw 3vw;
         width: 80%;
@@ -108,6 +113,7 @@ export default {
           line-height: 4.8vw;
           margin-bottom: 1.2vw;
           letter-spacing: 0.42vw;
+          color: #000;
         }
         .time {
           .time-num {
@@ -117,7 +123,8 @@ export default {
             color: #fff;
             border-radius: 0.5vw;
             background-color: #444;
-            .fz(font-size, 26);
+            // .fz(font-size, 26);
+            font-size: 12px;
             letter-spacing: 0.3vw;
           }
           .time-col {
@@ -131,9 +138,21 @@ export default {
         }
 
         .start {
-          .fz(font-size, 30);
+          // .fz(font-size, 30);
+          font-size: 12px;
           padding-top: 1vw;
           letter-spacing: 0.3vw;
+        }
+        .coupon {
+          font-size: 12px;
+          margin-top: 5px;
+          > span {
+            border: 1px solid #ef4f4f;
+            padding: 0 2px;
+            border-radius: 2px;
+            color: #ef4f4f;
+            margin-right: 5px;
+          }
         }
       }
 
@@ -146,6 +165,7 @@ export default {
           display: block;
           width: 100%;
           background-color: gold;
+          border-radius: 8px;
         }
         span {
           padding: 0.3vw 1.2vw;

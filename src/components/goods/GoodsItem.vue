@@ -17,8 +17,8 @@
        <p class="status" style="height: 20px;">
         <span class="stock" style="position: relative;">
           库存
-          <!-- <i style="margin: 0 3px;">{{this.data.stock}}</i>件 -->
-          <i style="margin: 0 3px;">有</i>
+          <i style="margin: 0 3px;">{{this.data.stock}}</i>件
+          <!-- <i style="margin: 0 3px;">有</i> -->
         </span>
       </p>
       <!-- <div class="shop">

@@ -10,9 +10,9 @@
       <div class="ui-img-div">
         <img src="../assets/images/shop.jpg">
       </div>
-      <div class="bref" style=" width: calc(100% - 55px - 16px);">
+      <div class="bref" style=" width: calc(100% - 70px - 16px);">
         <p class="name">添色彩绘旗舰店
-          <!-- <i class="fa fa-search fa-lg search">搜索</i> -->
+          <!-- <span class="location">地址：广东省广州市天河区车陂社区</span> -->
         </p>
         <p class="location">地址：广东省广州市天河区车陂社区</p>
       </div>
@@ -43,7 +43,7 @@ export default {
  <style lang="less" scoped>
 .shop {
   > .shopInfo {
-    padding: 10px 10px 0 10px;
+    padding: 10px 10px 10px 10px;
     margin-top: 40px;
     > .ui-img-div {
       display: webkit-flex;
@@ -53,18 +53,18 @@ export default {
       align-items: center;
       height: 70px;
       width: 70px;
-      border-radius: 50%;
+      border-radius: 10px;
       margin: auto;
-      // float: left;
+      float: left;
       > img {
         width: 100%;
       }
     }
     > .bref {
-      // float: left;
-      padding: 5px 8px;
-      text-align: center;
-      margin: auto;
+      float: left;
+      // padding: 5px 8px;
+      // text-align: center;
+      margin: 16px 0 0 10px;
       > .name {
         height: 25px;
         color: #000;
