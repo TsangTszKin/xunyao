@@ -41,7 +41,7 @@ import { InfiniteScroll, Indicator, Button, Header, Search } from 'mint-ui';
 import GoodsItem from '@/components/goods/GoodsItem';
 import LoadingForList from '@/components/LoadingForList';
 import Footer from '@/common/_footer.vue'
-import Main from '@/components/shop/Main';
+import Main from '@/components/shop/MainAdmin';
 
 export default {
   data() {
