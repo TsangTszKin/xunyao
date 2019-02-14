@@ -1,7 +1,7 @@
 <template lang="html">
   <div class="detail">
     <v-swiper :imgs="[product.productImg]" />
-    <v-chose :name="product.name" :discountPrice="product.discountPrice" :stock="product.stock" :manufacturer="product.manufacturer" />
+    <v-chose :name="product.name" :discountPrice="product.discountPrice" :stock="product.stock" :manufacturer="product.manufacturer" :specification="product.specification" />
     <v-content :productExplain="product.productExplain" />
   <div class="ralative">
     <p class="title">相关药品</p>

@@ -110,6 +110,8 @@ export default {
       let quantity = this.number;
       cartService.addCart(productId, quantity).then(res => {
         if (!common.isOk(res)) return
+        this.modal = false;
+
       }).catch(() => { })
     }
   }

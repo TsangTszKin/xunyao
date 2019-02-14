@@ -8,7 +8,7 @@
       <span>￥{{discountPrice}}元</span>
       <p class="" style="font-size: 12px;
     margin-top: 5px;">
-          规格：{{stock}}
+          规格：{{specification}}
       </p>
        <p class="" style="font-size: 12px;
     margin-top: 5px;">
@@ -62,13 +62,17 @@ export default {
       default: 0
     },
     stock: {
-      type: String,
-      default: ''
+      type: Number,
+      default: 0
     },
     manufacturer: {
       type: String,
       default: ''
     },
+    specification: {
+      type: String,
+      default: ''
+    }
   },
   computed: mapState({
 
