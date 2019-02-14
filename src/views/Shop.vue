@@ -2,24 +2,25 @@
   <div class="shop">
     <mt-header title="店铺主页">
       <mt-button icon="back" slot="left" @click="$router.go(-1)"></mt-button>
-      <router-link :to="{name:'搜索页'}" slot="right">
+      <router-link :to="{name:'搜索商品'}" slot="right">
         <mt-button icon="search" style="margin-left: 30px;"></mt-button>
       </router-link>
     </mt-header>
     <div class="shopInfo">
       <div class="ui-img-div">
-        <img src="../assets/images/shop.jpg">
+        <img :src="shop.shopLogo">
       </div>
       <div class="bref" style=" width: calc(100% - 70px - 16px);">
-        <p class="name">添色彩绘旗舰店
+        <p class="name">
+          {{shop.shopName}}
           <!-- <span class="location">地址：广东省广州市天河区车陂社区</span> -->
         </p>
-        <p class="location">地址：广东省广州市天河区车陂社区</p>
+        <p class="location">地址：{{shop.address}}</p>
       </div>
       <div style="clear: both;"></div>
     </div>
-    <shop-swiper/>
-    <shop-main/>
+    <shop-swiper :adList="adList" />
+    <shop-main :categories="classList" :shopId="shop.shopId" />
   </div>
 </template>
 
@@ -27,6 +28,9 @@
 import Header from '@/common/_header.vue';
 import ShopSwiper from '@/components/shop/Swiper';
 import Main from '@/components/shop/Main';
+import shopService from '@/api/shopService';
+import common from '@/util/common';
+
 
 export default {
   components: {
@@ -36,6 +40,62 @@ export default {
   },
   mounted() {
     window.scrollTo(0, 0);
+    this.getShopInfo(this.$route.params.id);
+  },
+  data() {
+    return {
+      shop: {
+        // "shopId": 2,
+        // "createDate": null,
+        // "updateDate": null,
+        // "delFlag": "1",
+        // "remarks": "1",
+        // "ownerId": 2,
+        // "userName": "张明",
+        // "shopName": "张明家的店",
+        // "distance": null,
+        // "shopLogo": "http://47.106.168.53:8094/20190124/83244be702ab4907924d865569c6dba4.jpg",
+        // "address": "广州黄埔",
+        // "longitude": 1,
+        // "latitude": 1,
+        // "phone": "13570412412",
+        // "telephone": "020-88545852",
+        // "businessTime": "早上10点至晚上22点",
+        // "shopService": 1,
+        // "drugLicensing": "1",
+        // "businessLicense": "1",
+        // "drugQuality": "1",
+        // "otherQualifications": "1",
+        // "isClosed": 0
+      },
+      adList: [],
+      classList: [
+        // {
+        //   "id": 7,
+        //   "className": "五官用药",
+        //   "bySort": 1
+        // }
+      ]
+    }
+  },
+  methods: {
+    getShopInfo(shopId) {
+      shopService.getShopInfo(shopId).then(res => {
+        if (!common.isOk(res)) return
+        if (common.isEmpty(res.data.shop)) {
+          this.shop = {};
+        } else {
+          this.shop = res.data.shop;
+        }
+        this.adList = res.data.adList;
+        this.classList = res.data.classList;
+        if (common.isEmpty(res.data.classList)) {
+          this.$store.commit('CHANGE_SHOP_SELECT_CATE', {});
+        } else {
+          this.$store.commit('CHANGE_SHOP_SELECT_CATE', res.data.classList[0]);
+        }
+      })
+    }
   }
 }
 </script>
@@ -56,6 +116,8 @@ export default {
       border-radius: 10px;
       margin: auto;
       float: left;
+
+      border: 1px solid gainsboro;
       > img {
         width: 100%;
       }

@@ -1,14 +1,14 @@
 <template>
   <li class="goods" @click="$router.push({path: '/detail'})">
     <div class="ui-img-div">
-      <img src="../../assets/images/goods.jpg">
+      <img :src="data.productImg">
     </div>
     <div class="brief" style="width: calc(60% - 14px)">
-      <p class="name">{{this.data.goodsName}}</p>
-      <p class="size">{{this.data.size}}</p>
+      <p class="name">{{this.data.name}}</p>
+      <p class="size">{{this.data.specification}}</p>
       <p class="status">
         <span style="font-size: 13px;color:red;">参考价￥</span>
-        <span class="price">{{this.data.price}}</span>
+        <span class="price">{{this.data.prescription}}</span>
         <!-- <span class="stock">
           库存
           <i style="margin: 0 3px;">有</i>

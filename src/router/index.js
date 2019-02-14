@@ -18,6 +18,7 @@ const Car = resolve => require(['@/views/Car.vue'], resolve)
 const User = resolve => require(['@/views/User.vue'], resolve)
 const Detail = resolve => require(['@/views/Detail.vue'], resolve)
 const Search = resolve => require(['@/views/Search.vue'], resolve)
+const SearchGoods = resolve => require(['@/views/SearchGoods.vue'], resolve)
 const Pay = resolve => require(['@/components/car/pay/pay.vue'], resolve)
 const Login = resolve => require(['@/views/login.vue'], resolve)
 const UserInfo = resolve => require(['@/views/my/UserInfo.vue'], resolve)
@@ -63,7 +64,7 @@ export default new Router({
       requireAuth: true
     }
   }, {
-    path: '/shop',
+    path: '/shop/:id',
     name: '店铺主页',
     component: Shop,
     meta: {
@@ -120,7 +121,7 @@ export default new Router({
       requireAuth: true,  // 添加该字段，表示进入这个路由是需要登录才能进入的
     },
   }, {
-    path: '/detail',
+    path: '/detail/:id',
     name: '详情页',
     component: Detail,
     meta: {
@@ -130,6 +131,13 @@ export default new Router({
     path: '/search',
     name: '搜索页',
     component: Search,
+    meta: {
+      requireAuth: true
+    }
+  }, {
+    path: '/searchGoods',
+    name: '搜索商品',
+    component: SearchGoods,
     meta: {
       requireAuth: true
     }

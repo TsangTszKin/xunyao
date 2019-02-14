@@ -2,17 +2,17 @@
   <section class="chose" v-if="view">
     <div class="chose-view">
       <h1 class="chose-view-title">
-        三康盐酸氨基葡萄糖胶囊0.24g*40粒/盒关节炎
+        {{name}}
         <!-- <span>(已选 {{colText}} - {{sizeText}})</span> -->
       </h1>
-      <span>￥{{view.price}}元</span>
+      <span>￥{{discountPrice}}元</span>
       <p class="" style="font-size: 12px;
     margin-top: 5px;">
-          规格：16支/盒
+          规格：{{stock}}
       </p>
        <p class="" style="font-size: 12px;
     margin-top: 5px;">
-          厂家：浙江诚意药业股份有限公司
+          厂家：{{manufacturer}}
       </p>
     </div>
   <!-- 添加空函数 解决Safari浏览器 :active无效 -->
@@ -52,7 +52,24 @@ import {
 
 
 export default {
-
+  props: {
+    name: {
+      type: String,
+      default: ''
+    },
+    discountPrice: {
+      type: Number,
+      default: 0
+    },
+    stock: {
+      type: String,
+      default: ''
+    },
+    manufacturer: {
+      type: String,
+      default: ''
+    },
+  },
   computed: mapState({
 
     view: state => state.detail.productDatas.view,

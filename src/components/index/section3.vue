@@ -9,21 +9,22 @@
       
     </h2>
     <ul class="section3-list">
-      <li v-for="k in list" :key='k.id' @click="$router.push({path: '/shop'})">
+      <li v-for="(k, index) in list" :key='index' @click="$router.push({path: '/shop/'+k.shopId})">
         
         <a class="section3-list-right">
-           <img src="../../assets/images/shop.jpg">
+           <img :src="k.shopLogo">
           <!-- <span>${{k.price}}</span> -->
         </a>
         <div class="section3-list-left">
-          <h4>海王星辰（天河店）{{k.title}}</h4>
+          <h4>{{k.shopName}}</h4>
           <div class="time">
-            <span class="time-num">距离1.7km</span>
+            <span class="time-num">距离{{k.distance}}</span>
           </div>
-          <p class="start">店铺地址： 广东省广州市天河区车陂社区</p>
+          <p class="start">店铺地址： {{k.address}}</p>
           <p class="coupon">
-              <span>满减</span>满20减5，满50减10
-            </p>
+              <span>满减</span>
+              <!-- 满20减5，满50减10 -->
+          </p>
         </div>
       </li>
     </ul>
@@ -34,35 +35,87 @@
 </template>
 
 <script>
-import { Lazyload } from 'mint-ui';
+import { Lazyload, Toast } from 'mint-ui';
+import homeService from '@/api/homeService';
+import common from '@/util/common';
 
 export default {
   data() {
     return {
-      list: [1, 2, 3, 4, 5],
-      banner: '',
-      dom: [{
-        num1: '',
-        num2: '',
-        num3: ''
-      }, {
-        num1: '',
-        num2: '',
-        num3: ''
-      }, {
-        num1: '',
-        num2: '',
-        num3: ''
-      }, {
-        num1: '',
-        num2: '',
-        num3: ''
-      }]
+      list: [],
     }
   },
   mounted() {
 
+    let self = this;
+    let timer = setInterval(() => {
+      if (!common.isEmpty(BMap)) {
+        self.locationInit();
+        clearInterval(timer);
+      }
+    }, 500)
 
+  },
+  methods: {
+    getNearShopList(lng, lat) {
+      homeService.getNearShopList(lng, lat).then(res => {
+        if (!common.isOk(res)) return
+        let data = res.data.data;
+        data.forEach(element => {
+          if (element.distance > 1000) {
+            element.distance = (element.distance / 1000).toFixed(1) + 'km';
+          } else {
+            element.distance = element.distance.toFixed(1) + 'm';
+          }
+        })
+        this.list = data;
+      })
+    },
+    locationInit() {
+      // 百度地图API功能
+      let self = this;
+      var map = new BMap.Map("allmap");
+
+
+      var geolocation = new BMap.Geolocation();
+      geolocation.getCurrentPosition(function (r) {
+        if (this.getStatus() == BMAP_STATUS_SUCCESS) {
+          map.panTo(r.point);
+          // alert('您的位置：' + r.point.lng + ',' + r.point.lat);
+          var point = new BMap.Point(r.point.lng, r.point.lat);
+          self.getNearShopList(r.point.lng, r.point.lat);
+        }
+        else {
+          Toast("定位失败。原因：", self.locationFailReason(this.getStatus()));
+          console.error('failed' + this.getStatus());
+        }
+      }, { enableHighAccuracy: true })
+
+    },
+    locationFailReason(code) {
+      switch (code) {
+        case 0:
+          return '检索成功'
+        case 1:
+          return '城市列表'
+        case 2:
+          return '位置结果未知'
+        case 3:
+          return '导航结果未知'
+        case 4:
+          return '非法密钥'
+        case 5:
+          return '非法请求'
+        case 6:
+          return '没有权限'
+        case 7:
+          return '服务不可用'
+        case 8:
+          return '超时'
+        default:
+          return '原因未知'
+      }
+    },
   }
 }
 </script>

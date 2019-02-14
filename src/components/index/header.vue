@@ -71,6 +71,8 @@ export default {
           map.panTo(r.point);
           // alert('您的位置：' + r.point.lng + ',' + r.point.lat);
           var point = new BMap.Point(r.point.lng, r.point.lat);
+          localStorage.lng = r.point.lng;
+          localStorage.lat = r.point.lat;
 
           var geoc = new BMap.Geocoder();
 

@@ -1,6 +1,6 @@
 <template lang="html">
   <footer class="footer">
-    <router-link :to="{name:'店铺主页'}" class="footer-index">
+    <router-link :to="{name:'店铺主页', params:{id: shopId}}" class="footer-index">
       <i class="icon-index"></i>
     </router-link>
     <router-link  :to="{name:'购物车'}" class="footer-gocar">
@@ -20,6 +20,7 @@
 import { MessageBox } from 'mint-ui';
 import { Toast } from 'mint-ui';
 export default {
+  props: ["shopId", "name", "discountPrice", "specification", "productImg", "id",],
   computed: {
 
     count() {
@@ -44,12 +45,12 @@ export default {
     addIntoCar() {
       //  mint-ui的弹出式提示框
       const product = [{
-        title: this.productDatasView.title,
-        price: this.productDatasView.price,
-        size: this.productDatasView.chose[this.sizeSelected].size,
-        col: this.productDatasView.chose[this.colSelected].col,
-        id: this.productDatasView.id,
-        imgPath: this.$store.state.detail.productDatas.swiper[0].imgSrc,
+        title: this.name,
+        price: this.discountPrice,
+        size: this.specification,
+        // col: this.productDatasView.chose[this.colSelected].col,
+        id: this.id,
+        imgPath: this.productImg,
         choseBool: false
       }];
 
@@ -59,9 +60,9 @@ export default {
         (
         `商品名称:${product[0].title}</br>` +
         `价格:${product[0].price}</br>` +
-        `规格:${product[0].size}</br>` +
-        `颜色:${product[0].col}</br>` +
-        `商品ID:${product[0].id}</br>`
+        `规格:${product[0].size}</br>`
+        // `颜色:${product[0].col}</br>` +
+        // `商品ID:${product[0].id}</br>`
         )
         .then(action => {      //点击成功执行这里的函数
           this.$store.dispatch('setLocalCount', true);

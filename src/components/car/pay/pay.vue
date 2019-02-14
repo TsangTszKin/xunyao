@@ -160,7 +160,13 @@
           <a>
             <img :src="k.imgPath" alt="">
             <div>
-              <h2><span style="color:#ee7150"> {{k.size}} - {{k.col}} </span>- {{k.title}} -</h2>
+              <h2>
+                <span style="color:#ee7150"> 
+                  {{k.size}} 
+                  <!-- - 
+                  {{k.col}}  -->
+                </span>- {{k.title}} -
+                </h2>
               <p>{{k.price}} 元</p>
             </div>
           </a>
@@ -387,7 +393,7 @@ export default {
 .pay {
   width: 100%;
   background-color: #f7f7f7;
-
+  height: 100%;
   .pay-address {
     background-color: #fff;
     border-bottom: 1 * 10vw/75 solid #dedede;

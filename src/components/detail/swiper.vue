@@ -1,8 +1,8 @@
 <template lang="html">
     <div class="swiper">
       <mt-swipe :auto="4000">
-        <mt-swipe-item v-for="k in swiper" :key="k.id">
-           <img src="../../assets/images/goods.jpg">
+        <mt-swipe-item v-for="(item, index) in imgs" :key="index">
+           <img :src="item">
         </mt-swipe-item>
       </mt-swipe>
       <div class="back" @click="$router.go(-1)">
@@ -14,8 +14,16 @@
 
 <script>
 export default {
+  props: {
+    imgs: {
+      type: Array,
+      default: function () {
+        return []
+      }
+    },
+  },
   computed: {
-    swiper () {
+    swiper() {
       return this.$store.state.detail.productDatas.swiper
     }
   }
@@ -52,7 +60,7 @@ export default {
     span {
       display: inline-block;
       line-height: 7vw;
-      .fz(font-size,40);
+      .fz(font-size, 40);
       transform: rotate(-180deg);
       &::before {
         color: #fff;

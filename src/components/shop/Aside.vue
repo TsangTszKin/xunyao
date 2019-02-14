@@ -6,13 +6,16 @@
         :class="item.id === $store.state.shop.selectCate.id?'active-cell': ''"
         v-for="(item,i) in categories"
         @click="changeCate(item)"
-      >{{item.name}}</li>
+      >{{item.className}}</li>
     </ul>
   </aside>
 </template>
 
 <script>
 import { Indicator } from 'mint-ui';
+import goodsService from '@/api/goodsService';
+import common from '@/util/common';
+
 export default {
   props: {
     categories: {
@@ -21,12 +24,34 @@ export default {
         return []
       }
     },
+    shopId: {
+      type: Number,
+      default: 0
+    }
+  },
+  mounted() {
+
   },
   methods: {
     changeCate(item) {
-      Indicator.open();
+      window.scrollTo(0, 0);
       this.$store.commit('CHANGE_SHOP_SELECT_CATE', item);
-      setTimeout(() => { Indicator.close() }, 200)
+      this.getGoodsList(this.shopId, this.$store.state.shop.selectCate.id);
+    },
+    getGoodsList(shopId, classId) {
+      Indicator.open();
+      goodsService.getGoodsList(shopId, classId).then(res => {
+        Indicator.close()
+        if (!common.isOk(res)) return
+        let list = res.data.data.list;
+        this.$store.commit('CHANGE_GOODSLIST_BY_SHOPANDCATE', list);
+
+      }).catch(() => { Indicator.close() })
+    }
+  },
+  watch: {
+    shopId(value) {
+      this.getGoodsList(value, this.$store.state.shop.selectCate.id);
     }
   }
 }

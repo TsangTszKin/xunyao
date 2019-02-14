@@ -1,15 +1,15 @@
 <template lang="html">
   <section class="content">
     <p class="title">说明书</p>
-    <div class="img-wrap">
-      <img src="../../assets/images/details1.jpg">
+    <div style="padding: 10px;">
+      {{productExplain}}
     </div>
-    <div class="img-wrap">
+    <!-- <div class="img-wrap">
       <img src="../../assets/images/details2.jpg">
     </div>
     <div class="img-wrap">
       <img src="../../assets/images/details3.jpg">
-    </div>
+    </div> -->
 
   </section>
 
@@ -17,6 +17,12 @@
 
 <script>
 export default {
+  props: {
+    productExplain: {
+      type: String,
+      default: ''
+    }
+  },
   computed: {
     content() {
       return this.$store.state.detail.productDatas.contentImgSrc
