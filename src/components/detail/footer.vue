@@ -8,41 +8,72 @@
       <i class="fa fa-shopping-cart fa-lg" style="position: relative;
     top: -5px;
     font-size: 29px;" ></i>
-      <span v-if="count">{{count}}</span>
+      <!-- <span v-if="count">{{count}}</span> -->
     </router-link>
     <span class="footer-addcar" @click="addIntoCar">
       加入购物车
     </span>
+
+    <mt-popup
+      v-model="modal"
+      position="bottom"
+      class="v-detail-modal"
+      :modal="true"
+      :closeOnClickModal="true"
+      >
+      <ul>
+        <goods-item :data="goods" />
+      </ul>
+      <mt-field label="购买数量" placeholder="" type="number" v-model="number"></mt-field>
+      <p class="p-btn">
+        <mt-button type="primary" class="btn" @click="addCart">确定</mt-button>
+      </p>
+    </mt-popup>
+
   </footer>
 </template>
 
 <script>
-import { MessageBox } from 'mint-ui';
-import { Toast } from 'mint-ui';
-export default {
-  props: ["shopId", "name", "discountPrice", "specification", "productImg", "id",],
-  computed: {
+import { MessageBox, Popup, Toast, Button, Field } from 'mint-ui';
+import GoodsItem from '@/components/goods/GoodsItem';
+import cartService from '@/api/cartService';
+import common from '@/util/common';
 
-    count() {
-      //页面刷新后 数据会消失,解决:加判断
-      if (this.$store.state.detail.count == '') {
-        this.$store.commit('CHANGE_COUNT');
-      }
-      return this.$store.state.detail.count
-    },
-    productDatasView() {
-      return this.$store.state.detail.productDatas.view
-    },
-    colSelected() {
-      return this.$store.state.detail.colSelected
-    },
-    sizeSelected() {
-      return this.$store.state.detail.sizeSelected
+export default {
+  props: ["shopId", "name", "discountPrice", "specification", "productImg", "id", "stock"],
+  data() {
+    return {
+      modal: false,
+      goods: {
+        "id": 3,
+        "shopName": "张明家的店",
+        "distance": null,
+        "className": "清热解毒",
+        "name": "感冒清热颗粒(九连山)",
+        "commonName": "感冒清热颗粒",
+        "englishName": null,
+        "productImg": "http://47.106.168.53:8094/20190124/0fb5be50e7e8406ea45aa955302daece.png",
+        "oldPrice": 14,
+        "discountPrice": 0,
+        "viewCount": null
+      },
+      number: 1
     }
   },
-
+  computed: {
+  },
+  components: {
+    'mt-popup': Popup,
+    'goods-item': GoodsItem,
+    'mt-button': Button,
+    'mt-field': Field
+  },
   methods: {
     addIntoCar() {
+
+
+      this.modal = true;
+
       //  mint-ui的弹出式提示框
       const product = [{
         title: this.name,
@@ -54,26 +85,32 @@ export default {
         choseBool: false
       }];
 
+      // MessageBox
+      //   .confirm
+      //   (
+      //   `商品名称:${product[0].title}</br>` +
+      //   `价格:${product[0].price}</br>` +
+      //   `规格:${product[0].size}</br>`
+      //   // `颜色:${product[0].col}</br>` +
+      //   // `商品ID:${product[0].id}</br>`
+      //   )
+      //   .then(action => {      //点击成功执行这里的函数
+      //     this.$store.dispatch('setLocalCount', true);
+      //     this.$store.dispatch('addCarList', product);
 
-      MessageBox
-        .confirm
-        (
-        `商品名称:${product[0].title}</br>` +
-        `价格:${product[0].price}</br>` +
-        `规格:${product[0].size}</br>`
-        // `颜色:${product[0].col}</br>` +
-        // `商品ID:${product[0].id}</br>`
-        )
-        .then(action => {      //点击成功执行这里的函数
-          this.$store.dispatch('setLocalCount', true);
-          this.$store.dispatch('addCarList', product);
-
-          Toast({
-            message: '添加成功',
-            duration: 1000
-          });
-        }, function (err) {
-        });
+      //     Toast({
+      //       message: '添加成功',
+      //       duration: 1000
+      //     });
+      //   }, function (err) {
+      //   });
+    },
+    addCart() {
+      let productId = this.goods.id;
+      let quantity = this.number;
+      cartService.addCart(productId, quantity).then(res => {
+        if (!common.isOk(res)) return
+      }).catch(() => { })
     }
   }
 }
@@ -162,6 +199,21 @@ export default {
     letter-spacing: 0.2vw;
     &:active {
       background-color: #ff7d00;
+    }
+  }
+
+  > .v-detail-modal {
+    width: 100%;
+    height: 300px;
+    > .p-btn {
+      text-align: center;
+      position: fixed;
+      bottom: 20px;
+      width: 100%;
+      > .btn {
+        width: 80%;
+        margin: auto;
+      }
     }
   }
 }

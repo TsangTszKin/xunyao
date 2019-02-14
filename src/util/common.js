@@ -90,7 +90,7 @@ export default {
       return false
     } else {
       if (res.data.code != 0) {
-        Toast(res.data.message);
+        Toast(res.data.msg);
         return false
       } else {
         return true
