@@ -10,17 +10,17 @@
     line-height: 30px;
     margin: 10px;
 "
-      >李</p>
+      >{{data.receiverName.substr(0, 1)}}</p>
     </div>
 
     <mt-cell
-      title="李小白 18888888888"
+      :title="data.receiverName+' '+data.receiverPhone"
       icon="edit"
       value="编辑"
-      label="广东省广州市天河区车陂街道车陂大街车陂1号车陂1号车陂1号车陂1号"
+      :label="data.province+data.city+data.district+data.receiverAddress"
       is-link
       style="float: left;width: calc(100% - 40px);"
-      to="/addressSave"
+      :to="'/addressSave/'+data.id"
     ></mt-cell>
     <div style="clear: both;"></div>
   </div>
@@ -28,10 +28,27 @@
 
 <script>
 import { Navbar, TabItem, Header, CellSwipe, MessageBox, Button, Cell } from 'mint-ui';
+
 export default {
   components: {
     'mt-button': Button,
     'mt-cell': Cell
+  },
+  props: {
+    data: {
+      type: Object,
+      default: function () {
+        return {
+          receiverName: '收',
+          receiverPhone: '',
+          province: '',
+          city: '',
+          district: '',
+          receiverAddress: '',
+          id: ''
+        }
+      }
+    }
   }
 }
 </script>

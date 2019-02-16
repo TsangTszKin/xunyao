@@ -8,7 +8,10 @@ const errorHandler = error => {
 };
 
 export default {
-	addCart(productId, quantity) {
-		return axios.put(`${prefix}/app/sales/addCart?productId=${productId}&quantity=${quantity}`).catch(errorHandler);
+	addCart(productId, quantity, shopId) {
+		return axios.put(`${prefix}/app/sales/addCart?productId=${productId}&quantity=${quantity}&shopId=${shopId}`).catch(errorHandler);
+	},
+	cartList() {
+		return axios.put(`${prefix}/app/sales/cartList`).catch(errorHandler);
 	}
 }

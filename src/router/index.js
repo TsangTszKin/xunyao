@@ -40,7 +40,7 @@ export default new Router({
     name: '首页',
     component: Index,
     meta: {
-      requireAuth: false
+      requireAuth: true
     }
   }, {
     path: '/message',
@@ -54,7 +54,7 @@ export default new Router({
     name: '城市选择',
     component: CityPicker,
     meta: {
-      requireAuth: false
+      requireAuth: true
     }
   }, {
     path: '/goodsList',
@@ -211,7 +211,7 @@ export default new Router({
     }
   },
   {
-    path: '/addressSave',
+    path: '/addressSave/:id?',
     name: '地址保存',
     component: AddressSave,
     meta: {

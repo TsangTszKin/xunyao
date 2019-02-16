@@ -61,7 +61,8 @@ export default {
       return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
     }
     return (S4() + S4() + "-" + S4() + "-" + S4() + "-" + S4() + "-" + S4() + S4() + S4());
-  }, isEmpty(value) {
+  },
+  isEmpty(value) {
     let result = false;
     if (value == null || value == undefined) {
       result = true;
@@ -73,7 +74,8 @@ export default {
       result = true;
     }
     return result;
-  }, formatTime(time) {
+  },
+  formatTime(time) {
     //   格式：yyyy-MM-dd hh:mm:ss
     let date = new Date(Number(time));
     let Y = date.getFullYear() + '-';

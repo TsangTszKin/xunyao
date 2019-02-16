@@ -9,6 +9,7 @@ import login from './modules/login'
 import shop from './modules/shop'
 import user from './modules/user'
 import goods from './modules/goods'
+import cart from './modules/cart'
 
 
 
@@ -21,6 +22,7 @@ export default new Vuex.Store({
     login,
     shop,
     user,
-    goods
+    goods,
+    cart
   }
 })

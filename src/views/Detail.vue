@@ -11,7 +11,7 @@
     </ul>
   </div>
     <v-baseline/>
-    <v-footer :shopId="shop.shopId" :name="product.name" :discountPrice="product.discountPrice" :specification="product.specification" :productImg="product.productImg" :id="product.id" />
+    <v-footer :shopId="shop.shopId" :goods="product" />
   </div>
 </template>
 

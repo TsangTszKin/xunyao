@@ -1,229 +1,170 @@
 <template lang="html">
 
-  <div class="pay">
-    <v-header class="mint-header">
-      <h1 slot="title">确认订单</h1>
-    </v-header>
+<div class="pay">
+        <v-header class="mint-header">
+                <h1 slot="title">确认订单</h1></v-header>
+        <div class="v-content">
+                <mt-radio title="收货方式" align="right" v-model="saveData.takeWay" :options="[{label: '到店自取',value: '0'},{label: '货到付款',value: '1'}]"></mt-radio>
+                <div class="pay-address" v-if="saveData.takeWay === '1'" @click="modal.address = true">
+                        <div>
+                                <p class="main-address-per">收货人:
+                                        <span>王先生</span></p>
+                                <p class="main-address-tel">15985698749</p></div>
+                        <p>收货地址:
+                                <span>河南省郑州市中原区秦岭路8号院59号单元28层15号东户第三家</span></p>
+                        <i class="fa fa-angle-right fa-lg" style="position: absolute;top: 53px;right: 5px;"></i>
+                </div>
 
-    <div class="v-content">
-    <mt-radio
-      title="收货方式"
-       align="right"
-      v-model="saveData.takeWay"
-      :options="[{label: '到店自取',value: '0'},{label: '货到付款',value: '1'}]">
-    </mt-radio>
-    
+                <div class="shop-order" v-for="(item, i) in $store.state.cart.cartList" :key="i" v-if="item.productList.length > 0">
 
-    <div class="pay-address" v-if="saveData.takeWay === '1'" @click="modal.address = true">
-      <div>
-        <p class="main-address-per">收货人:<span>王先生</span></p>
-        <p class="main-address-tel">15985698749</p>
-      </div>
-      <p>收货地址:<span>河南省郑州市中原区秦岭路8号院59号单元28层15号东户第三家</span></p>
-      <i class="fa fa-angle-right fa-lg" style="    position: absolute;
-    top: 53px;
-    right: 5px;"></i>
-    </div>
+                        
 
-    <div class="pay-address" style="padding-left: 3vw">
-      <div>
-        <p class="main-address-per" style="line-height: 32px;"> 好友代取</p>
-        <p class="main-address-tel"><mt-switch v-model="saveData.isFriendGet"></mt-switch></p>
-      </div>
-    </div>
+                        <ul class="shop-panel" >
+                            <li >
+                              <div class="shop-info">
+                                <img :src="item.shopLogo">
+                                <span>{{item.shopName}}</span>
+                                <!-- <i class="fa fa-angle-right fa-lg" @click="$router.push({name: '店铺主页', params: {id: item.shopId}})"></i> -->
+                              </div>
 
-    <a class="mint-cell mint-field" v-if="saveData.isFriendGet"  >
-      <!---->
-      <div class="mint-cell-left"></div>
-      <div class="mint-cell-wrapper">
-        <div class="mint-cell-title">
-          <!---->
-          <span class="mint-cell-text">代取好友</span>
-          <!---->
+                              <ul class="something">
+                                <li v-for="(item2,i2) in item.productList" :key="i2">
+                                    <!-- <div class="something-left" @click="toggle(i ,k.choseBool)">
+                                      <label class="true" :class="{false:!k.choseBool}">
+                                        <input type="checkbox" :value="k.choseBool">
+                                      </label>
+                                    </div> -->
+                                    <div class="something-middle">
+                                      <img :src="item2.img">
+                                    </div>
+                                    <div class="something-right">
+                                      <p>{{item2.name}}</p>
+                                      <p style="color:rgb(199, 108, 28)"> 
+                                        <!-- {{k.col}} 
+                                        -  -->
+                                        {{item2.size}}
+                                        </p>
+                                      <p>￥{{item2.price}}<span style="position: absolute;right: 0;">x {{item2.count}}</span></p>
+                                      <p class="count">
+                                        
+                                      </p>
+                                    </div>
+                                </li>
+
+                              </ul>
+                            </li>
+
+                          </ul>
+
+                          <div class="pay-address" style="padding-left: 3vw" v-if="saveData.takeWay == 1">
+                                <div>
+                                        <p class="main-address-per" style="line-height: 32px;">好友代收</p>
+                                        <p class="main-address-tel">
+                                                <mt-switch v-model="saveData.isFriendGet"></mt-switch>
+                                        </p>
+                                </div>
+                        </div>
+                        <a class="mint-cell mint-field" v-if="saveData.isFriendGet">
+                                <div class="mint-cell-left"></div>
+                                <div class="mint-cell-wrapper">
+                                        <div class="mint-cell-title">
+                                                <span class="mint-cell-text">代收好友</span>
+                                        </div>
+                                        <div class="mint-cell-value" style="position: relative;">
+                                                <div @click="modal.friends = true">{{saveData.friend}}</div>
+                                                <router-link :to="{path:'/search'}">
+                                                        <i class="fa fa-search fa-lg" style="position: absolute;right: 10px;font-size: 14px;top: 4px;"></i>
+                                                </router-link>
+                                                <div class="mint-field-clear" style="display: none;">
+                                                        <i class="mintui mintui-field-error"></i>
+                                                </div>
+                                                <span class="mint-field-state is-default">
+                                                        <i class="mintui mintui-field-default"></i>
+                                                </span>
+                                                <div class="mint-field-other"></div>
+                                        </div>
+                                </div>
+                                <div class="mint-cell-right"></div>
+                        </a>
+                        <a class="mint-cell mint-field" v-if="saveData.takeWay === '1'" @click="modal.sendTime = true">
+                                <div class="mint-cell-left"></div>
+                                <div class="mint-cell-wrapper">
+                                        <div class="mint-cell-title">
+                                                <span class="mint-cell-text">配送时间</span>
+                                        </div>
+                                        <div class="mint-cell-value">
+                                                <div>{{saveData.sendTime+'小时后配送'}}</div>
+                                                <div class="mint-field-clear" style="display: none;">
+                                                        <i class="mintui mintui-field-error"></i>
+                                                </div>
+                                                <span class="mint-field-state is-default">
+                                                        <i class="mintui mintui-field-default"></i>
+                                                </span>
+                                                <div class="mint-field-other"></div>
+                                        </div>
+                                </div>
+                                <div class="mint-cell-right"></div>
+                        </a>
+                        <mt-field label="留言" placeholder="买家留言" type="textarea" rows="1" v-modal="saveData.remark"></mt-field>
+                        <a class="mint-cell mint-field" @click="modal.coupon1 = true">
+                                <div class="mint-cell-left"></div>
+                                <div class="mint-cell-wrapper">
+                                        <div class="mint-cell-title">
+                                                <span class="mint-cell-text">保证金抵扣券</span>
+                                        </div>
+                                        <div class="mint-cell-value">
+                                                <div>{{saveData.coupon1}}</div>
+                                                <div class="mint-field-clear" style="display: none;">
+                                                        <i class="mintui mintui-field-error"></i>
+                                                </div>
+                                                <span class="mint-field-state is-default">
+                                                        <i class="mintui mintui-field-default"></i>
+                                                </span>
+                                                <div class="mint-field-other"></div>
+                                        </div>
+                                </div>
+                                <div class="mint-cell-right"></div>
+                        </a>
+                        <a class="mint-cell mint-field" @click="modal.coupon2 = true">
+                                
+                                <div class="mint-cell-left"></div>
+                                <div class="mint-cell-wrapper">
+                                        <div class="mint-cell-title">
+                                                <span class="mint-cell-text">配送费抵扣券</span>
+                                        </div>
+                                        <div class="mint-cell-value">
+                                                <div>{{saveData.coupon2}}</div>
+                                                <div class="mint-field-clear" style="display: none;">
+                                                        <i class="mintui mintui-field-error"></i>
+                                                </div>
+                                                <span class="mint-field-state is-default">
+                                                        <i class="mintui mintui-field-default"></i>
+                                                </span>
+                                                <div class="mint-field-other"></div>
+                                        </div>
+                                </div>
+                                <div class="mint-cell-right"></div>
+                        </a>
+
+                 </div>
+                 <div style="height: 55px"></div>
+                <mt-popup v-model="modal.address" position="bottom" style="width: 100%;">
+                        <AddressPicker /></mt-popup>
+                <mt-popup v-model="modal.friends" position="bottom" style="width: 100%;">
+                        <FriendsPicker /></mt-popup>
+                <mt-popup v-model="modal.coupon1" position="bottom" style="width: 100%;">
+                        <mt-picker :slots="pickerData.coupon1"></mt-picker>
+                </mt-popup>
+                <mt-popup v-model="modal.coupon2" position="bottom" style="width: 100%;">
+                        <mt-picker :slots="pickerData.coupon2"></mt-picker>
+                </mt-popup>
+                <mt-popup v-model="modal.sendTime" position="bottom" style="width: 100%;">
+                        <mt-picker :slots="pickerData.sendTime"></mt-picker>
+                </mt-popup>
         </div>
-        <div class="mint-cell-value" style="position: relative;">
-          <div @click="modal.friends = true">
-            {{saveData.friend}}
-            
-          </div>
-          <router-link :to="{path:'/search'}" >
-          <i class="fa fa-search fa-lg" style="position: absolute;
-    right: 10px;
-    font-size: 14px;top: 4px;"></i>
-   </router-link>
-          <div class="mint-field-clear" style="display: none;">
-            <i class="mintui mintui-field-error"></i>
-          </div>
-          <span class="mint-field-state is-default">
-            <i class="mintui mintui-field-default"></i>
-          </span>
-          <div class="mint-field-other"></div>
-        </div>
-      </div>
-      <div class="mint-cell-right"></div>
-      <!---->
-    </a>
+        <v-footer :totalMoney="totalMoney"></v-footer>
+</div>
 
-    <a class="mint-cell mint-field" v-if="saveData.takeWay === '1'" @click="modal.sendTime = true">
-      <!---->
-      <div class="mint-cell-left"></div>
-      <div class="mint-cell-wrapper">
-        <div class="mint-cell-title">
-          <!---->
-          <span class="mint-cell-text">配送时间</span>
-          <!---->
-        </div>
-        <div class="mint-cell-value">
-          <div>
-            {{saveData.sendTime+'小时后配送'}}
-          </div>
-          <div class="mint-field-clear" style="display: none;">
-            <i class="mintui mintui-field-error"></i>
-          </div>
-          <span class="mint-field-state is-default">
-            <i class="mintui mintui-field-default"></i>
-          </span>
-          <div class="mint-field-other"></div>
-        </div>
-      </div>
-      <div class="mint-cell-right"></div>
-      <!---->
-    </a>
-
-
-    
-    <!-- <v-picker @getValue="getValue" :isShow="isShowPicker" /> -->
-
-    <mt-field label="留言" placeholder="买家留言" type="textarea" rows="1" v-modal="saveData.remark"></mt-field>
-
-    <a class="mint-cell mint-field"  @click="modal.coupon1 = true">
-      <!---->
-      <div class="mint-cell-left"></div>
-      <div class="mint-cell-wrapper">
-        <div class="mint-cell-title">
-          <!---->
-          <span class="mint-cell-text">保证金抵扣券</span>
-          <!---->
-        </div>
-        <div class="mint-cell-value">
-          <div>
-            {{saveData.coupon1}}
-          </div>
-          <div class="mint-field-clear" style="display: none;">
-            <i class="mintui mintui-field-error"></i>
-          </div>
-          <span class="mint-field-state is-default">
-            <i class="mintui mintui-field-default"></i>
-          </span>
-          <div class="mint-field-other"></div>
-        </div>
-      </div>
-      <div class="mint-cell-right"></div>
-      <!---->
-    </a>
-
-    <a class="mint-cell mint-field" @click="modal.coupon2 = true">
-      <!---->
-      <div class="mint-cell-left"></div>
-      <div class="mint-cell-wrapper">
-        <div class="mint-cell-title">
-          <!---->
-          <span class="mint-cell-text">配送费抵扣券</span>
-          <!---->
-        </div>
-        <div class="mint-cell-value">
-          <div>
-            {{saveData.coupon2}}
-            
-          </div>
-          <div class="mint-field-clear" style="display: none;">
-            <i class="mintui mintui-field-error"></i>
-          </div>
-          <span class="mint-field-state is-default">
-            <i class="mintui mintui-field-default"></i>
-          </span>
-          <div class="mint-field-other"></div>
-        </div>
-      </div>
-      <div class="mint-cell-right"></div>
-      <!---->
-    </a>
-
-    
-
-    <!-- <mt-field label="保证金抵扣券" type="text" :value="saveData.coupon1"></mt-field> -->
-    <!-- <mt-field label="配送费抵扣券" type="text" :value="saveData.coupon2"></mt-field> -->
-
-    <div class="pay-product">
-      <ul v-if="!confirm">
-        <li v-for="k in carList">
-          <a>
-            <img :src="k.imgPath" alt="">
-            <div>
-              <h2>
-                <span style="color:#ee7150"> 
-                  {{k.size}} 
-                  <!-- - 
-                  {{k.col}}  -->
-                </span>- {{k.title}} -
-                </h2>
-              <p>{{k.price}} 元</p>
-            </div>
-          </a>
-        </li>
-      </ul>
-
-      <!-- 支付成功后的提示 -->
-      <!-- <div class="pay-confirm" v-else>
-        支付成功!!!</br>
-        当页面数据清空</br>
-        购物车列表重新设置
-      </div> -->
-    </div>
-
-        <mt-popup
-            v-model="modal.address"
-            position="bottom"
-            style="width: 100%;"
-            >
-            <AddressPicker />
-        </mt-popup>
-        <mt-popup
-            v-model="modal.friends"
-            position="bottom"
-            style="width: 100%;"
-            >
-            <FriendsPicker />
-        </mt-popup>
-    
-        <mt-popup
-            v-model="modal.coupon1"
-            position="bottom"
-            style="width: 100%;"
-            >
-            <mt-picker :slots="pickerData.coupon1" ></mt-picker>
-        </mt-popup>
-
-        <mt-popup
-            v-model="modal.coupon2"
-            position="bottom"
-            style="width: 100%;"
-            >
-            <mt-picker :slots="pickerData.coupon2" ></mt-picker>
-        </mt-popup>
-
-         <mt-popup
-            v-model="modal.sendTime"
-            position="bottom"
-            style="width: 100%;"
-            >
-            <mt-picker :slots="pickerData.sendTime" ></mt-picker>
-        </mt-popup>
-    </div>
-
-    <v-footer :totalMoney="totalMoney" ></v-footer>
-
-  </div>
 </template>
 
 <script>
@@ -390,13 +331,14 @@ export default {
 
 <style lang="less" scoped>
 @import "../../../assets/fz.less";
+
 .pay {
   width: 100%;
   background-color: #f7f7f7;
-  height: 100%;
+  // height: 100%;
   .pay-address {
     background-color: #fff;
-    border-bottom: 1 * 10vw/75 solid #dedede;
+    border-top: 1 * 10vw/75 solid #dedede;
     padding: 30 * 10vw/75;
     position: relative;
     > div {
@@ -425,95 +367,165 @@ export default {
       line-height: 45 * 10vw/75;
     }
   }
-  .pay-product {
-    background-color: #fff;
-    height: 60vw;
-    overflow: auto;
-
-    li {
-      a {
-        display: -webkit-flex;
-        display: -ms-flex;
-        display: flex;
-        box-sizing: border-box;
-        padding: 20 * 10vw/75 30 * 10vw/75;
-        color: #4d4d4d;
-        .fz(font-size, 30px);
-        border-bottom: 1 * 10vw/75 solid #dedede;
-
-        > img {
-          display: block;
-          width: 2.5 * 10vw;
-          height: 2.5 * 10vw;
+  > .v-content .shop-order {
+    background: url("../../../assets/images/order2.jpg");
+    background-repeat: no-repeat; //不重复
+    background-size: 100%; // 满屏
+    padding: 8px 0 0 0;
+    margin-top: 10px;
+    > ul.shop-panel {
+      // margin: 10px;
+      padding: 10px;
+      // border: 1px solid #dcdcdcc7;
+      // border-radius: 8px;
+      > li {
+        > .shop-info {
+          > img {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+          }
+          > span {
+            color: #000;
+            font-size: 13px;
+            margin: 0 5px;
+          }
+          > i {
+            color: #ccc;
+          }
         }
 
-        > div {
-          box-sizing: border-box;
-          padding-left: 50 * 10vw/75;
-          width: 70%;
-          h2 {
-            padding-top: 0.09 * 10vw;
-            overflow: hidden;
-            word-break: keep-all;
-            white-space: nowrap;
-            text-overflow: ellipsis;
-          }
+        .something {
+          width: 100%;
+          > li {
+            display: -ms-flex;
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            align-items: center;
+            padding: 4vw 2vw;
+            position: relative;
+            height: 26vw;
+            .bd();
+            .something-left {
+              -ms-flex: 2;
+              -webkit-box-flex: 2;
+              flex: 2;
 
-          p {
-            text-align: right;
-            .fz(font-size, 24px);
-            padding-top: 1.4 * 10vw;
+              label {
+                float: left;
+                background: url("../../../assets/car/images/t.svg") no-repeat
+                  center center/50% 50%;
+                input {
+                  height: 14vw;
+                  width: 14vw;
+                  opacity: 0;
+                  filter: alpha(opacity=0);
+                }
+              }
+              .false {
+                background: url("../../../assets/car/images/f.svg") no-repeat
+                  center center / 50% 50% !important;
+              }
+            }
+            .something-middle {
+              -ms-flex: 3;
+              -webkit-box-flex: 3;
+              flex: 3;
+              height: 26vw;
+              padding-left: 2vw;
+              -webkit-box-sizing: border-box;
+              box-sizing: border-box;
+              img {
+                display: block;
+                width: 100%;
+                height: 100%;
+              }
+            }
+            .something-right {
+              -ms-flex: 7;
+              -webkit-box-flex: 7;
+              flex: 7;
+              height: 100%;
+              display: -ms-flex;
+              display: -webkit-box;
+              display: -ms-flexbox;
+              display: flex;
+              -webkit-box-orient: vertical;
+              -webkit-box-direction: normal;
+              -ms-flex-flow: column wrap;
+              flex-flow: column wrap;
+              -webkit-box-pack: justify;
+              -ms-flex-pack: justify;
+              justify-content: space-between;
+              padding-left: 6vw;
+              -webkit-box-sizing: border-box;
+              box-sizing: border-box;
+
+              position: relative;
+              p {
+                overflow: hidden;
+                text-overflow: ellipsis;
+                display: -webkit-box;
+                -webkit-line-clamp: 2;
+                -webkit-box-orient: vertical;
+                .fz(font-size, 26);
+              }
+              p:last-of-type {
+                .fz(font-size, 22);
+                color: rgb(168, 168, 168);
+              }
+              > p.count {
+                > input {
+                  width: 30px;
+                  border: 1px solid gainsboro;
+                  margin-top: -2px;
+                  text-align: center;
+                }
+              }
+              .something-right-bottom {
+                > div {
+                  display: -ms-flex;
+                  display: -webkit-box;
+                  display: -ms-flexbox;
+                  display: flex;
+                  -webkit-box-align: center;
+                  -ms-flex-align: center;
+                  align-items: center;
+                  input {
+                    width: 6vw;
+                    text-align: center;
+                  }
+
+                  span {
+                    height: 7vw;
+                    line-height: 7vw;
+                    width: 8vw;
+                    display: inline-block;
+                    border: 0.2vw solid #f1f1f1;
+                    border-radius: 1vw;
+                    text-align: center;
+                    font-size: 20px;
+                    cursor: pointer;
+                  }
+                }
+                > span {
+                  position: absolute;
+                  right: 0;
+                  bottom: 0;
+                  width: 13vw;
+                  height: 13vw;
+                  background: url("../../../assets/car/images/laji.svg")
+                    no-repeat center/50%;
+                }
+              }
+            }
           }
         }
       }
     }
-  }
-
-  .pay-allpay {
-    text-align: right;
-    margin-top: 6vw;
-    padding: 4vw 5vw;
-    .fz(font-size, 32px);
-    color: #999999;
-    background-color: #fff;
-    i,
-    span {
-      color: @cl;
-    }
-  }
-
-  .pay-footer {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    padding-bottom: 4vw;
-    span {
-      display: block;
-      width: 85%;
-      background-color: #fd729c;
-      border-radius: 1.3vw;
-      color: #fff;
-      font-size: 17px;
-      padding: 4vw;
-      margin: 0 auto;
-      text-align: center;
-      &:active {
-        background-color: @cl;
-      }
-    }
-  }
-
-  .pay-confirm {
-    padding: 20px 0;
-    background-color: @cl;
-    text-align: center;
-    color: #fff;
-    line-height: 30px;
-    .fz(font-size, 40);
-  }
-  .mint-field-core {
-    text-align: right;
   }
 }
 </style>

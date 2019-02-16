@@ -187,13 +187,13 @@ export default {
   },
   computed: {
     getUserNickName() {
-      return this.$store.state.user.user.nickname
+      return JSON.parse(localStorage.user).nickname
     },
     getUserImg() {
-      return this.$store.state.user.user.headimgurl
+      return JSON.parse(localStorage.user).headimgurl
     },
     getUserMobile() {
-      return this.$store.state.user.user.mobile
+      return JSON.parse(localStorage.user).mobile
     }
   }
 }

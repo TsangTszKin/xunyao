@@ -56,7 +56,7 @@ export default {
     return {
       account: '',
       password: '',
-      toggle: !this.$store.state.login.token
+      toggle: !localStorage.token
     }
   },
   methods: {

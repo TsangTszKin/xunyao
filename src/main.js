@@ -27,9 +27,11 @@ router.beforeEach((to, from, next) => {
     localStorage.token = token;
   }
   if (to.meta.requireAuth) {  // 需要权限,进一步进行判断
-    if (store.state.login.token) {  // 通过vuex state获取当前的token是否存在
+    if (localStorage.token) {  // 通过vuex state获取当前的token是否存在
       next();
-      if (!store.state.user.user.userId) getMyInfo();
+      if (!localStorage.user) {
+        getMyInfo();
+      }
 
     } else {    //如果没有权限,重定向到登录页,进行登录
       authService.goWxOauth2();
@@ -44,7 +46,7 @@ let getMyInfo = () => {
   authService.getMyInfo().then(res => {
     if (!common.isOk(res)) return
     let user = res.data.data.user;
-    store.commit('CHANGE_USER_INFO', user);
+    localStorage.user = JSON.stringify(user)
   })
 }
 

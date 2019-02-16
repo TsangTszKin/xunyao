@@ -20,35 +20,18 @@
 </template>
 
 <script>
-import {Toast} from 'mint-ui';
+import { Toast } from 'mint-ui';
 
 export default {
   computed: {
     // 勾选的商品数量
     count() {
-      // 如果已选择列表为空 就返回0
-      if (this.$store.getters.selectedList == undefined) {
-        return 0
-      } else {
-        return this.$store.getters.selectedList.length
-      }
+      return this.$store.getters.getCartAllCount
     },
 
     //勾选的商品的价格总和
     allpay() {
-      let all = 0;
-      // 如果有勾选商品,计算总价格
-      if (this.$store.getters.selectedList != undefined) {
-
-        for (let i = 0; i < this.$store.getters.selectedList.length; i++) {
-
-          all += this.$store.getters.selectedList[i].price;
-
-        }
-
-      }
-      // 没有勾选 即为0
-      return all
+      return this.$store.getters.getCartAllPrice
     }
   },
 
@@ -56,17 +39,7 @@ export default {
     //点击跳转到支付页
     goPay() {
 
-      // 如果有选择商品才能跳转
-      if (this.$store.getters.selectedList.length) {
-        // 保存+缓存选择的商品 ,在支付页能用到
-        this.$store.dispatch('setSelectedList')
-        this.$router.push({ name: '支付页' })
-
-      } else {
-
-        Toast('你还没选择商品')
-
-      }
+      this.$router.push({ name: '支付页' })
 
     }
   }

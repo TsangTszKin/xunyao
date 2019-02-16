@@ -8,7 +8,7 @@
       <i class="fa fa-shopping-cart fa-lg" style="position: relative;
     top: -5px;
     font-size: 29px;" ></i>
-      <!-- <span v-if="count">{{count}}</span> -->
+      <span v-if="count">{{count}}</span>
     </router-link>
     <span class="footer-addcar" @click="addIntoCar">
       加入购物车
@@ -40,27 +40,34 @@ import cartService from '@/api/cartService';
 import common from '@/util/common';
 
 export default {
-  props: ["shopId", "name", "discountPrice", "specification", "productImg", "id", "stock"],
+  props: ["shopId", "goods"],
   data() {
     return {
       modal: false,
-      goods: {
-        "id": 3,
-        "shopName": "张明家的店",
-        "distance": null,
-        "className": "清热解毒",
-        "name": "感冒清热颗粒(九连山)",
-        "commonName": "感冒清热颗粒",
-        "englishName": null,
-        "productImg": "http://47.106.168.53:8094/20190124/0fb5be50e7e8406ea45aa955302daece.png",
-        "oldPrice": 14,
-        "discountPrice": 0,
-        "viewCount": null
-      },
+      // goods: {
+      //   "id": 3,
+      //   "shopName": "张明家的店",
+      //   "distance": null,
+      //   "className": "清热解毒",
+      //   "name": "感冒清热颗粒(九连山)",
+      //   "commonName": "感冒清热颗粒",
+      //   "englishName": null,
+      //   "productImg": "http://47.106.168.53:8094/20190124/0fb5be50e7e8406ea45aa955302daece.png",
+      //   "oldPrice": 14,
+      //   "discountPrice": 0,
+      //   "viewCount": null
+      // },
       number: 1
     }
   },
   computed: {
+    count() {
+      //页面刷新后 数据会消失,解决:加判断
+      if (this.$store.state.detail.count == '') {
+        this.$store.commit('CHANGE_COUNT');
+      }
+      return this.$store.state.detail.count
+    },
   },
   components: {
     'mt-popup': Popup,
@@ -108,7 +115,8 @@ export default {
     addCart() {
       let productId = this.goods.id;
       let quantity = this.number;
-      cartService.addCart(productId, quantity).then(res => {
+      let shopId = this.shopId;
+      cartService.addCart(productId, quantity, shopId).then(res => {
         if (!common.isOk(res)) return
         this.modal = false;
 

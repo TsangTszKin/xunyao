@@ -21,8 +21,8 @@ api.interceptors.request.use(function (config) {
     // 在发送请求之前做些什么
     // store.commit('SET_LOADING',true);
     // 如果有token,添加到请求报文 后台会根据该报文返回status
-    if(store.state.login.token) {
-      config.headers.token = `${store.state.login.token}`;
+    if(localStorage.token) {
+      config.headers.token = `${localStorage.token}`;
     }
 
     return config;
