@@ -128,7 +128,7 @@ export default new Router({
       requireAuth: true
     }
   }, {
-    path: '/search',
+    path: '/search/:type',//shop,goods,friend
     name: '搜索页',
     component: Search,
     meta: {

@@ -15,7 +15,62 @@ export default {
     fetchLoading() {
       return this.$store.state.detail.fetchLoading
     }
-  }
+  },
+  data() {
+    return {
+      cartList: [
+        {
+          shopName: '张明家的店',
+          shopId: 2,
+          shopLogo: 'http://47.106.168.53:8094/20190124/83244be702ab4907924d865569c6dba4.jpg',
+          productList: [
+            {
+              name: '复方金银花颗粒(诺金)',
+              id: 5,
+              count: 1,
+              img: 'http://o2o.c-doctor.com/images/upload/prodimage/201604/201642614542296.jpg',
+              price: 118,
+              size: '12g*6袋'
+            },
+            {
+              name: '复方金银花颗粒(诺金)2',
+              id: 5,
+              count: 1,
+              img: 'http://o2o.c-doctor.com/images/upload/prodimage/201612/201612814485529.jpg',
+              price: 118,
+              size: '12g*6袋'
+            }
+          ]
+        },
+        {
+          shopName: '陈生陈生陈生',
+          shopId: 3,
+          shopLogo: 'http://47.106.168.53:8094/20190124/de2389e27fc346c095a85d5f1fa39953.jpg',
+          productList: [
+            {
+              name: '复方金银花颗粒(诺金)',
+              id: 5,
+              count: 1,
+              img: 'http://o2o.c-doctor.com/images/upload/prodimage/201604/201642614542296.jpg',
+              price: 118,
+              size: '12g*6袋'
+            },
+            {
+              name: '复方金银花颗粒(诺金)2',
+              id: 5,
+              count: 1,
+              img: 'http://o2o.c-doctor.com/images/upload/prodimage/201612/201612814485529.jpg',
+              price: 118,
+              size: '12g*6袋'
+            }
+          ]
+        }
+      ]
+    }
+  },
+  mounted(){
+     this.$store.commit("CHANGE_CART_LIST", this.cartList);
+  },
 }
 </script>
 

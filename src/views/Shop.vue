@@ -2,7 +2,10 @@
   <div class="shop">
     <mt-header title="店铺主页">
       <mt-button icon="back" slot="left" @click="$router.go(-1)"></mt-button>
-      <router-link :to="{name:'搜索商品'}" slot="right">
+      <router-link
+        :to="{name:'搜索页', params:{type: 'goods'}, query: {shopId: $route.params.id}}"
+        slot="right"
+      >
         <mt-button icon="search" style="margin-left: 30px;"></mt-button>
       </router-link>
     </mt-header>
@@ -19,8 +22,8 @@
       </div>
       <div style="clear: both;"></div>
     </div>
-    <shop-swiper :adList="adList" />
-    <shop-main :categories="classList" :shopId="shop.shopId" />
+    <shop-swiper :adList="adList"/>
+    <shop-main :categories="classList" :shopId="shop.shopId"/>
   </div>
 </template>
 

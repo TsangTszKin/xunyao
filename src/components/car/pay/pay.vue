@@ -72,7 +72,7 @@
                                         </div>
                                         <div class="mint-cell-value" style="position: relative;">
                                                 <div @click="modal.friends = true">{{saveData.friend}}</div>
-                                                <router-link :to="{path:'/search'}">
+                                                <router-link :to="{name:'搜索页', params: {type: 'friends'}}">
                                                         <i class="fa fa-search fa-lg" style="position: absolute;right: 10px;font-size: 14px;top: 4px;"></i>
                                                 </router-link>
                                                 <div class="mint-field-clear" style="display: none;">

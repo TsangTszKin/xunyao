@@ -28,8 +28,8 @@ export default {
 	getLngAndLatBtAddress(address) {
 		return axios.get(`http://api.map.baidu.com/geocoder/v2/?address=${encodeURIComponent(address)}&output=json&ak=AuOY7KgIDlUnzBsTxL7YZeo8UAfpYXmQ`).catch(errorHandler);
 	},
-	getShopList(page, query) {
-		return axios.get(`${prefix}/app/shop/shopList?pageno=${page}&size=8&query=${query}`).catch(errorHandler);
+	getShopList(page, keyword) {
+		return axios.post(`${prefix}/app/shop/shopList?pageno=${page}&size=10&keyword=${keyword}`).catch(errorHandler);
 	},
 	getShopInfo(shopId) {
 		return axios.post(`${prefix}/app/shop/index?shopId=${shopId}`).catch(errorHandler);

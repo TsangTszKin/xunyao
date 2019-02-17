@@ -24,7 +24,16 @@
       <ul>
         <goods-item :data="goods" />
       </ul>
-      <mt-field label="购买数量" placeholder="" type="number" v-model="number"></mt-field>
+      <!-- <mt-field label="购买数量" placeholder="" type="number" v-model="number"></mt-field> -->
+      <p class="count" style="    margin-top: 10px;">
+        <span style="    margin: 0px 70px 0 20px;">购买数量</span>
+                  <i class="fa fa-minus-square-o fa-lg" @click="changeItemCount('sub')" style="font-size: 18px;"></i>
+                   <input type="number" readOnly :value="number" style="width: 30px;
+                border: 1px solid gainsboro;
+                margin-top: -2px;
+                text-align: center;">
+                  <i class="fa fa-plus-square-o fa-lg" @click="changeItemCount('add')" style="font-size: 18px;"></i>
+       </p>
       <p class="p-btn">
         <mt-button type="primary" class="btn" @click="addCart">确定</mt-button>
       </p>
@@ -62,11 +71,7 @@ export default {
   },
   computed: {
     count() {
-      //页面刷新后 数据会消失,解决:加判断
-      if (this.$store.state.detail.count == '') {
-        this.$store.commit('CHANGE_COUNT');
-      }
-      return this.$store.state.detail.count
+      return this.$store.getters.getCartAllCount
     },
   },
   components: {
@@ -91,26 +96,6 @@ export default {
         imgPath: this.productImg,
         choseBool: false
       }];
-
-      // MessageBox
-      //   .confirm
-      //   (
-      //   `商品名称:${product[0].title}</br>` +
-      //   `价格:${product[0].price}</br>` +
-      //   `规格:${product[0].size}</br>`
-      //   // `颜色:${product[0].col}</br>` +
-      //   // `商品ID:${product[0].id}</br>`
-      //   )
-      //   .then(action => {      //点击成功执行这里的函数
-      //     this.$store.dispatch('setLocalCount', true);
-      //     this.$store.dispatch('addCarList', product);
-
-      //     Toast({
-      //       message: '添加成功',
-      //       duration: 1000
-      //     });
-      //   }, function (err) {
-      //   });
     },
     addCart() {
       let productId = this.goods.id;
@@ -121,7 +106,27 @@ export default {
         this.modal = false;
 
       }).catch(() => { })
-    }
+    },
+    changeItemCount(type) {//type（add,sub,replace）
+      switch (type) {
+        case 'add':
+          this.number++;
+          break;
+
+        case 'sub':
+          if (this.number > 1) {
+            this.number--;
+          } else {
+            Toast('不能再少了哦~');
+          }
+          break;
+
+          break;
+        default:
+          break;
+
+      }
+    },
   }
 }
 </script>

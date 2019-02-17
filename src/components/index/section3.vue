@@ -9,24 +9,7 @@
       
     </h2>
     <ul class="section3-list">
-      <li v-for="(k, index) in list" :key='index' @click="$router.push({path: '/shop/'+k.shopId})">
-        
-        <a class="section3-list-right">
-           <img :src="k.shopLogo">
-          <!-- <span>${{k.price}}</span> -->
-        </a>
-        <div class="section3-list-left">
-          <h4>{{k.shopName}}</h4>
-          <div class="time">
-            <span class="time-num">距离{{k.distance}}</span>
-          </div>
-          <p class="start">店铺地址： {{k.address}}</p>
-          <p class="coupon">
-              <span>满减</span>
-              <!-- 满20减5，满50减10 -->
-          </p>
-        </div>
-      </li>
+      <v-shop-cell v-for="(k, index) in list" :key='index' :shop="k" />
     </ul>
     <!-- <router-link :to="{name:'分类页'}" class="section3-banner">
       <img v-lazy="banner">
@@ -38,8 +21,12 @@
 import { Lazyload, Toast } from 'mint-ui';
 import homeService from '@/api/homeService';
 import common from '@/util/common';
+import ShopCell from '@/components/ShopCell';
 
 export default {
+  components:{
+    'v-shop-cell': ShopCell
+  },
   data() {
     return {
       list: [],

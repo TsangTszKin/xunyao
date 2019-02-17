@@ -14,4 +14,7 @@ export default {
 	getGoodsInfo(id) {
 		return axios.get(`${prefix}/app/product/productInfo?id=${id}`).catch(errorHandler);
 	},
+	searchGoodsList(page, params) {
+		return axios.post(`${prefix}/app/product/productSearch?pageno=${page}&size=10`, params).catch(errorHandler);
+	}
 }

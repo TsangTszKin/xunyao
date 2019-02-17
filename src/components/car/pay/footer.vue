@@ -3,7 +3,7 @@
     <div class="footer-result">
       <p>合计保证金：</p>
       <p>
-        <span>{{totalMoney}}</span>元
+        <span>{{allpay}}</span>元
       </p>
     </div>
     <a class="footer-pay" @click="goPay">提交订单</a>
@@ -24,6 +24,11 @@ export default {
   },
   data() {
     return {
+    }
+  },
+  computed: {
+    allpay() {
+      return this.$store.getters.getCartAllPrice
     }
   },
   methods: {
