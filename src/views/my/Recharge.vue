@@ -11,10 +11,10 @@
           <div class="denomination">
             <v-denomination v-for="(n, k) in moneyList" :key="k" :money="n" :isSelected="money == n" @change="(data)=>{money = data}" />
           </div>
-          <mt-field label="支付方式" :disableClear="true" :readonly="true"></mt-field>
+          <mt-field label="支付方式" :disableClear="true" :readonly="true" style="margin-top: 20px;"></mt-field>
           <mt-checklist
             align="right"
-            title="右对齐"
+            title=""
             :value="[1]"
             :options="[
               {
@@ -25,7 +25,9 @@
             ]">
           </mt-checklist>
           <footer class="footer">
-            <p class="prefix">共计<span>￥{{money}}</span></p>
+            <p class="prefix">共计<span style="    color: #000;">￥</span><span style="    color: #000;
+    font-size: 20px;
+    font-weight: bold;">{{money}}</span></p>
             <div  class="v-btn">
               <mt-button style="width: 100%;height: 100%;" type="primary" size="small" @click="reCharge">立即充值</mt-button>
             </div>
