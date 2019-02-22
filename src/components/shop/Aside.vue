@@ -12,9 +12,10 @@
 </template>
 
 <script>
-import { Indicator } from 'mint-ui';
+import { Indicator, Toast } from 'mint-ui';
 import goodsService from '@/api/goodsService';
 import common from '@/util/common';
+import bus from '@/util/bus';
 
 export default {
   props: {
@@ -30,13 +31,22 @@ export default {
     }
   },
   mounted() {
-
+    this.listener();
   },
   methods: {
+    listener() {
+      bus.$on("shop.aside.deleteGoods", id => this.deleteGoods(id));
+      bus.$on("shop.aside.changeGoodsStock", (goodsId, stock) => this.changeGoodsStock(goodsId, stock));
+    },
     changeCate(item) {
       window.scrollTo(0, 0);
       this.$store.commit('CHANGE_SHOP_SELECT_CATE', item);
-      this.getGoodsList(this.shopId, this.$store.state.shop.selectCate.id);
+      if (common.isEmpty(this.$route.query.classId) && common.isEmpty(this.$route.query.classId)) {
+        this.getGoodsList(this.shopId, this.$store.state.shop.selectCate.id);
+      } else {
+        this.getGoodsList2(this.$store.state.shop.selectCate.id);
+      }
+
     },
     getGoodsList(shopId, classId) {
       Indicator.open();
@@ -47,6 +57,30 @@ export default {
         this.$store.commit('CHANGE_GOODSLIST_BY_SHOPANDCATE', list);
 
       }).catch(() => { Indicator.close() })
+    },
+    getGoodsList2(classId) {
+      Indicator.open();
+      goodsService.getGoodsListByClass(classId).then(res => {
+        Indicator.close()
+        if (!common.isOk(res)) return
+        let list = res.data.data.list;
+        this.$store.commit('CHANGE_GOODSLIST_BY_SHOPANDCATE', list);
+
+      }).catch(() => { Indicator.close() })
+    },
+    deleteGoods(id) {
+      goodsService.deleteGoods(id).then(res => {
+        if (!common.isOk(res)) return
+        Toast('删除成功');
+        this.getGoodsList(this.shopId, this.$store.state.shop.selectCate.id);
+      })
+    },
+    changeGoodsStock(goodsId, stock) {
+      goodsService.changeGoodsStock(goodsId, stock).then(res => {
+        if (!common.isOk(res)) return
+        this.getGoodsList(this.shopId, this.$store.state.shop.selectCate.id);
+
+      })
     }
   },
   watch: {

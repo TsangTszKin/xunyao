@@ -1,34 +1,45 @@
 <template>
-  <li >
+  <li>
     <!-- <div class="something-left" @click="toggle(i ,k.choseBool)">
                 <label class="true" :class="{false:!k.choseBool}">
                   <input type="checkbox" :value="k.choseBool">
                 </label>
     </div>-->
-    <div class="something-middle">
-      <img :src="cartGoods.img">
+    <div class="something-middle" @click="$router.push({name: '详情页', params: {id: cartGoods.productId}})">
+      <img :src="cartGoods.productImg">
     </div>
     <div class="something-right">
-      <p>{{cartGoods.name}}</p>
+      <p
+        @click="$router.push({name: '详情页', params: {id: cartGoods.productId}})"
+      >{{cartGoods.productName}}</p>
       <p style="color:rgb(199, 108, 28)">
         <!-- {{k.col}} 
         --->
-        {{cartGoods.size}}
+        {{cartGoods.specification}}
       </p>
-      <p>参考价：{{cartGoods.price}}元</p>
+      <p>参考价：{{cartGoods.discountPrice}}元</p>
       <p class="count">
-        <i class="fa fa-minus-square-o fa-lg" @click="changeItemCount('sub',shopIndex, goodsIndex)"></i>
+        <i
+          class="fa fa-minus-square-o fa-lg"
+          @click="changeItemCount('sub', cartGoods.shopId, cartGoods.productId, shopIndex, goodsIndex)"
+        ></i>
         <input
           type="number"
           readonly
-          :value="cartGoods.count"
+          :value="cartGoods.quantity"
           @keyup="(e)=>{
                     changeItemCount('replace', i, goodsIndex, e.target.value);
                   }"
         >
-        <i class="fa fa-plus-square-o fa-lg" @click="changeItemCount('add',shopIndex, goodsIndex)"></i>
+        <i
+          class="fa fa-plus-square-o fa-lg"
+          @click="changeItemCount('add',cartGoods.shopId,cartGoods.productId, shopIndex, goodsIndex)"
+        ></i>
       </p>
-      <div class="something-right-bottom" @click="deleteGoods(shopIndex, goodsIndex)">
+      <div
+        class="something-right-bottom"
+        @click="deleteGoods(cartGoods.productId,shopIndex, goodsIndex)"
+      >
         <span></span>
       </div>
     </div>
@@ -38,6 +49,7 @@
 <script>
 import common from '@/util/common';
 import { Toast } from 'mint-ui';
+import cartService from '@/api/cartService';
 
 export default {
   props: {
@@ -65,16 +77,21 @@ export default {
   },
   methods: {
 
-    changeItemCount(type, index1, index2, value) {//type（add,sub,replace）
+    changeItemCount(type, shopId, productId, index1, index2, value) {//type（add,sub,replace）
       let cartList = this.$store.state.cart.cartList;
       switch (type) {
         case 'add':
-          cartList[index1].productList[index2].count++;
+          cartList[index1].cartList[index2].quantity++;
+          this.addCart(productId, 1, shopId);
           break;
 
         case 'sub':
-          if (cartList[index1].productList[index2].count > 1) {
-            cartList[index1].productList[index2].count--;
+          if (cartList[index1].cartList[index2].quantity > 1) {
+            cartList[index1].cartList[index2].quantity--;
+            cartService.removeCart(productId, 1).then(res => {
+              if (!common.isOk(res)) return
+              this.getCartList();
+            });
           } else {
             Toast('不能再少了哦~');
           }
@@ -82,7 +99,7 @@ export default {
 
         case 'replace':
           if (value > 1) {
-            cartList[index1].productList[index2].count = value;
+            cartList[index1].cartList[index2].quantity = value;
           }
 
           break;
@@ -91,13 +108,45 @@ export default {
 
       }
 
+      // this.$store.commit("CHANGE_CART_LIST", cartList);
+
 
     },
-    deleteGoods(index1, index2) {
+    deleteGoods(productId, index1, index2) {
       let cartList = this.$store.state.cart.cartList;
-      cartList[index1].productList.splice(index2, 1);
+      let count = cartList[index1].cartList[index2].quantity;
+      cartList[index1].cartList.splice(index2, 1);
       this.$store.commit("CHANGE_CART_LIST", cartList);
-    }
+
+      cartService.removeCart(productId, count).then(res => {
+        if (!common.isOk(res)) return
+        this.getCartList();
+      });
+    },
+    getCartList() {
+      cartService.cartList().then(res => {
+        if (!common.isOk(res)) return
+        let data = res.data.data;
+        let cartList = [];
+        for (const key in data) {
+          if (data.hasOwnProperty(key)) {
+            const element = data[key];
+            cartList.push(element);
+          }
+        }
+        this.$store.commit("CHANGE_CART_LIST", cartList);
+        this.$store.commit("CHANGE_CART_DATA", data);
+        this.$store.commit("CHANGE_CART_SUREFREE", res.data.sureFee);
+        this.$store.commit("CHANGE_CART_TOTALFREE", res.data.totalFee);
+      })
+    },
+    addCart(productId, quantity, shopId) {
+      cartService.addCart(productId, quantity, shopId).then(res => {
+        if (!common.isOk(res)) return
+        this.modal = false;
+        this.getCartList();
+      }).catch(() => { })
+    },
   }
 }
 </script>

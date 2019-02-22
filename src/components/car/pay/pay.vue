@@ -4,77 +4,74 @@
         <v-header class="mint-header">
                 <h1 slot="title">确认订单</h1></v-header>
         <div class="v-content">
-                <mt-radio title="收货方式" align="right" v-model="saveData.takeWay" :options="[{label: '到店自取',value: '0'},{label: '货到付款',value: '1'}]"></mt-radio>
-                <div class="pay-address" v-if="saveData.takeWay === '1'" @click="modal.address = true">
+                <mt-radio title="收货方式" align="right" v-model="getType" :options="[{label: '到店自取',value: '1'},{label: '货到付款',value: '2'}]"></mt-radio>
+                <div class="pay-address" v-if="$store.state.cart.getType == '2'" @click="modal.address = true">
                         <div>
                                 <p class="main-address-per">收货人:
-                                        <span>王先生</span></p>
-                                <p class="main-address-tel">15985698749</p></div>
+                                        <span>{{mainData.address.receiverName}}</span></p>
+                                <p class="main-address-tel">{{mainData.address.receiverPhone}}</p></div>
                         <p>收货地址:
-                                <span>河南省郑州市中原区秦岭路8号院59号单元28层15号东户第三家</span></p>
+                                <span>{{mainData.address.province}}{{mainData.address.city}}{{mainData.address.district}}{{mainData.address.receiverAddress}}</span></p>
                         <i class="fa fa-angle-right fa-lg" style="position: absolute;top: 53px;right: 5px;"></i>
                 </div>
-
-                <div class="shop-order" v-for="(item, i) in $store.state.cart.cartList" :key="i" v-if="item.productList.length > 0">
-
-                        
-
-                        <ul class="shop-panel" >
-                            <li >
-                              <div class="shop-info">
-                                <img :src="item.shopLogo">
-                                <span>{{item.shopName}}</span>
-                                <!-- <i class="fa fa-angle-right fa-lg" @click="$router.push({name: '店铺主页', params: {id: item.shopId}})"></i> -->
-                              </div>
-
-                              <ul class="something">
-                                <li v-for="(item2,i2) in item.productList" :key="i2">
-                                    <!-- <div class="something-left" @click="toggle(i ,k.choseBool)">
-                                      <label class="true" :class="{false:!k.choseBool}">
-                                        <input type="checkbox" :value="k.choseBool">
-                                      </label>
-                                    </div> -->
-                                    <div class="something-middle">
-                                      <img :src="item2.img">
-                                    </div>
-                                    <div class="something-right">
-                                      <p>{{item2.name}}</p>
-                                      <p style="color:rgb(199, 108, 28)"> 
-                                        <!-- {{k.col}} 
-                                        -  -->
-                                        {{item2.size}}
-                                        </p>
-                                      <p>￥{{item2.price}}<span style="position: absolute;right: 0;">x {{item2.count}}</span></p>
-                                      <p class="count">
-                                        
-                                      </p>
-                                    </div>
+                <div class="shop-order" v-for="(item, i) in $store.state.cart.cartList" :key="i" v-if="item.cartList.length > 0">
+                        <ul class="shop-panel">
+                                <li>
+                                        <div class="shop-info">
+                                                <img :src="item.shopLogo">
+                                                <span>{{item.shopName}}</span></div>
+                                        <ul class="something">
+                                                <li v-for="(item2,i2) in item.cartList" :key="i2">
+                                                        <div class="something-middle">
+                                                                <img :src="item2.productImg"></div>
+                                                        <div class="something-right">
+                                                                <p>{{item2.productName}}</p>
+                                                                <p style="color:rgb(199, 108, 28)">{{item2.specification}}</p>
+                                                                <p>￥{{item2.discountPrice}}
+                                                                        <span style="position: absolute;right: 0;">x {{item2.quantity}}</span></p>
+                                                                <p class="count"></p>
+                                                        </div>
+                                                </li>
+                                        </ul>
                                 </li>
-
-                              </ul>
-                            </li>
-
-                          </ul>
-
-                          <div class="pay-address" style="padding-left: 3vw" v-if="saveData.takeWay == 1">
+                        </ul>
+                        <div class="pay-address" style="padding-left: 3vw" v-if="$store.state.cart.getType == 2">
                                 <div>
                                         <p class="main-address-per" style="line-height: 32px;">好友代收</p>
                                         <p class="main-address-tel">
-                                                <mt-switch v-model="saveData.isFriendGet"></mt-switch>
+                                                <mt-switch v-model="mainData.isFriendGet[i]"></mt-switch>
                                         </p>
                                 </div>
                         </div>
-                        <a class="mint-cell mint-field" v-if="saveData.isFriendGet">
+                        <a class="mint-cell mint-field" v-if="mainData.isFriendGet[i]">
                                 <div class="mint-cell-left"></div>
                                 <div class="mint-cell-wrapper">
                                         <div class="mint-cell-title">
-                                                <span class="mint-cell-text">代收好友</span>
+                                                <span class="mint-cell-text">代收好友</span></div>
+                                        <div class="mint-cell-value" style="position: relative;" @click="modal.friends = true;currentShopIndex = i">
+                                                <div>{{saveData[i].insteadBuyerName?saveData[i].insteadBuyerName:'无'}}</div>
+                                                <i class="fa fa-angle-right fa-lg" style="position: absolute;right: 10px;font-size: 14px;top: 4px;"></i>
+                                                <div class="mint-field-clear" style="display: none;">
+                                                        <i class="mintui mintui-field-error"></i>
+                                                </div>
+                                                <span class="mint-field-state is-default">
+                                                        <i class="mintui mintui-field-default"></i>
+                                                </span>
+                                                <div class="mint-field-other"></div>
                                         </div>
+                                </div>
+                                <div class="mint-cell-right"></div>
+                        </a>
+                        <mt-field label="配送时间" placeholder="" type="text" :readonly="true" :disableClear="true" :value="deliveryTime"></mt-field>
+                        <mt-field label="留言" placeholder="给店家留言" type="textarea" rows="1" v-model="saveData[i].memo"></mt-field>
+                        <a class="mint-cell mint-field" @click="getBuyerCouponForShop(saveData[i].shopId);currentShopIndex = i;">
+                                <div class="mint-cell-left"></div>
+                                <div class="mint-cell-wrapper">
+                                        <div class="mint-cell-title">
+                                                <span class="mint-cell-text">抵扣券</span></div>
                                         <div class="mint-cell-value" style="position: relative;">
-                                                <div @click="modal.friends = true">{{saveData.friend}}</div>
-                                                <router-link :to="{name:'搜索页', params: {type: 'friends'}}">
-                                                        <i class="fa fa-search fa-lg" style="position: absolute;right: 10px;font-size: 14px;top: 4px;"></i>
-                                                </router-link>
+                                                <div>{{saveData[i].couponId?saveData[i].couponName:'选择优惠券'}}</div>
+                                                <i class="fa fa-angle-right fa-lg" style="position: absolute;right: 10px;font-size: 14px;top: 4px;"></i>
                                                 <div class="mint-field-clear" style="display: none;">
                                                         <i class="mintui mintui-field-error"></i>
                                                 </div>
@@ -86,83 +83,39 @@
                                 </div>
                                 <div class="mint-cell-right"></div>
                         </a>
-                        <a class="mint-cell mint-field" v-if="saveData.takeWay === '1'" @click="modal.sendTime = true">
-                                <div class="mint-cell-left"></div>
-                                <div class="mint-cell-wrapper">
-                                        <div class="mint-cell-title">
-                                                <span class="mint-cell-text">配送时间</span>
-                                        </div>
-                                        <div class="mint-cell-value">
-                                                <div>{{saveData.sendTime+'小时后配送'}}</div>
-                                                <div class="mint-field-clear" style="display: none;">
-                                                        <i class="mintui mintui-field-error"></i>
-                                                </div>
-                                                <span class="mint-field-state is-default">
-                                                        <i class="mintui mintui-field-default"></i>
-                                                </span>
-                                                <div class="mint-field-other"></div>
-                                        </div>
-                                </div>
-                                <div class="mint-cell-right"></div>
-                        </a>
-                        <mt-field label="留言" placeholder="买家留言" type="textarea" rows="1" v-modal="saveData.remark"></mt-field>
-                        <a class="mint-cell mint-field" @click="modal.coupon1 = true">
-                                <div class="mint-cell-left"></div>
-                                <div class="mint-cell-wrapper">
-                                        <div class="mint-cell-title">
-                                                <span class="mint-cell-text">保证金抵扣券</span>
-                                        </div>
-                                        <div class="mint-cell-value">
-                                                <div>{{saveData.coupon1}}</div>
-                                                <div class="mint-field-clear" style="display: none;">
-                                                        <i class="mintui mintui-field-error"></i>
-                                                </div>
-                                                <span class="mint-field-state is-default">
-                                                        <i class="mintui mintui-field-default"></i>
-                                                </span>
-                                                <div class="mint-field-other"></div>
-                                        </div>
-                                </div>
-                                <div class="mint-cell-right"></div>
-                        </a>
-                        <a class="mint-cell mint-field" @click="modal.coupon2 = true">
-                                
-                                <div class="mint-cell-left"></div>
-                                <div class="mint-cell-wrapper">
-                                        <div class="mint-cell-title">
-                                                <span class="mint-cell-text">配送费抵扣券</span>
-                                        </div>
-                                        <div class="mint-cell-value">
-                                                <div>{{saveData.coupon2}}</div>
-                                                <div class="mint-field-clear" style="display: none;">
-                                                        <i class="mintui mintui-field-error"></i>
-                                                </div>
-                                                <span class="mint-field-state is-default">
-                                                        <i class="mintui mintui-field-default"></i>
-                                                </span>
-                                                <div class="mint-field-other"></div>
-                                        </div>
-                                </div>
-                                <div class="mint-cell-right"></div>
-                        </a>
-
-                 </div>
-                 <div style="height: 55px"></div>
-                <mt-popup v-model="modal.address" position="bottom" style="width: 100%;">
-                        <AddressPicker /></mt-popup>
-                <mt-popup v-model="modal.friends" position="bottom" style="width: 100%;">
-                        <FriendsPicker /></mt-popup>
-                <mt-popup v-model="modal.coupon1" position="bottom" style="width: 100%;">
-                        <mt-picker :slots="pickerData.coupon1"></mt-picker>
+                </div>
+                <div style="height: 55px"></div>
+                <mt-popup v-model="modal.address" position="bottom" style="width: 100%;height: 100%;">
+                        <mt-header title="选择收货地址">
+                                <mt-button icon="back" slot="left" @click="modal.address = false"></mt-button>
+                                <i class="fa fa-plus fa-lg" slot="right" style="font-size: 12px;" @click="$router.push({path: '/addressSave'})">新增地址</i></mt-header>
+                        <div style="padding-top: 40px;">
+                                <AddressPicker @selectAddress="selectAddress" /></div>
                 </mt-popup>
-                <mt-popup v-model="modal.coupon2" position="bottom" style="width: 100%;">
-                        <mt-picker :slots="pickerData.coupon2"></mt-picker>
+                <mt-popup v-model="modal.friends" position="bottom" style="width: 100%;height: 100%;">
+                        <mt-header title="选择代收好友">
+                                <mt-button icon="back" slot="left" @click="modal.friends = false"></mt-button>
+                                <!-- <mt-button icon="search" slot="right" @click="$router.push({name: '搜索页', params:{type: 'friends'}})"></mt-button> -->
+                        </mt-header>
+                        <div style="padding-top: 40px;">
+                                <FriendsPicker /></div>
                 </mt-popup>
-                <mt-popup v-model="modal.sendTime" position="bottom" style="width: 100%;">
-                        <mt-picker :slots="pickerData.sendTime"></mt-picker>
+                <mt-popup v-model="modal.coupon1" position="bottom" style="width: 100%;height: 100%;">
+                        <mt-header title="选择优惠券">
+                                <mt-button icon="back" slot="left" @click="modal.coupon1 = false"></mt-button>
+                        </mt-header>
+                        <div style="padding-top: 40px;">
+                                <v-ticket-cell 
+                                  v-for="(n, key) in activityList"
+                                  :data="n"
+                                  :key="key"
+                                  :type="0"
+                                  @callBack="selectCoupon"
+                                />
+                        </div>
                 </mt-popup>
         </div>
-        <v-footer :totalMoney="totalMoney"></v-footer>
+        <v-footer :totalMoney="$store.state.cart.totalFee" @submitCart="submitCart"></v-footer>
 </div>
 
 </template>
@@ -171,14 +124,16 @@
 import Util from '../../../util/common'
 import Header from '@/common/_header.vue'
 import Footer from '@/components/car/pay/footer.vue';
-// import Picker from '@/components/Picker';
 import AddressPicker from '@/components/AddressPicker';
 import FriendsPicker from '@/components/FriendsPicker';
 import $ from 'jquery';
-
-import {
-  MessageBox, Radio, Field, Switch, Popup, Picker
-} from 'mint-ui';
+import Cell from '@/components/user/ticket/Cell';
+import userService from '@/api/userService';
+import shopService from '@/api/shopService';
+import cartService from '@/api/cartService';
+import { MessageBox, Radio, Field, Switch, Popup, Picker, Indicator, Toast } from 'mint-ui';
+import common from '../../../util/common';
+import bus from '@/util/bus';
 
 export default {
   components: {
@@ -186,12 +141,12 @@ export default {
     'v-footer': Footer,
     'mt-radio': Radio,
     'mt-field': Field,
-    // 'v-picker': Picker,
     'mt-switch': Switch,
     'mt-popup': Popup,
     AddressPicker,
     FriendsPicker,
-    'mt-picker': Picker
+    'mt-picker': Picker,
+    'v-ticket-cell': Cell
   },
   data() {
     return {
@@ -199,53 +154,44 @@ export default {
         address: false,
         friends: false,
         coupon1: false,
-        coupon2: false,
-        sendTime: false
       },
-      pickerData: {
-        coupon1: [
-          {
-            flex: 1,
-            values: ['-10', '-15', '-30'],
-            className: 'slot1',
-            textAlign: 'center'
-          }
-        ],
-        coupon2: [
-          {
-            flex: 1,
-            values: ['-15', '-20', '-30'],
-            className: 'slot1',
-            textAlign: 'center'
-          }
-        ],
-        sendTime: [
-          {
-            flex: 1,
-            values: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24],
-            className: 'slot1',
-            textAlign: 'center'
-          }
-        ]
+      isFriendGet: false,
+      friend: {
+        name: '李小白',
+        id: '',
+        phone: ''
       },
-      confirm: '',
       totalMoney: 0,
-      saveData: {
-        takeWay: '0',//0到店自取.1货到付款
-        contact: {
-          name: '',
-          mobile: '',
-          address: ''
-        },
-        sendTime: '1',
-        isFriendGet: false,
-        friend: '李小白',
-        remark: '',
-        coupon1: '-10',
-        coupon2: '-5'
+      saveData: [],
+      activityList: [],
+      currentShopIndex: 0,
+      mainData: {
+        getType: this.$store.state.cart.getType,
+        isFriendGet: [],
+        address: {
+          // "id": 1,
+          // "createBy": null,
+          // "createDate": null,
+          // "updateBy": "东",
+          // "updateDate": "2019-02-15 17:10:37",
+          // "delFlag": "0",
+          // "remarks": null,
+          // "buyerId": 7,
+          // "receiverName": "",
+          // "provinceId": null,
+          // "province": "北京市",
+          // "cityId": null,
+          // "city": "市辖区",
+          // "districtId": null,
+          // "district": "东城区",
+          // "receiverPhone": "10086",
+          // "receiverAddress": "城南街88号",
+          // "postcode": null,
+          // "isDefault": "1",
+          // "isLabel": null
+        }
       },
-      // slots: ,
-      isShowPicker: false
+      getType: this.$store.state.cart.getType
 
     }
   },
@@ -257,73 +203,153 @@ export default {
 
       return this.$store.state.detail.selectedList
     },
-
-    // 商品价格总和
-    allpay() {
-      let allpay = 0, selectedList = this.carList
-      for (let i = 0; i < selectedList.length; i++) {
-        allpay += selectedList[i].price
-      }
-      return allpay
-    }
+    deliveryTime() {
+      return this.$store.state.cart.deliveryTime
+    },
+  },
+  beforeMount() {
+    this.saveData = this.$store.state.cart.cartList;
   },
   mounted() {
-    // 防止页面刷新后数据丢失
-    if (this.$store.state.detail.selectedList == '') {
-      this.$store.commit('SET_SELECTEDLIST')
-    }
 
-    let allpay = 0, selectedList = this.$store.state.detail.selectedList
-    for (let i = 0; i < selectedList.length; i++) {
-      allpay += selectedList[i].price
-    }
-    this.totalMoney = allpay;
 
+    window.scrollTo(0, 0);
+    this.listener();
+    this.getDefaultAddress();
+
+
+
+    this.saveData.forEach(element => {
+      this.mainData.isFriendGet.push(false);
+    });
 
     $(".v-picker").height($('#app').height());
-    let tempArray = [];
-    for (let i = 1; i <= 24; i++) {
-      tempArray.push({
-        name: `${i}小时后派送`,
-        value: i
-      })
-    }
-    this.slots[0].values = tempArray;
   },
 
   methods: {
-    payConfirm() {
-      if (this.carList) { //还未提交了订单,数据还未清空
-        MessageBox
-          .confirm(
-            `确定支付${this.allpay}元`
-          )
-          .then(action => { //点击成功执行这里的函数
-            this.confirm = false;
-            this.$store.commit('SET_LOADING', true);
-            this.$store.dispatch('resetCarList'); //重置购物车（用unSelectedList替换）
-            this.$store.dispatch('resetCount'); //重置购物车数量
-            setTimeout(() => {
-              this.$store.commit('SET_LOADING', false); //关闭loading
-              this.confirm = true; //支付完成后切换视图
-            }, 300)
-          }, function (err) {
-            //点击取消执行这里的函数
-          });
-      } else { //提交了订单,数据清空
-        alert('请勿重复提交订单')
-      }
+    listener() {
+      bus.$on("car.pay.selectFriend", (insteadBuyerId, insteadBuyerName) => {
+        console.log("this.saveData", this.saveData)
+        console.log(this.currentShopIndex)
+        console.log(insteadBuyerId, insteadBuyerName)
+        // return
+        this.saveData[this.currentShopIndex]['insteadBuyerId'] = insteadBuyerId;
+        this.saveData[this.currentShopIndex]['insteadBuyerName'] = insteadBuyerName;
+        this.modal.friends = false;
+      })
+    },
+    getDefaultAddress() {
+      userService.getDefaultAddress().then(res => {
+        if (!common.isOk(res)) return
+        this.mainData.address = res.data.data;
+      })
+    },
+    selectAddress(address) {
+      this.modal.address = false;
+      this.mainData.address = address;
+    },
+    getBuyerCouponForShop(shopId) {
+      this.modal.coupon1 = true;
+      let totalFee = 0;
+      let shop = this.$store.state.cart.cartData[shopId];
+      shop.cartList.forEach(element => {
+        totalFee += element.discountPrice * element.quantity;
+      })
+      shopService.getBuyerCouponForShop(totalFee, shopId).then(res => {
+        if (!common.isOk(res)) return
+        this.activityList = res.data.data;
+      })
+    },
+    selectCoupon(coupon) {
+      console.log(this.currentShopIndex, coupon)
+      this.saveData[this.currentShopIndex].couponId = coupon.id;
+      switch (coupon.type) {
+        case 1:
+          this.saveData[this.currentShopIndex].couponName = `满${coupon.meet}免邮`;
+          break;
+        case 2:
+          this.saveData[this.currentShopIndex].couponName = `满${coupon.meet}减${coupon.cash}现金`;
+          break;
+        case 3:
+          this.saveData[this.currentShopIndex].couponName = `满${coupon.meet}减${coupon.cash}抵压金`;
+          break;
 
+        default:
+          break;
+      }
+      this.modal.coupon1 = false;
     },
-    onValuesChange(picker, values) {
-      // if (values[0] > values[1]) {
-      //   picker.setSlotValue(1, values[0]);
-      // }
+    submitCart() {
+      let params = this.packData();
+      Indicator.open();
+      cartService.submit(params).then(res => {
+        Indicator.close();
+        if (!common.isOk(res)) return
+        Toast({
+          message: '提交成功',
+          iconClass: 'fa fa-check',
+          duration: 500
+        });
+        setTimeout(() => {
+          MessageBox({
+            title: '提示',
+            message: '是否查看订单？',
+            showCancelButton: true,
+            confirmButtonText: '去查看',
+            cancelButtonText: '返回首页'
+          }).then(action => {
+            console.log("right", action);
+            if (action === 'confirm') {//去查看
+              this.$router.push({ name: '我的订单', params: { status: '1' } })
+            } else if (action === 'cancel') {//返回首页
+              this.$router.push({ name: '首页' })
+            }
+          }).catch(action => {
+            console.log("left", action);
+          });
+        }, 500)
+      })
     },
-    getValue(value) {
-      this.isShowPicker = false;
-      this.saveData.sendTime = value;
+    packData() {
+      let data = {}
+      this.saveData.forEach(element => {
+        element.getType = Number(this.$store.state.cart.getType);
+        element.receiverId = this.mainData.address.id;
+        element.address = `${this.mainData.address.province}${this.mainData.address.city}${this.mainData.address.district}${this.mainData.address.receiverAddress}`;
+        data[element.shopId] = element;
+      })
+      return data
+    },
+    getOrderInfo(id) {
+      shopService.getOrderInfo(id).then(res => {
+        if (!common.isOk(res)) return
+
+      })
     }
+  },
+  watch: {
+    saveData: {
+      handler(newValue, oldName) {
+        this.$store.commit('CHANGE_CART_LIST', newValue)
+      },
+      // immediate: true,
+      deep: true
+    },
+    // mainData: {
+    //   handler(newValue, oldName) {
+    //     this.$store.commit('CHANGE_CART_GETTYPE', newValue.getType)
+    //   },
+    //   immediate: true,
+    //   deep: true
+    // },
+    getType: {
+      handler(newValue, oldName) {
+        this.$store.commit('CHANGE_CART_GETTYPE', newValue)
+      },
+      // immediate: true,
+      deep: true
+    }
+
   }
 
 }

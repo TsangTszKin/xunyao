@@ -34,4 +34,19 @@ export default {
 	getShopInfo(shopId) {
 		return axios.post(`${prefix}/app/shop/index?shopId=${shopId}`).catch(errorHandler);
 	},
+	getShopActivityList(shopId) {
+		return axios.get(`${prefix}/app/sales/shopActivityList?shopId=${shopId}`).catch(errorHandler);
+	},
+	getCoupon(activityId) {
+		return axios.get(`${prefix}/app/sales/getCoupon?activityId=${activityId}`).catch(errorHandler);
+	},
+	getBuyerCouponForShop(totalFee, shopId) {
+		return axios.get(`${prefix}/app/sales/couponList?totalFee=${totalFee}&shopId=${shopId}`).catch(errorHandler);
+	},
+	getOrderInfo(id) {
+		return axios.get(`${prefix}/app/my/orderInfo/${id}`).catch(errorHandler);
+	},
+	getClassList() {
+		return axios.get(`${prefix}/app/product/productClass`).catch(errorHandler)
+	}
 }

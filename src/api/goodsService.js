@@ -14,7 +14,19 @@ export default {
 	getGoodsInfo(id) {
 		return axios.get(`${prefix}/app/product/productInfo?id=${id}`).catch(errorHandler);
 	},
-	searchGoodsList(page, params) {
-		return axios.post(`${prefix}/app/product/productSearch?pageno=${page}&size=10`, params).catch(errorHandler);
+	searchShopGoodsList(shopId, keyword, pageno) {
+		return axios.post(`${prefix}/app/product/shopProductSearch?shopId=${shopId}&keyword=${keyword}&pageno=${pageno}&size=10`).catch(errorHandler);
+	},
+	searchGoodsList(keyword, pageno) {
+		return axios.post(`${prefix}/app/product/productSearch?keyword=${keyword}&pageno=${pageno}&size=10`).catch(errorHandler);
+	},
+	deleteGoods(id) {
+		return axios.get(`${prefix}/app/product/productDelete?id=${id}`).catch(errorHandler)
+	},
+	changeGoodsStock(id, stock) {
+		return axios.post(`${prefix}/app/product/productStock?id=${id}&stock=${stock}`).catch(errorHandler)
+	},
+	getGoodsListByClass(classId){
+		return axios.get(`${prefix}/app/product/productList?classId=${classId}&pageno=1&size=100`)
 	}
 }

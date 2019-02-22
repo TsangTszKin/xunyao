@@ -23,12 +23,12 @@
         v-if="$store.state.goods.listType === 3"
         @click="changeGoodsListShowType(1)"
       ></i>
-      <router-link :to="{name:'搜索页'}" slot="right">
+      <router-link :to="{name:'搜索页', params:{type: 'shopGoods'}, query: {shopId: shop.shopId}}" slot="right">
         <mt-button icon="search" style="margin-left: 30px;"></mt-button>
       </router-link>
     </mt-header>
     <div class="v-content">
-      <shop-main/>
+      <shop-main :categories="classList" :shopId="shop.shopId"/>
     </div>
 
     <v-footer/>
@@ -42,6 +42,9 @@ import GoodsItem from '@/components/goods/GoodsItem';
 import LoadingForList from '@/components/LoadingForList';
 import Footer from '@/common/_footer.vue'
 import Main from '@/components/shop/MainAdmin';
+import shopService from '@/api/shopService';
+import userService from '@/api/userService';
+import common from '@/util/common';
 
 export default {
   data() {
@@ -54,7 +57,15 @@ export default {
         price: '13999',
         stock: '7',
         shopName: '添色彩绘旗舰店'
-      }]
+      }],
+      classList: [
+        // {
+        //   "id": 7,
+        //   "className": "五官用药",
+        //   "bySort": 1
+        // }
+      ],
+      shop: {}
     }
   },
   components: {
@@ -68,6 +79,8 @@ export default {
   },
   mounted() {
     window.scrollTo(0, 0);
+    this.shop = JSON.parse(localStorage.shop);
+    this.getShopInfo(this.shop.shopId);
   },
   methods: {
     changeGoodsListShowType(value) {
@@ -93,7 +106,18 @@ export default {
         self.loading = false;
         Indicator.close();
       }, 1000);
-    }
+    },
+    getShopInfo(shopId) {
+        shopService.getShopInfo(shopId).then(res => {
+          if (!common.isOk(res)) return
+          this.classList = res.data.classList;
+          if (common.isEmpty(res.data.classList)) {
+            this.$store.commit('CHANGE_SHOP_SELECT_CATE', {});
+          } else {
+            this.$store.commit('CHANGE_SHOP_SELECT_CATE', res.data.classList[0]);
+          }
+        })
+      },
   }
 }
 </script>

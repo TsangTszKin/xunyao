@@ -15,36 +15,31 @@
     ></mt-search>
     <div class="result">
       <ul
-        v-if="$route.params.type == 'goods'"
+        v-if="$route.params.type == 'shopGoods'"
         v-infinite-scroll="getGoodsList"
         infinite-scroll-disabled="loading"
         infinite-scroll-distance="10"
       >
-        <goods-item v-for="(item, i) in goodsList" class="goods" :key="i" :data="item"/>
+        <goods-item v-for="(item, i) in shopGoodsList" class="goods" :key="i" :data="item"/>
       </ul>
       <ul
-        v-if="$route.params.type == 'shop'"
+        v-if="$route.params.type == 'goods'"
         class="section3-list"
         v-infinite-scroll="getShopList"
         infinite-scroll-disabled="loading"
         infinite-scroll-distance="10"
       >
-        <v-shop-cell v-for="(k, index) in shopList" :key="index" :shop="k"/>
+        <!-- <v-shop-cell v-for="(k, index) in goodsList" :key="index" :shop="k"/> -->
+        <goods-item v-for="(item, i) in goodsList" class="goods" :key="i" :data="item"/>
       </ul>
-      <ul
-        v-if="$route.params.type == 'friends'"
-        class="section3-list"
-        v-infinite-scroll="getFriendsList"
-        infinite-scroll-disabled="loading"
-        infinite-scroll-distance="10"
-      >
-        <li>
-          <mt-cell title="李小白" value="18888888888"></mt-cell>
-        </li>
-         <li>
-          <mt-cell title="李小白" value="18888888888"></mt-cell>
-        </li>
-      </ul>
+      <p
+        style="margin-top: 10px; text-align:center;"
+        v-if="$route.params.type == 'goods' && goodsList.length == 0"
+      >暂无数据</p>
+      <p
+        style="margin-top: 10px; text-align:center;"
+        v-if="$route.params.type == 'shopGoods' && shopGoodsList.length == 0"
+      >暂无数据</p>
     </div>
   </div>
 </template>
@@ -106,7 +101,8 @@ export default {
         //   "otherQualifications": "1",
         //   "isClosed": 0
         // }
-      ]
+      ],
+      shopGoodsList: []
     }
   },
   components: {
@@ -127,8 +123,8 @@ export default {
         case 'goods':
           this.getGoodsList();
           break;
-        case 'friends':
-          this.getGoodsList();
+        case 'shopGoods':
+          this.getShopGoodsList();
           break;
         default:
           break;
@@ -158,11 +154,7 @@ export default {
     getGoodsList() {
       if (!this.isInit) return
       Indicator.open('加载中...');
-      let params = {
-        "name": this.searchValue,
-        "shopId": this.$route.query.shopId
-      }
-      goodsService.searchGoodsList(this.page, params).then(res => {
+      goodsService.searchGoodsList(this.searchValue, this.page).then(res => {
         this.loading = false;
         Indicator.close();
         if (!common.isOk(res)) return
@@ -180,17 +172,35 @@ export default {
         Indicator.close();
       })
     },
-    getFriendsList() {
+    getShopGoodsList() {
       if (!this.isInit) return
       Indicator.open('加载中...');
+      goodsService.searchShopGoodsList(this.$route.query.shopId, this.searchValue, this.page).then(res => {
+        this.loading = false;
+        Indicator.close();
+        if (!common.isOk(res)) return
+        if (common.isEmpty(res.data.data.list)) {
+          this.isEnd = true;
+        } else {
+          res.data.data.list.forEach(element => {
+            this.shopGoodsList.push(element)
+          })
+          this.page++;
+        }
 
-
-    }
+      }).catch(() => {
+        this.loading = false;
+        Indicator.close();
+      })
+    },
   },
   watch: {
     searchValue: function (newvs, oldvs) {
       console.log("newvs", newvs);
       console.log("oldvs", oldvs);
+      this.page = 1;
+      this.shopGoodsList = [];
+      this.goodsList = [];
       if (!newvs) {
         this.$router.go(-1);
       }

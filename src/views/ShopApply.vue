@@ -48,13 +48,13 @@
         <!---->
       </a>
 
-      <mt-field
+      <!-- <mt-field
         label="经纬度"
         :readonly="true"
         placeholder="显示经纬度"
         :disableClear="true"
         :value="!saveData.longitude?'':`${saveData.longitude}，${saveData.latitude}`"
-      ></mt-field>
+      ></mt-field> -->
 
       <!-- <mt-field label="地址" placeholder="请输入地址" v-model="saveData.address"></mt-field> -->
       <mt-field label="电话" placeholder="请输入电话" v-model="saveData.telephone"></mt-field>

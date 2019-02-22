@@ -3,14 +3,14 @@
 
     <div class="footer-result">
       <p>共{{count}}件 金额：</p>
-      <p><span>{{allpay}} </span>元</p>
+      <p><span>{{$store.state.cart.totalFee.toFixed(2)}} </span>元</p>
     </div>
     <!-- <router-link :to="{ name: '分类页'}" class="footer-goon" >
       继续购物
     </router-link> -->
     <div class="footer-result">
       <p>保证金：</p>
-      <p><span>{{allpay}} </span>元</p>
+      <p><span>{{$store.state.cart.sureFee.toFixed(2)}} </span>元</p>
     </div>
     <a class="footer-pay" @click="goPay">
       去结算
@@ -36,10 +36,10 @@ export default {
   },
 
   methods: {
-    //点击跳转到支付页
+    //点击跳转到订单页
     goPay() {
 
-      this.$router.push({ name: '支付页' })
+      this.$router.push({ name: '订单页' })
 
     }
   }

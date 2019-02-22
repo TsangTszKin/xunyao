@@ -5,20 +5,7 @@
     </mt-header>
 
     <div class="v-content">
-      <mt-navbar v-model="selected">
-        <mt-tab-item id="1">抵扣运费</mt-tab-item>
-        <mt-tab-item id="2">抵扣保证金</mt-tab-item>
-      </mt-navbar>
-
-      <!-- tab-container -->
-      <mt-tab-container v-model="selected">
-        <mt-tab-container-item id="1">
-          <Cell v-for="(n, key) in 4" :key="key+Math.random()" @click.native="showMore"/>
-        </mt-tab-container-item>
-        <mt-tab-container-item id="2">
-          <Cell v-for="(n, key) in 4" :key="key+Math.random()" @click.native="showMore"/>
-        </mt-tab-container-item>
-      </mt-tab-container>
+      <Cell v-for="(n, key) in list" :key="key" :data="n" :type="2"/>
     </div>
   </div>
 </template>
@@ -26,20 +13,30 @@
 <script>
 import { Navbar, TabItem, Header, CellSwipe, MessageBox } from 'mint-ui';
 import Cell from '@/components/user/ticket/Cell';
-import Footer from '@/common/_footer.vue'
+import Footer from '@/common/_footer.vue';
+import userService from '@/api/userService';
+import common from '@/util/common';
 
 export default {
   data() {
     return {
-      selected: '1'
+      list: []
     }
   },
   mounted() {
     window.scrollTo(0, 0);
+    this.getMyCouponList();
   },
   methods: {
     showMore() {
       // MessageBox('海王星辰', '亲，仓库会根据亲的地亲，仓库会根据亲的地亲，仓库会根据亲的地亲，仓库会根据亲的地');
+    },
+    getMyCouponList() {
+      userService.getMyCouponList().then(res => {
+        window.scrollTo(0, 0);
+        if (!common.isOk(res)) return
+        this.list = res.data.data;
+      })
     }
   },
   components: {
@@ -54,12 +51,5 @@ export default {
 </script>
 
 <style lang="less">
-.mint-cell-title {
-  -webkit-box-flex: 0;
-  -ms-flex: 0;
-  flex: 0;
-}
-.mint-cell-swipe-button {
-  line-height: 66px;
-}
+
 </style>

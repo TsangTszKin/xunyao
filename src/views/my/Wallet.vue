@@ -16,11 +16,11 @@
                 <i class="fa fa-cny fa-lg"></i>
               </div>
               <p>
-                <span>余额</span><span style="position: absolute;
-    right: 6vw;">￥66.66</span>
+                <span>保证金</span><span style="position: absolute;
+    right: 6vw;">￥{{money}}</span>
               </p>
             </router-link>
-            <router-link class="my-vip-bottom ho" :to="{ name: ''}">
+            <router-link class="my-vip-bottom ho" :to="{ name: '充值'}">
               <div>
                 <!-- <i class="fa fa-cny fa-lg"></i> -->
               </div>
@@ -28,13 +28,13 @@
                 <span>充值</span><i class="icon-go"></i>
               </p>
             </router-link>
-            <router-link class="my-vip-bottom ho" :to="{ name: ''}">
+            <!-- <router-link class="my-vip-bottom ho" :to="{ name: ''}">
               <div>
               </div>
               <p>
                 <span>提现</span><i class="icon-go"></i>
               </p>
-            </router-link>
+            </router-link> -->
           </section>
 
            <!-- <section class="my-vip">
@@ -62,6 +62,8 @@
 import Baseline from '@/common/_baseline.vue'
 import Footer from '@/common/_footer.vue'
 import { Badge, Header } from 'mint-ui';
+import userService from '@/api/userService';
+import common from '@/util/common';
 
 export default {
   components: {
@@ -72,6 +74,12 @@ export default {
   },
   mounted() {
     window.scrollTo(0, 0);
+    this.getMyMoney();
+  },
+  data() {
+    return {
+      money: 0.0
+    }
   },
   computed: {
     getUserNickName() {
@@ -82,6 +90,15 @@ export default {
     },
     getUserMobile() {
       return this.$store.state.user.user.mobile
+    },
+
+  },
+  methods: {
+    getMyMoney() {
+      userService.getMyMoney().then(res => {
+        if (!common.isOk(res)) return
+        this.money = res.data.money;
+      })
     }
   }
 }

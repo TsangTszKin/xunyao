@@ -12,6 +12,12 @@ export default {
 		return axios.put(`${prefix}/app/sales/addCart?productId=${productId}&quantity=${quantity}&shopId=${shopId}`).catch(errorHandler);
 	},
 	cartList() {
-		return axios.put(`${prefix}/app/sales/cartList`).catch(errorHandler);
+		return axios.get(`${prefix}/app/sales/cartList`).catch(errorHandler);
+	},
+	removeCart(productId, quantity) {
+		return axios.delete(`${prefix}/app/sales/removeCart?productId=${productId}&quantity=${quantity}`).catch(errorHandler);
+	},
+	submit(params) {
+		return axios.post(`${prefix}/app/sales/submitCarts`, params).catch(errorHandler);
 	}
 }

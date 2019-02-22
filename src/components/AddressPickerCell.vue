@@ -10,15 +10,16 @@
     line-height: 30px;
     margin: 10px;
 "
-      >李</p>
+     >{{data.receiverName.substr(0, 1)}}</p>
     </div>
 
     <mt-cell
-      title="李小白 18888888888"
+      :title="data.receiverName+' '+data.receiverPhone"
       icon="edit"
-      value=""
-      label="广东省广州市天河区车陂街道车陂大街车陂1号车陂1号车陂1号车陂1号"
+      value="确定"
+      :label="data.province+data.city+data.district+data.receiverAddress"
       style="float: left;width: calc(100% - 40px);"
+      
     ></mt-cell>
     <div style="clear: both;"></div>
   </div>
@@ -30,6 +31,22 @@ export default {
   components: {
     'mt-button': Button,
     'mt-cell': Cell
+  },
+  props: {
+    data: {
+      type: Object,
+      default: function () {
+        return {
+          receiverName: '收',
+          receiverPhone: '',
+          province: '',
+          city: '',
+          district: '',
+          receiverAddress: '',
+          id: ''
+        }
+      }
+    }
   }
 }
 </script>

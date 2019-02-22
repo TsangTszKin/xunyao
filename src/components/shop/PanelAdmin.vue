@@ -1,11 +1,12 @@
 <template>
   <div class="panel">
-    <p class="cate">{{this.$store.state.shop.selectCate.name}}</p>
+    <p class="cate">{{this.$store.state.shop.selectCate.className}}</p>
     <ul>
-      <goods-item-admin v-for="(item, i) in goods" class="goods" :key="i" :data="item" v-if="$store.state.goods.listType === 1" />
-      <goods-item2-admin v-for="(item, i) in goods" class="goods" :key="i" :data="item" v-if="$store.state.goods.listType === 2" />
-      <goods-item3-admin v-for="(item, i) in goods" class="goods" :key="i" :data="item" v-if="$store.state.goods.listType === 3" />
+      <goods-item-admin v-for="(item, i) in goods" class="goods" :key="i+Math.random()" :data="item" v-if="$store.state.goods.listType === 1" />
+      <goods-item2-admin v-for="(item, i) in goods" class="goods" :key="i+Math.random()" :data="item" v-if="$store.state.goods.listType === 2" />
+      <goods-item3-admin v-for="(item, i) in goods" class="goods" :key="i+Math.random()" :data="item" v-if="$store.state.goods.listType === 3" />
     </ul>
+    <p v-if="goods.length == 0" style="text-align: center;">暂无数据</p>
   </div>
 </template>
 

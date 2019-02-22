@@ -1,35 +1,36 @@
 <template>
   <li class="goods">
-    <div class="ui-img-div" @click="$router.push({path: '/detail'})">
-      <img src="../../assets/images/goods.jpg">
+    <div class="ui-img-div" @click="$router.push({name: '详情页', params:{id: data.id}})">
+      <img :src="data.productImg">
     </div>
     <div class="brief" style="width: calc(60% - 14px)">
-      <p class="name" @click="$router.push({path: '/detail'})">{{this.data.goodsName}}</p>
-      <p class="size" @click="$router.push({path: '/detail'})">{{this.data.size}}</p>
+      <p class="name" @click="$router.push({path: '/detail'})">{{this.data.name}}</p>
+      <p class="size" @click="$router.push({path: '/detail'})">{{this.data.specification}}</p>
       <p class="status" @click="$router.push({path: '/detail'})">
         <span style="font-size: 13px;color:red;">参考价￥</span>
-        <span class="price">{{this.data.price}}</span>
+        <span class="price">{{this.data.discountPrice}}</span>
         <!-- <span class="stock">
           库存
           <i style="margin: 0 3px;">有</i>
         </span>-->
       </p>
       <p class="status" style="height: 20px;">
-        <span class="stock" style="position: relative;" v-if="isHave">
+        <span
+          class="stock"
+          style="position: relative;"
+          v-if="data.stock == 1"
+          @click="changeGoodsStock(0)"
+        >
           库存
-          <i
-            style="margin: 0 3px;color: #38af43;"
-            class="fa fa-toggle-on fa-lg"
-            @click="changeIsHave"
-          ></i>有
+          <i style="margin: 0 3px;color: #38af43;" class="fa fa-toggle-on fa-lg"></i>有
         </span>
-        <span class="stock" style="position: relative;" v-if="!isHave">
+        <span class="stock" style="position: relative;" v-else @click="changeGoodsStock(1)">
           库存
-          <i style="margin: 0 3px;" class="fa fa-toggle-off fa-lg" @click="changeIsHave"></i>无
+          <i style="margin: 0 3px;" class="fa fa-toggle-off fa-lg"></i>无
         </span>
         
         <span class="delete">
-          <i style="margin: 0 3px;" class="fa fa-trash-o fa-lg" @click="deleteFunc"></i>
+          <i style="margin: 0 3px;" class="fa fa-trash-o fa-lg" @click="deleteFunc(data.id)"></i>
         </span>
       </p>
       <!-- <div class="shop">
@@ -47,6 +48,7 @@
 
 <script>
 import { MessageBox } from 'mint-ui';
+import bus from '@/util/bus';
 
 export default {
   props: {
@@ -59,16 +61,17 @@ export default {
   },
   data() {
     return {
-      isHave: true
     }
   },
+  mounted() {
+  },
   methods: {
-    changeIsHave() {
-      this.isHave = !this.isHave;
+    changeGoodsStock(stock) {
+      bus.$emit("shop.aside.changeGoodsStock", this.data.id, stock)
     },
-    deleteFunc() {
+    deleteFunc(id) {
       MessageBox.confirm('确定删除该商品?', '提示').then(action => {
-        MessageBox.alert('删除成功', '提示');
+        bus.$emit("shop.aside.deleteGoods", id)
       }).catch(action => {
         // MessageBox.alert('取消删除', '提示');
       });
@@ -82,6 +85,7 @@ export default {
 .goods {
   height: 110px;
   padding: 5px 10px;
+  border-bottom: 1px solid #eee;
   > .ui-img-div {
     display: webkit-flex;
     display: flex;

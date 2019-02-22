@@ -19,13 +19,25 @@
     </div>
   </mt-cell-swipe>-->
   <div class="ticket">
-    <p>海王星辰旗舰店</p>
+    <p>{{data.shopName}}</p>
     <div>
       <p class="price">
         ￥
-        <span>50</span>满300减50
+        <span>{{data.cash}}</span>
+        {{
+        data.type == 1?`满${data.meet}免邮`:''
+        }}
+        {{
+        data.type == 2?`满${data.meet}减${data.cash}现金`:''
+        }}
+        {{
+        data.type == 3?`满${data.meet}减${data.cash}抵压金`:''
+        }}
       </p>
-      <p>2019.1.28 00:00~2019.1.31 00:00</p>
+      <p
+        style="font-size: 14px;
+    margin-top: 6px;"
+      >{{type == 1?data.startTime:data.beginTime}}~{{data.endTime}}</p>
     </div>
     <mt-button
       type="primary"
@@ -33,14 +45,72 @@
       style="position: absolute;
     top: 27px;
     right: 8px;"
-    @click="$router.push({name: '详情页'})"
+      v-if="type == 0"
+      @click="$emit('callBack', data)"
+    >选择</mt-button>
+    <mt-button
+      type="primary"
+      size="small"
+      style="position: absolute;
+    top: 27px;
+    right: 8px;"
+      v-if="type == 2"
+      @click="$router.push({name: '店铺主页', params: {id: data.shopId}})"
     >去使用</mt-button>
+    <mt-button
+      type="primary"
+      size="small"
+      style="position: absolute;
+    top: 27px;
+    right: 8px;"
+      v-if="type == 1"
+      @click="$emit('callBack', data.id)"
+    >领取</mt-button>
   </div>
 </template>
 
 <script>
 import { Navbar, TabItem, Header, CellSwipe, MessageBox, Button } from 'mint-ui';
+
 export default {
+  props: {
+    type: {
+      type: Number,
+      default: 0//0去选择，1领取， 2去店铺使用
+    },
+    index: {
+      type: Number,
+      default: 0
+    },
+    data: {
+      type: Object,
+      defalut: function () {
+        return {
+          "id": 7,
+          "shopId": 2,
+          "shopName": "张明家的店",
+          "name": "活动名称",
+          "startTime": "2019-01-30",
+          "endTime": "2019-02-28",
+          "type": 2,
+          "status": 1,
+          "meet": 333,//满
+          "cashRequired": 0,
+          "cash": 2,//减
+          "postage": 0,
+          "provideNum": 11,
+          "getNum": null,
+          "useNum": null,
+          "createBy": "admin",
+          "createDate": "2019-01-30 10:49:24",
+          "updateBy": null,
+          "updateDate": null,
+          "remarks": null,
+          "delFlag": "0"
+        }
+      }
+    }
+  },
   components: {
     'mt-cell-swipe': CellSwipe,
     'mt-button': Button

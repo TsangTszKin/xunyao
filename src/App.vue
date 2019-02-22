@@ -6,7 +6,10 @@
 </template>
 
 <script>
-import Loading from '@/common/_loading'
+import Loading from '@/common/_loading';
+import cartService from '@/api/cartService';
+import common from '@/util/common';
+
 export default {
   components: {
     'v-loading': Loading
@@ -68,9 +71,29 @@ export default {
       ]
     }
   },
-  mounted(){
-     this.$store.commit("CHANGE_CART_LIST", this.cartList);
+  mounted() {
+    this.getCartList();
   },
+  methods: {
+    getCartList() {
+      cartService.cartList().then(res => {
+        if (!common.isOk(res)) return
+        let data = res.data.data;
+        let cartList = [];
+        for (const key in data) {
+          if (data.hasOwnProperty(key)) {
+            const element = data[key];
+            cartList.push(element);
+          }
+        }
+        this.$store.commit("CHANGE_CART_LIST", cartList);
+        this.$store.commit("CHANGE_CART_DATA", data);
+        this.$store.commit("CHANGE_CART_SUREFREE", res.data.sureFee);
+        this.$store.commit("CHANGE_CART_TOTALFREE", res.data.totalFee);
+        this.$store.commit("CHANGE_CART_TIME", res.data.deliveryTime);
+      })
+    }
+  }
 }
 </script>
 

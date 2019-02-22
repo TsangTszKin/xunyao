@@ -1,12 +1,28 @@
 <template>
   <div class="shop">
-    <mt-header title="店铺主页">
+    <mt-header title>
       <mt-button icon="back" slot="left" @click="$router.go(-1)"></mt-button>
+
+      <mt-button slot="right" style="margin-left: 20px;" @click="popupVisible = true">活动</mt-button>
+      <i
+        class="fa fa-star-o fa-lg"
+        slot="right"
+        style="font-size: 17px;margin-left: 20px;"
+        @click="addFavorite(shop.shopId)"
+        v-if="!isFavorite"
+      ></i>
+      <i
+        class="fa fa-star fa-lg"
+        slot="right"
+        style="font-size: 17px;margin-left: 20px;color: orange;"
+        v-else
+        @click="removeFavorite(favorite.id)"
+      ></i>
       <router-link
-        :to="{name:'搜索页', params:{type: 'goods'}, query: {shopId: $route.params.id}}"
+        :to="{name:'搜索页', params:{type: 'shopGoods'}, query: {shopId: $route.params.id}}"
         slot="right"
       >
-        <mt-button icon="search" style="margin-left: 30px;"></mt-button>
+        <mt-button icon="search" style="margin-left: 20px;"></mt-button>
       </router-link>
     </mt-header>
     <div class="shopInfo">
@@ -24,6 +40,26 @@
     </div>
     <shop-swiper :adList="adList"/>
     <shop-main :categories="classList" :shopId="shop.shopId"/>
+
+    <mt-popup
+      v-model="popupVisible"
+      position="bottom"
+      :modal="false"
+      style="width: 100%;height: 100%;"
+    >
+      <mt-header title="商家活动">
+        <mt-button icon="back" slot="left" @click="popupVisible = false"></mt-button>
+      </mt-header>
+      <div style="padding-top: 40px;">
+        <v-ticket-cell
+          v-for="(n, key) in activityList"
+          :data="n"
+          :key="key"
+          :type="1"
+          @callBack="getCoupon"
+        />
+      </div>
+    </mt-popup>
   </div>
 </template>
 
@@ -32,21 +68,40 @@ import Header from '@/common/_header.vue';
 import ShopSwiper from '@/components/shop/Swiper';
 import Main from '@/components/shop/Main';
 import shopService from '@/api/shopService';
+import userService from '@/api/userService';
 import common from '@/util/common';
-
+import { Popup, Navbar, TabItem, Indicator, Toast } from 'mint-ui';
+import Cell from '@/components/user/ticket/Cell';
 
 export default {
   components: {
     'v-header': Header,
     'shop-swiper': ShopSwiper,
-    'shop-main': Main
+    'shop-main': Main,
+    'mt-popup': Popup,
+    'mt-navbar': Navbar,
+    'mt-tab-item': TabItem,
+    'v-ticket-cell': Cell
   },
   mounted() {
     window.scrollTo(0, 0);
     this.getShopInfo(this.$route.params.id);
+    this.getShopActivityList(this.$route.params.id);
+    this.$store.commit('CHANGE_GOODSLIST_SHOWTYPE', 1);
+  },
+  computed: {
+    isFavorite() {
+      if (common.isEmpty(this.favorite)) {
+        return false
+      } else {
+        return true
+      }
+    }
   },
   data() {
     return {
+      selected: '1',
+      popupVisible: false,
       shop: {
         // "shopId": 2,
         // "createDate": null,
@@ -78,10 +133,13 @@ export default {
         //   "className": "五官用药",
         //   "bySort": 1
         // }
-      ]
+      ],
+      activityList: [],
+      favorite: {}
     }
   },
   methods: {
+
     getShopInfo(shopId) {
       shopService.getShopInfo(shopId).then(res => {
         if (!common.isOk(res)) return
@@ -90,6 +148,7 @@ export default {
         } else {
           this.shop = res.data.shop;
         }
+        this.favorite = res.data.favorite;
         this.adList = res.data.adList;
         this.classList = res.data.classList;
         if (common.isEmpty(res.data.classList)) {
@@ -98,12 +157,40 @@ export default {
           this.$store.commit('CHANGE_SHOP_SELECT_CATE', res.data.classList[0]);
         }
       })
+    },
+    getShopActivityList(shopId) {
+      shopService.getShopActivityList(shopId).then(res => {
+        if (!common.isOk(res)) return
+        this.activityList = res.data.data;
+      })
+    },
+    getCoupon(id) {
+      Indicator.open();
+      shopService.getCoupon(id).then(res => {
+        Indicator.close();
+        if (!common.isOk(res)) return
+        Toast('领取成功');
+      })
+    },
+    addFavorite(id) {
+      userService.addFavorite(1, id).then(res => {
+        if (!common.isOk(res)) return
+        Toast("关注成功");
+        this.getShopInfo(this.$route.params.id);
+      })
+    },
+    removeFavorite(id) {
+      userService.removeFavorite(id).then(res => {
+        if (!common.isOk(res)) return
+        Toast("已取消关注");
+        this.getShopInfo(this.$route.params.id);
+      })
     }
   }
 }
 </script>
 
- <style lang="less" scoped>
+<style lang="less" scoped>
 .shop {
   > .shopInfo {
     padding: 10px 10px 10px 10px;

@@ -4,7 +4,8 @@
 <head>
   <meta charset="utf-8">
 
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
 
   <!-- 针对手持设备优化，主要是针对一些老的不识别viewport的浏览器，比如黑莓 -->
   <meta name="HandheldFriendly" content="true">
@@ -49,24 +50,58 @@
       z-index: 999;
     }
 
-    .mint-cell-title {
-      -webkit-box-flex: 1 !important;
-      -ms-flex: 1 !important;
-      flex: 1 !important;
-    }
+
+
+
     .v-clear {
       clear: both;
     }
+
     .mint-header {
       position: fixed !important;
       top: 0px !important;
       width: 100% !important;
       z-index: 999 !important;
     }
+
     .v-content {
       height: 100%;
       position: relative;
       top: 40px;
+    }
+
+    .mint-indicator-wrapper,
+    .mint-toast,
+    .is-placemiddle,
+    .mint-indicator {
+      z-index: 3003 !important;
+    }
+
+    .triangle_border_up {
+      width: 0;
+      height: 0;
+      border-width: 0 30px 30px;
+      border-style: solid;
+      border-color: transparent transparent #333;
+      /*透明 透明  灰*/
+      margin: 40px auto;
+      position: relative;
+    }
+
+    .triangle_border_up_span {
+      display: block;
+      width: 0;
+      height: 0;
+      border-width: 0 5px 10px;
+      border-style: solid;
+      border-color: transparent transparent #fff;
+      position: absolute;
+      top: -10px;
+      right: 6px;
+    }
+
+    .v-message-large .mint-cell-value {
+      width: 100%;
     }
   </style>
   <title>寻药</title>

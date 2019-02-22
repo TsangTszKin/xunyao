@@ -4,14 +4,10 @@
       <mt-button icon="back" slot="left" @click="$router.go(-1)"></mt-button>
     </mt-header>
     <div class="v-content">
-      <div
-        v-infinite-scroll="loadMore"
-        infinite-scroll-disabled="loading"
-        infinite-scroll-distance="3"
-      >
-        <v-panel v-for="(n, key) in list" :key="key"/>
+      <div>
+        <v-panel v-for="(n, key) in list" :date="n.date" :goodsList="n.goodsList" :key="key"/>
       </div>
-      <v-baseline v-if="list.length > 0" />
+      <v-baseline v-if="list.length > 0"/>
     </div>
   </div>
 </template>
@@ -20,7 +16,9 @@
 import { Navbar, TabItem, Header, MessageBox, Indicator, InfiniteScroll } from 'mint-ui';
 import Footer from '@/common/_footer.vue'
 import Panel from '@/components/user/footprint/Panel';
-import Baseline from '@/common/_baseline.vue'
+import Baseline from '@/common/_baseline.vue';
+import userService from '@/api/userService';
+import common from '@/util/common';
 
 export default {
   components: {
@@ -40,20 +38,30 @@ export default {
   },
   mounted() {
     window.scrollTo(0, 0);
+    this.getMyFootPrint();
   },
   methods: {
-    loadMore() {
-      console.log("loadMore")
+    getMyFootPrint() {
       this.loading = true;
       let self = this;
       Indicator.open('加载中...');
-      setTimeout(() => {
-        self.list.push(1);
-        self.list.push(1);
-        self.list.push(1);
+
+
+      userService.getMyFootPrint().then(res => {
         self.loading = false;
         Indicator.close();
-      }, 1000);
+        if (!common.isOk(res)) return
+        for (const key in res.data.data) {
+          if (res.data.data.hasOwnProperty(key)) {
+            const element = res.data.data[key];
+            if (!common.isEmpty(element))
+              this.list.push({
+                date: key,
+                goodsList: element
+              })
+          }
+        }
+      })
     }
   },
 
@@ -63,6 +71,9 @@ export default {
 <style lang="less" scoped>
 .footprint {
   // height: 100%;
-  background-color: #dcdcdc38;
+
+  > .v-content {
+    background-color: #dcdcdc38;
+  }
 }
 </style>

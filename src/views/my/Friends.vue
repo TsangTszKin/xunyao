@@ -2,51 +2,77 @@
   <div class="message">
     <mt-header title="我的好友">
       <mt-button icon="back" slot="left" @click="$router.go(-1)"></mt-button>
+      <i slot="right" class="fa fa-plus-circle fa-lg" @click="addFriends"></i>
     </mt-header>
 
     <div class="v-content">
-      <Cell v-for="(n, key) in 4" :key="key+Math.random()" @click.native="showMore"/>
+      <v-favorite-cell
+        v-for="(n, key) in friendList"
+        :name="n.friendName"
+        :avatar="n.friendHeadimgurl"
+        :key="key+Math.random()"
+        @click.native="$router.push({name: '店铺主页', params:{id: n.shopId}})"
+      />
     </div>
   </div>
 </template>
 
 <script>
-import { Navbar, TabItem, Header, CellSwipe, MessageBox } from 'mint-ui';
-import Cell from '@/components/message/Cell';
+import { Navbar, TabItem, Header, CellSwipe, MessageBox, Cell, Popup } from 'mint-ui';
+import FavoriteCell from '@/components/user/favorite/Cell';
 import Footer from '@/common/_footer.vue'
+import userService from '@/api/userService';
+import common from '@/util/common';
 
 export default {
   data() {
     return {
-      selected: '1'
+      friendList: [],
     }
   },
   mounted() {
     window.scrollTo(0, 0);
+    this.getMyFriendList();
   },
   methods: {
-    showMore() {
-      // MessageBox('海王星辰', '亲，仓库会根据亲的地亲，仓库会根据亲的地亲，仓库会根据亲的地亲，仓库会根据亲的地');
+    getMyFriendList() {
+      userService.getMyFriendList().then(res => {
+        if (!common.isOk(res)) return
+        this.friendList = res.data.data.list;
+      })
+    },
+    deleteCallBack() {
+      MessageBox.alert('操作成功').then(action => {
+
+      });
+    },
+    addFriends() {
+      let self = this;
+      this.popupVisible = false;
+      MessageBox.prompt('请输入好友手机号').then(({ value, action }) => {
+        console.log(value);
+        self.addFriendForApi(value);
+      });
+    },
+    addFriendForApi(phone) {
+      userService.addFriend(phone).then(res => {
+        if (!common.isOk(res)) return
+        Toast("添加好友成功");
+        this.getMyFriendList();
+      })
     }
+
   },
   components: {
     'mt-navbar': Navbar,
     'mt-tab-item': TabItem,
     'mt-header': Header,
     'mt-cell-swipe': CellSwipe,
-    Cell,
+    'v-favorite-cell': FavoriteCell,
     'v-footer': Footer
   }
 }
 </script>
 
 <style lang="less">
-.mint-cell-title {
-  -webkit-box-flex: 0;
-  -ms-flex: 0;
-  flex: 0;
-}
-.mint-cell-swipe-button {
-  line-height: 66px;
-}
 </style>

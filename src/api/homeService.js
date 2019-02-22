@@ -12,9 +12,12 @@ export default {
 		return axios.get(`${prefix}/app/index/advertList`).catch(errorHandler);
 	},
 	getNearShopList(lng, lat) {
-		return axios.get(`${prefix}/app/index/nearbyShopList?longitude=${lng}&latitude=${lat}&pageno=1&size=10`)
+		return axios.get(`${prefix}/app/index/nearbyShopList?longitude=${lng}&latitude=${lat}&pageno=1&size=10`).catch(errorHandler);
 	},
 	getRecommendProductionList(page) {
-		return axios.get(`${prefix}/app/index/recommendProductList?pageno=${page}&size=8`)
-	}
+		return axios.get(`${prefix}/app/index/recommendProductList?pageno=${page}&size=8`).catch(errorHandler);
+	},
+	getChanelList() {
+		return axios.get(`${prefix}/app/other/getChannelList`).catch(errorHandler);
+	},
 }

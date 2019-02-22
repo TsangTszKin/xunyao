@@ -46,7 +46,16 @@ let getMyInfo = () => {
   authService.getMyInfo().then(res => {
     if (!common.isOk(res)) return
     let user = res.data.data.user;
-    localStorage.user = JSON.stringify(user)
+    localStorage.user = JSON.stringify(user);
+    store.commit("CHANGE_USER_INFO", user);
+    if (!common.isEmpty(res.data.data.shop)) {
+      localStorage.shop = JSON.stringify(res.data.data.shop);
+      store.commit("CHANGE_USER_ISSHOP", true);
+      store.commit("CHANGE_USER_SHOP", res.data.data.shop);
+    } else {
+      localStorage.removeItem("shop");
+      store.commit("CHANGE_USER_ISSHOP", false);
+    }
   })
 }
 

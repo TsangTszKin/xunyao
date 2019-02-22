@@ -4,7 +4,7 @@ import * as types from '../types'
 const state = {
   selectCate: {
     id: '',
-    name: ''
+    className: ''
   },
   goodsList: []
 }

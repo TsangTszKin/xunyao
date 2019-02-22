@@ -1,5 +1,5 @@
 <template>
-  <li class="goods" @click="$router.push({path: '/detail'})">
+  <li class="goods" @click="$router.push({name: '详情页', params:{id: data.id}})">
     <div class="ui-img-div">
       <img :src="data.productImg">
     </div>
@@ -12,12 +12,13 @@
         <!-- <span class="stock">
           库存
           <i style="margin: 0 3px;">有</i>
-        </span> -->
+        </span>-->
       </p>
-       <p class="status" style="height: 20px;">
+      <p class="status" style="height: 20px;">
         <span class="stock" style="position: relative;">
-          库存
-          <i style="margin: 0 3px;">{{this.data.stock}}</i>件
+          库存：
+          <i style="margin: 0 3px;color: red;" v-if="this.data.stock == 0">无</i>
+          <i style="margin: 0 3px;" v-else>有</i>
           <!-- <i style="margin: 0 3px;">有</i> -->
         </span>
       </p>
@@ -29,7 +30,7 @@
             <i class="fa fa-angle-right fa-lg"></i>
           </p>
         </router-link>
-      </div> -->
+      </div>-->
     </div>
   </li>
 </template>
@@ -52,6 +53,7 @@ export default {
 .goods {
   height: 110px;
   padding: 5px 10px;
+  border-bottom: 1px solid #eee;
   > .ui-img-div {
     display: webkit-flex;
     display: flex;
@@ -63,7 +65,9 @@ export default {
     float: left;
     width: 40%;
     // border-radius: 8px;
-    -moz-box-shadow:0px 1px 3px #808080; -webkit-box-shadow:0px 1px 3px #808080; box-shadow:0px 1px 3px #808080;
+    -moz-box-shadow: 0px 1px 3px #808080;
+    -webkit-box-shadow: 0px 1px 3px #808080;
+    box-shadow: 0px 1px 3px #808080;
     > img {
       width: 100%;
     }

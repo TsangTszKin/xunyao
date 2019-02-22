@@ -11,7 +11,7 @@
     </ul>
   </div>
     <v-baseline/>
-    <v-footer :shopId="shop.shopId" :goods="product" />
+    <v-footer :shopId="shop.shopId" :goods="product" :isFavorite="isFavorite" :favoriteId="favorite?favorite.id:null" />
   </div>
 </template>
 
@@ -24,8 +24,10 @@ import Baseline from '@/common/_baseline.vue'
 import detail from '@/http/mock.js' //模拟数据
 import GoodsItem from '@/components/goods/GoodsItem';
 import goodsService from '@/api/goodsService';
+import userService from '@/api/userService';
 import common from '@/util/common';
 import { Indicator } from 'mint-ui';
+import bus from '@/util/bus';
 
 export default {
   components: {
@@ -39,28 +41,23 @@ export default {
   mounted() {
     window.scrollTo(0, 0);
     this.getGoodsInfo(this.$route.params.id);
+    this.listener();
   },
   beforeCreate() {
     this.$store.dispatch('setDatas');
   },
+  computed: {
+    isFavorite() {
+      if (common.isEmpty(this.favorite)) {
+        return false
+      } else {
+        return true
+      }
+    }
+  },
   data() {
     return {
-      list: [{
-        goodsImgUrl: 'https://gw.alicdn.com/bao/uploaded/TB1oVIdcTlYBeNjSszcXXbwhFXa_!!0-item_pic.jpg_460x460xz.jpg',
-        goodsName: '添色彩绘 客厅欧式照片墙创意美式钟表置物架装饰画挂墙相框组合',
-        size: '黑色',
-        price: '13999',
-        stock: '7',
-        shopName: '添色彩绘旗舰店'
-      },
-      {
-        goodsImgUrl: 'https://gw.alicdn.com/bao/uploaded/TB1oVIdcTlYBeNjSszcXXbwhFXa_!!0-item_pic.jpg_460x460xz.jpg',
-        goodsName: '添色彩绘 客厅欧式照片墙创意美式钟表置物架装饰画挂墙相框组合',
-        size: '黑色',
-        price: '13999',
-        stock: '7',
-        shopName: '添色彩绘旗舰店'
-      }],
+      list: [],
       product: {
         // "id": 3,
         // "createDate": "2019-02-14 11:31:13",
@@ -116,10 +113,16 @@ export default {
         // "drugQuality": "1",
         // "otherQualifications": "1",
         // "isClosed": 0
-      }
+      },
+      favorite: null
     }
   },
   methods: {
+    listener() {
+      bus.$on("detail.getInfo", () => {
+        this.getGoodsInfo(this.$route.params.id);
+      })
+    },
     getGoodsInfo(id) {
       Indicator.open();
       goodsService.getGoodsInfo(id).then(res => {
@@ -128,8 +131,17 @@ export default {
 
         this.product = res.data.product;
         this.shop = res.data.shop;
+        this.list = res.data.list;
+        this.favorite = res.data.favorite;
+        this.addMyFootPrint(res.data.shop.shopId, res.data.product.id);
       }).catch(() => {
         Indicator.close();
+      })
+    },
+    addMyFootPrint(shopId, productId) {
+      userService.addMyFootPrint(shopId, productId).then(res => {
+        if (!common.isOk(res)) return
+
       })
     }
   }

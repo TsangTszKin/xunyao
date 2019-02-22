@@ -16,7 +16,7 @@
           </div>
           <div class="mint-cell-value">
             <div class="goods-ui-div">
-              <img src="../../assets/images/goods.jpg">
+              <img :src="$store.state.user.user.headimgurl">
             </div>
             <div class="mint-field-clear" style="display: none;">
               <i class="mintui mintui-field-error"></i>
@@ -31,8 +31,8 @@
         <!---->
       </a>
 
-      <mt-field label="姓名" placeholder v-model="saveData.name"></mt-field>
-      <mt-field label="年龄" placeholder type="number" v-model="saveData.age"></mt-field>
+      <mt-field label="名称" :readonly="true" :disableClear="true" placeholder v-model="$store.state.user.user.nickname"></mt-field>
+      <mt-field label="手机号" :readonly="true" :disableClear="true" placeholder type="number" v-model="$store.state.user.user.mobile"></mt-field>
     </div>
   </div>
 </template>

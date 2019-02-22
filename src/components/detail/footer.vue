@@ -3,11 +3,15 @@
     <router-link :to="{name:'店铺主页', params:{id: shopId}}" class="footer-index">
       <i class="icon-index"></i>
     </router-link>
+    <a class="footer-index" style="padding-top: 0;" @click="addFavorite(goods.id)"  v-if="!isFavorite">
+        <i class="fa fa-star fa-lg"></i>
+    </a>
+     <a class="footer-index" style="padding-top: 0;color: orange;" @click="removeFavorite(favoriteId)" v-else >
+        <i class="fa fa-star fa-lg"></i>
+    </a>
+    
     <router-link  :to="{name:'购物车'}" class="footer-gocar">
-      <!-- <i class="icon-car"></i> -->
-      <i class="fa fa-shopping-cart fa-lg" style="position: relative;
-    top: -5px;
-    font-size: 29px;" ></i>
+      <i class="fa fa-shopping-cart fa-lg" style="position: relative;top: -5px;font-size: 29px;" ></i>
       <span v-if="count">{{count}}</span>
     </router-link>
     <span class="footer-addcar" @click="addIntoCar">
@@ -47,9 +51,11 @@ import { MessageBox, Popup, Toast, Button, Field } from 'mint-ui';
 import GoodsItem from '@/components/goods/GoodsItem';
 import cartService from '@/api/cartService';
 import common from '@/util/common';
+import userService from '@/api/userService';
+import bus from '@/util/bus';
 
 export default {
-  props: ["shopId", "goods"],
+  props: ["shopId", "goods", "isFavorite", "favoriteId"],
   data() {
     return {
       modal: false,
@@ -82,20 +88,8 @@ export default {
   },
   methods: {
     addIntoCar() {
-
-
       this.modal = true;
 
-      //  mint-ui的弹出式提示框
-      const product = [{
-        title: this.name,
-        price: this.discountPrice,
-        size: this.specification,
-        // col: this.productDatasView.chose[this.colSelected].col,
-        id: this.id,
-        imgPath: this.productImg,
-        choseBool: false
-      }];
     },
     addCart() {
       let productId = this.goods.id;
@@ -104,7 +98,7 @@ export default {
       cartService.addCart(productId, quantity, shopId).then(res => {
         if (!common.isOk(res)) return
         this.modal = false;
-
+        this.getCartList();
       }).catch(() => { })
     },
     changeItemCount(type) {//type（add,sub,replace）
@@ -127,6 +121,34 @@ export default {
 
       }
     },
+    getCartList() {
+      cartService.cartList().then(res => {
+        if (!common.isOk(res)) return
+        let data = res.data.data;
+        let cartList = [];
+        for (const key in data) {
+          if (data.hasOwnProperty(key)) {
+            const element = data[key];
+            cartList.push(element);
+          }
+        }
+        this.$store.commit("CHANGE_CART_LIST", cartList);
+      })
+    },
+    addFavorite(id) {
+      userService.addFavorite(2, id).then(res => {
+        if (!common.isOk(res)) return
+        Toast("关注成功");
+        bus.$emit("detail.getInfo");
+      })
+    },
+    removeFavorite(id) {
+      userService.removeFavorite(id).then(res => {
+        if (!common.isOk(res)) return
+        Toast("已取消关注");
+        bus.$emit("detail.getInfo");
+      })
+    }
   }
 }
 </script>

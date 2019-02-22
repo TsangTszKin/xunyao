@@ -4,7 +4,7 @@
       class="shop-panel"
       v-for="(item, i) in $store.state.cart.cartList"
       :key="i"
-      v-if="item.productList.length > 0"
+      v-if="item.cartList.length > 0"
     >
       <v-cart-shop-item :shopIndex="i" :cartShop="item"/>
     </ul>

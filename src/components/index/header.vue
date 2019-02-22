@@ -7,13 +7,11 @@
     </router-link>
   
 
-    <router-link :to="{path:'/search'}" slot="right">
-       <i class="fa fa-plus-circle fa-lg" @click="addFriends"></i>
-    </router-link>
+       <i slot="right" class="fa fa-plus-circle fa-lg" @click="popupVisible = true"></i>
     
   </mt-header>
 
-   <router-link :to="{path:'/search'}">
+   <router-link :to="{name:'搜索页', params:{type: 'goods'}}">
       <mt-search
         cancel-text="取消"
         placeholder="搜索"
@@ -24,24 +22,46 @@
       </mt-search>
     </router-link>
 
+    <mt-popup
+      v-model="popupVisible"
+      style="
+    width: 150px;
+    height: 45px;
+    z-index: 2001;
+    top: 41px;
+    left: auto;
+    right: -69px;
+    "
+      :modal="true"
+      :closeOnClickModal="true"
+      position="top"
+      >
+      <div class="">
+          <span class="triangle_border_up_span"></span>
+          <p style="padding: 10px 10px;text-align: center;" @click="addFriends"><i class="fa fa-user-plus fa-lg" style="margin-right: 10px;"></i>添加好友</p>
+      </div>
+    </mt-popup>
+
   </div>
 </template>
 
 <script>
-import common from '../../util/common';
-import { Toast } from 'mint-ui';
+import common from '@/util/common';
+import { Toast, Popup, MessageBox } from 'mint-ui';
 import CityPicker from '@/components/CityPicker';
 import $ from "jquery";
+import userService from '@/api/userService';
 
 export default {
   data() {
     return {
       city: localStorage.cityName ? localStorage.cityName : '定位中',
-
+      popupVisible: false
     }
   },
   components: {
-    "CityPicker": CityPicker
+    "CityPicker": CityPicker,
+    'mt-popup': Popup
   },
   mounted() {
     let self = this;
@@ -121,7 +141,18 @@ export default {
       }
     },
     addFriends() {
-      Toast('用于添加好友')
+      let self = this;
+      this.popupVisible = false;
+      MessageBox.prompt('请输入好友手机号').then(({ value, action }) => {
+        console.log(value);
+        self.addFriendForApi(value);
+      });
+    },
+    addFriendForApi(phone) {
+      userService.addFriend(phone).then(res => {
+        if (!common.isOk(res)) return
+        Toast("添加好友成功");
+      })
     }
   }
 }

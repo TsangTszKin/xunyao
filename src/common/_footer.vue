@@ -14,7 +14,7 @@
       <i slot="icon" class="fa fa-shopping-cart fa-lg" style="font-size: 27px;"></i>
       购物车
     </mt-tab-item>
-    <mt-tab-item id="商品列表">
+    <mt-tab-item id="商品列表" v-if="isShop">
        <i slot="icon" class="fa fa-th-large fa-lg" style="font-size: 25px;"></i>
       商品列表
     </mt-tab-item>
@@ -27,6 +27,8 @@
 </template>
 
 <script>
+import common from '@/util/common';
+
 export default {
   methods: {
     gotoRouter() {
@@ -38,10 +40,15 @@ export default {
   data() {
     return {
       //对应mt-tab-item 的id值
-      selected: ''
+      selected: '',
+      isShop: false
     }
   },
   mounted() {
+
+    if (!common.isEmpty(localStorage.shop)) {
+      this.isShop = true
+    }
 
     //获取当前路由名称，根据该名称给当前footer添加is-selected
     let Rname = this.$route.name;

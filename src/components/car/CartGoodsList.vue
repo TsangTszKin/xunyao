@@ -1,11 +1,19 @@
 <template>
   <ul class="something">
-    <v-cart-goods-item v-for="(item, i) in goodsList" :shopIndex="shopIndex" :goodsIndex="i" :cartGoods="item"/>
+    <v-cart-goods-item
+      v-for="(item, i) in goodsList"
+      :shopIndex="shopIndex"
+      :goodsIndex="i"
+      :cartGoods="item"
+      :key="i"
+    />
   </ul>
 </template>
 
 <script>
 import CartGoodsItem from '@/components/car/CartGoodsItem';
+import cartService from '@/api/cartService';
+import common from '@/util/common';
 
 export default {
   props: {
@@ -29,8 +37,31 @@ export default {
       }
     }
   },
+  mounted() {
+    this.getCartList();
+  },
   components: {
     'v-cart-goods-item': CartGoodsItem
+  },
+  methods: {
+    getCartList() {
+      cartService.cartList().then(res => {
+        if (!common.isOk(res)) return
+        let data = res.data.data;
+        let cartList = [];
+        for (const key in data) {
+          if (data.hasOwnProperty(key)) {
+            const element = data[key];
+            cartList.push(element);
+          }
+        }
+        this.$store.commit("CHANGE_CART_LIST", cartList);
+        this.$store.commit("CHANGE_CART_DATA", data);
+        this.$store.commit("CHANGE_CART_SUREFREE", res.data.sureFee);
+        this.$store.commit("CHANGE_CART_TOTALFREE", res.data.totalFee);
+        this.$store.commit("CHANGE_CART_TIME", res.data.deliveryTime);
+      })
+    }
   }
 }
 </script>

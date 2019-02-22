@@ -6,11 +6,11 @@
       </mt-header>
       <!-- 根据购物车是否有商品加载不同的组件 -->
       <div class="v-content">
-        <v-something v-if="true"/>
+        <v-something v-if="$store.state.cart.cartList.length > 0"/>
         <v-nothing v-else/>
       </div>
      
-      <v-footer/>
+      <v-footer v-if="$store.state.cart.cartList.length > 0" />
       <FooterIndex />
     </div>
 </template>
@@ -40,10 +40,7 @@ export default {
     }
   },
   mounted() {
-    // 防止刷新页面数据为空
-    if (this.$store.state.detail.count == "") {
-      this.$store.commit('RESET_COUNT')
-    }
+
     window.scrollTo(0, 0);
 
     this.cartList();

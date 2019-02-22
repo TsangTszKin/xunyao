@@ -4,19 +4,21 @@
       <img src="../../assets/images/goods.jpg">
     </div>-->
     <div class="brief">
-      <p class="name">{{this.data.goodsName}}</p>
-      <p class="size">{{this.data.size}}</p>
+      <p class="name">{{this.data.name}}</p>
+      <p class="size">{{this.data.specification}}</p>
       <p class="status">
         <span style="font-size: 13px;color:red;">参考价￥</span>
-        <span class="price">{{this.data.price}}</span>
+        <span class="price">{{this.data.discountPrice}}</span>
         <!-- <span class="stock">
           库存
           <i style="margin: 0 3px;">有</i>
         </span>-->
       </p>
       <p class="status" style="height: 20px;">
-        <span class="stock" style="position: relative;">库存
-          <i style="margin: 0 3px;">{{this.data.stock}}</i>件
+        <span class="stock" style="position: relative;">
+          库存：
+          <i style="margin: 0 3px;color: red;" v-if="this.data.stock == 0">无</i>
+          <i style="margin: 0 3px;" v-else>有</i>
           <!-- <i style="margin: 0 3px;">有</i> -->
         </span>
       </p>
@@ -51,7 +53,7 @@ export default {
 .goods {
   height: 110px;
   padding: 10px 10px;
-  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
   > .ui-img-div {
     display: webkit-flex;
     display: flex;

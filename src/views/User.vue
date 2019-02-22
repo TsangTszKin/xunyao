@@ -16,7 +16,7 @@
         </header>
       </router-link>
       <div class="main">
-          <router-link class="my-indent" :to="{ name: '我的订单'}">
+          <router-link class="my-indent" :to="{ name: '我的订单', params:{status: '-1'}}">
               <span class="my-indent-left">我的订单</span>
               <div class="my-indent-right">
                   <span>全部订单</span>
@@ -25,28 +25,26 @@
           </router-link>
 
           <section class="my-pay">
-              <router-link :to="{ name: ''}">
+              <router-link :to="{ name: '我的订单', params:{status: '0'}}">
                 <div style="position: relative;">
  <span class="icon2-money"></span>
-                  <p>代付款</p>
-                  <mt-badge size="small" type="error" style="position: absolute;
-    top: 0;
-    right: 30px;">30</mt-badge>
+                  <p>待确认</p>
+                  <mt-badge size="small" type="error" style="position: absolute;top: 0;right: 30px;" v-if="doOrderCount >0">{{doOrderCount}}</mt-badge>
                 </div>
                  
               </router-link>
-              <router-link :to="{ name: ''}">
+              <router-link :to="{ name: '我的订单', params:{status: '1'}}">
                   <span class="icon2-thecar"></span>
                   <p>待收货</p>
               </router-link>
-              <router-link :to="{ name: ''}">
+              <router-link :to="{ name: '我的订单', params:{status: '2'}}">
                   <span class="icon2-fixed"></span>
                   <p>已完成</p>
               </router-link>
 
           </section>
 
-          <section class="my-vip">
+          <!-- <section class="my-vip">
            
             <router-link class="my-vip-top ho" :to="{ name: ''}" >
               <div class="my-vip-top-div">
@@ -56,7 +54,7 @@
                 <span>店员通</span><i class="icon-go"></i>
               </p>
             </router-link>
-          </section>
+          </section> -->
 
           <section class="my-vip">
             <router-link class="my-vip-bottom ho" :to="{ name: '钱包'}">
@@ -86,14 +84,14 @@
                 <span>收货地址</span><i class="icon-go"></i>
               </p>
             </router-link>
-            <!-- <router-link class="my-vip-top ho" :to="{ name: '我的好友'}" >
+            <router-link class="my-vip-top ho" :to="{ name: '我的好友'}" >
               <div class="my-vip-top-div">
                 <i class="fa fa-users fa-lg"></i>
               </div>
               <p>
                 <span>我的好友</span><i class="icon-go"></i>
               </p>
-            </router-link> -->
+            </router-link>
             <router-link class="my-vip-bottom ho" :to="{ name: '足迹'}">
               <div>
                 <i class="fa fa-eye fa-lg"></i>
@@ -143,8 +141,8 @@
 
 
            <section class="my-settle">
-             <router-link :to="{ name: ''}" class="my-settle-top">
-                  <div>
+             <router-link :to="{ name: ''}" class="my-settle-top" >
+                  <div @click="test">
                    <i class="fa fa-cog fa-lg"></i>
                   </div>
 
@@ -174,7 +172,9 @@
 
 import Baseline from '@/common/_baseline.vue'
 import Footer from '@/common/_footer.vue'
-import { Badge } from 'mint-ui';
+import { Badge, MessageBox } from 'mint-ui';
+import userService from '@/api/userService';
+import common from '@/util/common';
 
 export default {
   components: {
@@ -182,18 +182,50 @@ export default {
     'v-footer': Footer,
     'mt-badge': Badge
   },
+  data() {
+    return {
+      doOrderCount: 0
+    }
+  },
   mounted() {
     window.scrollTo(0, 0);
+    this.getMyHomeInfo();
   },
   computed: {
     getUserNickName() {
-      return JSON.parse(localStorage.user).nickname
+      return this.$store.state.user.user.nickname
     },
     getUserImg() {
-      return JSON.parse(localStorage.user).headimgurl
+      return this.$store.state.user.user.headimgurl
     },
     getUserMobile() {
-      return JSON.parse(localStorage.user).mobile
+      return this.$store.state.user.user.mobile
+    }
+  },
+  methods: {
+    test() {
+      MessageBox({
+        title: '提示',
+        message: '是否查看订单？',
+        showCancelButton: true,
+        confirmButtonText: '去查看',
+        cancelButtonText: '返回购物车'
+      }).then(action => {
+        console.log("right", action);
+        if (action === 'confirm') {
+
+        } else if (action === 'cancel') {
+
+        }
+      }).catch(action => {
+        console.log("left", action);
+      });
+    },
+    getMyHomeInfo() {
+      userService.getMyHomeInfo().then(res => {
+        if (!common.isOk(res)) return
+        this.doOrderCount = res.data.doOrderCount;
+      })
     }
   }
 }

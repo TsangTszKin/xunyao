@@ -32,6 +32,9 @@ const Favorite = resolve => require(['@/views/my/Favorite.vue'], resolve)
 const AddressSave = resolve => require(['@/views/my/AddressSave.vue'], resolve)
 const FeedBack = resolve => require(['@/views/my/FeedBack.vue'], resolve)
 const Location = resolve => require(['@/views/Location.vue'], resolve)
+const OrderInfo = resolve => require(['@/views/my/Pay.vue'], resolve)
+const AllGoodsListByCate = resolve => require(['@/views/AllGoodsListByCate.vue'], resolve)
+const ReCharge = resolve => require(['@/views/my/ReCharge.vue'], resolve)
 
 export default new Router({
 
@@ -107,7 +110,7 @@ export default new Router({
     }
   }, {
     path: '/car/pay',
-    name: '支付页',
+    name: '订单页',
     component: Pay,
     meta: {
       requireAuth: true
@@ -155,7 +158,7 @@ export default new Router({
     }
   },
   {
-    path: '/order',
+    path: '/order/:status?',
     name: '我的订单',
     component: Order,
     meta: {
@@ -230,6 +233,30 @@ export default new Router({
     path: '/location',
     name: '定位',
     component: Location,
+    meta: {
+      requireAuth: true
+    }
+  },
+  {
+    path: '/orderInfo/:id',
+    name: '订单详情',
+    component: OrderInfo,
+    meta: {
+      requireAuth: true
+    }
+  },
+  {
+    path: '/all-goods-cate',
+    name: '分类商品',
+    component: AllGoodsListByCate,
+    meta: {
+      requireAuth: true
+    }
+  },
+  {
+    path: '/reCharge',
+    name: '充值',
+    component: ReCharge,
     meta: {
       requireAuth: true
     }

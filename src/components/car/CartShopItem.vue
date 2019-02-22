@@ -1,14 +1,13 @@
 <template>
   <li>
-    <div class="shop-info">
+    <div class="shop-info" @click="$router.push({name: '店铺主页', params: {id: cartShop.shopId}})">
       <img :src="cartShop.shopLogo">
       <span>{{cartShop.shopName}}</span>
       <i
         class="fa fa-angle-right fa-lg"
-        @click="$router.push({name: '店铺主页', params: {id: cartShop.shopId}})"
       ></i>
     </div>
-    <v-cart-goods-list :shopIndex="shopIndex" :goodsList="cartShop.productList" />
+    <v-cart-goods-list :shopIndex="shopIndex" :goodsList="cartShop.cartList"/>
   </li>
 </template>
 
@@ -28,29 +27,26 @@ export default {
           shopName: '张明家的店',
           shopId: 2,
           shopLogo: 'http://47.106.168.53:8094/20190124/83244be702ab4907924d865569c6dba4.jpg',
-          productList: [
+          cartList: [
             {
-              name: '复方金银花颗粒(诺金)',
-              id: 5,
-              count: 1,
-              img: 'http://o2o.c-doctor.com/images/upload/prodimage/201604/201642614542296.jpg',
-              price: 118,
-              size: '12g*6袋'
+              "id": 9,
+              "buyerId": 7,
+              "shopId": 2,
+              "productId": 5,
+              "productName": "复方金银花颗粒(诺金)",
+              "discountPrice": 28.54,
+              "oldPrice": 39,
+              "productImg": "http://o2o.c-doctor.com/images/upload/prodimage/201604/201642614542296.jpg",
+              "shopName": "张明家的店",
+              "quantity": 1,
+              "createDate": "2019-02-15 22:49:58"
             },
-            {
-              name: '复方金银花颗粒(诺金)2',
-              id: 5,
-              count: 1,
-              img: 'http://o2o.c-doctor.com/images/upload/prodimage/201612/201612814485529.jpg',
-              price: 118,
-              size: '12g*6袋'
-            }
           ]
         }
       }
     }
   },
-   components: {
+  components: {
     'v-cart-goods-list': CartGoodsList
   }
 }
@@ -60,6 +56,7 @@ export default {
 @import "../../assets/fz.less";
 li {
   > .shop-info {
+    width: fit-content;
     > img {
       width: 20px;
       height: 20px;
