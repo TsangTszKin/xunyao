@@ -5,6 +5,7 @@
 <script>
 export default {
   props: {
+    type: {type: Number, default: 1},
     money: { type: Number, defalut: 0 },
     isSelected: { type: Boolean, defalut: false }
   },
