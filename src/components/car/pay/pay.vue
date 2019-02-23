@@ -98,7 +98,8 @@
                                 <!-- <mt-button icon="search" slot="right" @click="$router.push({name: '搜索页', params:{type: 'friends'}})"></mt-button> -->
                         </mt-header>
                         <div style="padding-top: 40px;">
-                                <FriendsPicker /></div>
+                                <FriendsPicker />
+                        </div>
                 </mt-popup>
                 <mt-popup v-model="modal.coupon1" position="bottom" style="width: 100%;height: 100%;">
                         <mt-header title="选择优惠券">
@@ -113,6 +114,7 @@
                                   @callBack="selectCoupon"
                                 />
                         </div>
+                        <v-baseline />
                 </mt-popup>
         </div>
         <v-footer :totalMoney="$store.state.cart.totalFee" @submitCart="submitCart"></v-footer>
@@ -134,6 +136,7 @@ import cartService from '@/api/cartService';
 import { MessageBox, Radio, Field, Switch, Popup, Picker, Indicator, Toast } from 'mint-ui';
 import common from '../../../util/common';
 import bus from '@/util/bus';
+import Baseline from '@/common/_baseline.vue';
 
 export default {
   components: {
@@ -146,7 +149,8 @@ export default {
     AddressPicker,
     FriendsPicker,
     'mt-picker': Picker,
-    'v-ticket-cell': Cell
+    'v-ticket-cell': Cell,
+     'v-baseline': Baseline,
   },
   data() {
     return {
@@ -169,26 +173,26 @@ export default {
         getType: this.$store.state.cart.getType,
         isFriendGet: [],
         address: {
-          // "id": 1,
-          // "createBy": null,
-          // "createDate": null,
-          // "updateBy": "东",
-          // "updateDate": "2019-02-15 17:10:37",
-          // "delFlag": "0",
-          // "remarks": null,
-          // "buyerId": 7,
-          // "receiverName": "",
-          // "provinceId": null,
-          // "province": "北京市",
-          // "cityId": null,
-          // "city": "市辖区",
-          // "districtId": null,
-          // "district": "东城区",
-          // "receiverPhone": "10086",
-          // "receiverAddress": "城南街88号",
-          // "postcode": null,
-          // "isDefault": "1",
-          // "isLabel": null
+          "id": 1,
+          "createBy": null,
+          "createDate": null,
+          "updateBy": "",
+          "updateDate": "",
+          "delFlag": "0",
+          "remarks": null,
+          "buyerId": 7,
+          "receiverName": "",
+          "provinceId": null,
+          "province": "",
+          "cityId": null,
+          "city": "",
+          "districtId": null,
+          "district": "",
+          "receiverPhone": "",
+          "receiverAddress": "",
+          "postcode": null,
+          "isDefault": "1",
+          "isLabel": null
         }
       },
       getType: this.$store.state.cart.getType
@@ -241,7 +245,7 @@ export default {
     getDefaultAddress() {
       userService.getDefaultAddress().then(res => {
         if (!common.isOk(res)) return
-        this.mainData.address = res.data.data;
+        this.mainData.address = res.data.data || this.mainData.address;
       })
     },
     selectAddress(address) {

@@ -9,7 +9,11 @@
       <div class="v-content">
           <mt-field label="充值金额" :disableClear="true" :readonly="true"></mt-field>
           <div class="denomination">
-            <v-denomination v-for="(n, k) in moneyList" :key="k" :money="n" :isSelected="money == n" @change="(data)=>{money = data}" />
+            <v-denomination v-for="(n, k) in moneyList" :key="k" :money="n" :isSelected="money == n" @change="(data)=>{money = data}" v-if="k < 3" />
+          </div>
+          <div class="denomination">
+            <v-denomination v-for="(n, k) in moneyList" :key="k" :money="n" :isSelected="money == n" @change="(data)=>{money = data}" v-if="k >= 3" />
+              <v-denomination :money="0" :isSelected="money == 0" @change="(data)=>{money = data}" :type="2" @click.native="showBox" />
           </div>
           <mt-field label="支付方式" :disableClear="true" :readonly="true" style="margin-top: 20px;"></mt-field>
           <mt-checklist
@@ -40,7 +44,7 @@
 
 import Baseline from '@/common/_baseline.vue'
 import Footer from '@/common/_footer.vue'
-import { Badge, Header, Button, Field, Checklist, Toast } from 'mint-ui';
+import { Badge, Header, Button, Field, Checklist, Toast, MessageBox } from 'mint-ui';
 import Denomination from '@/components/user/wallet/Denomination';
 import userService from '@/api/userService';
 import common from '@/util/common';
@@ -56,7 +60,7 @@ export default {
   data() {
     return {
       money: 30,
-      moneyList: [30, 50, 100, 200, 500, 1000],
+      moneyList: [30, 50, 100, 200, 500],
 
     }
   },
@@ -80,6 +84,14 @@ export default {
         }, 500);
 
       })
+    },
+    showBox() {
+      let self = this;
+      MessageBox.prompt('请输入金额').then(({ value, action }) => {
+        console.log(value);
+        self.money = value;
+        // self.reCharge();
+      });
     }
   }
 }

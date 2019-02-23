@@ -7,7 +7,7 @@
       <div>
         <v-panel v-for="(n, key) in list" :date="n.date" :goodsList="n.goodsList" :key="key"/>
       </div>
-      <v-baseline v-if="list.length > 0"/>
+      <v-baseline />
     </div>
   </div>
 </template>

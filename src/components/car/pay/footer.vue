@@ -1,9 +1,9 @@
 <template>
   <footer class="footer">
     <div class="footer-result">
-      <p>合计保证金：</p>
+      <p>合计金额：</p>
       <p>
-        <span>{{allpay}}</span>元
+        <span>{{totalMoney.toFixed(2)}}</span>元
       </p>
     </div>
     <a class="footer-pay" @click="goPay">提交订单</a>

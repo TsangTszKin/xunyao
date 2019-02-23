@@ -1,5 +1,6 @@
 <template>
-  <div class="denomination" :class="{'selected': isSelected}" @click="change">{{money}}元</div>
+  <div class="denomination" :class="{'selected': isSelected}" @click="change" v-if="type == 1">{{money}}元</div>
+  <div class="denomination" :class="{'selected': isSelected}" @click="change" v-else>其他金额</div>
 </template>
 
 <script>

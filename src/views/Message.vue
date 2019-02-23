@@ -19,31 +19,34 @@
 
       <!-- tab-container -->
       <mt-tab-container v-model="selected" style="margin-top: 5px;">
-        <mt-tab-container-item id="1">
+        <mt-tab-container-item id="1" style="margin-bottom: 50px;">
           <v-cell
             v-for="(n, key) in 4"
             :key="key+Math.random()"
             @click.native="showMore"
             class="v-message-large"
           />
+          <v-baseline/>
         </mt-tab-container-item>
-        <mt-tab-container-item id="2">
+        <mt-tab-container-item id="2" style="margin-bottom: 50px;">
           <v-cell
             v-for="(n, key) in 6"
             :key="key+Math.random()"
             @click.native="showMore"
             class="v-message-large"
           />
+          <v-baseline/>
         </mt-tab-container-item>
-        <mt-tab-container-item id="3">
+        <mt-tab-container-item id="3" style="margin-bottom: 50px;">
           <v-cell
             v-for="(n, key) in 8"
             :key="key+Math.random()"
             @click.native="showMore"
             class="v-message-large"
           />
+          <v-baseline/>
         </mt-tab-container-item>
-        <mt-tab-container-item id="4">
+        <mt-tab-container-item id="4" style="margin-bottom: 50px;">
           <v-cell
             v-for="(n, key) in friendList"
             :name="n.friendName"
@@ -54,6 +57,7 @@
             @click.native="showMore"
             class="v-message-large"
           />
+          <v-baseline/>
         </mt-tab-container-item>
       </mt-tab-container>
     </div>
@@ -68,6 +72,7 @@ import VCell from '@/components/message/Cell';
 import Footer from '@/common/_footer.vue';
 import userService from '@/api/userService';
 import common from '@/util/common';
+import Baseline from '@/common/_baseline.vue'
 
 export default {
   data() {
@@ -99,6 +104,7 @@ export default {
     'v-cell': VCell,
     'v-footer': Footer,
     'mt-cell': Cell,
+    'v-baseline': Baseline,
   }
 }
 </script>

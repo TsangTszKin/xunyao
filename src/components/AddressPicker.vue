@@ -1,6 +1,7 @@
 <template>
   <div style="width: 100%;    padding-top: 20px;">
     <v-cell v-for="(n, key) in addressList" :data="n" :key="key" @click.native="selectAddress(n)"/>
+    <v-baseline/>
   </div>
 </template>
 
@@ -9,6 +10,7 @@ import Cell from '@/components/AddressPickerCell';
 import userService from '@/api/userService';
 import { Indicator } from 'mint-ui';
 import common from '@/util/common';
+import Baseline from '@/common/_baseline.vue';
 
 export default {
   data() {
@@ -17,7 +19,8 @@ export default {
     }
   },
   components: {
-    'v-cell': Cell
+    'v-cell': Cell,
+    'v-baseline': Baseline,
   },
   mounted() {
     window.scrollTo(0, 0);

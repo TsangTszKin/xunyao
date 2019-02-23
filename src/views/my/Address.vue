@@ -12,6 +12,7 @@
 
     <div class="v-content">
       <Cell v-for="(n, key) in list" :data="n" :key="key" @click.native="showMore"/>
+      <v-baseline/>
     </div>
   </div>
 </template>
@@ -22,6 +23,7 @@ import Cell from '@/components/user/address/Cell';
 import Footer from '@/common/_footer.vue'
 import userService from '@/api/userService';
 import common from '@/util/common';
+import Baseline from '@/common/_baseline.vue';
 
 export default {
   data() {
@@ -53,7 +55,8 @@ export default {
     'mt-header': Header,
     'mt-cell-swipe': CellSwipe,
     Cell,
-    'v-footer': Footer
+    'v-footer': Footer,
+    'v-baseline': Baseline,
   }
 }
 </script>

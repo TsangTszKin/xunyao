@@ -105,7 +105,12 @@
     }
   </style>
   <title>寻药</title>
-
+  <script>
+    /* eslint-disable prefer-arrow-callback,quotes */
+    if (navigator.userAgent.toLowerCase().indexOf('windowswechat') > 0) {
+      delete window.ontouchstart;
+    }
+  </script>
   <!-- <script src="http://mockjs.com/dist/mock.js"></script> -->
   <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=AuOY7KgIDlUnzBsTxL7YZeo8UAfpYXmQ"></script>
 

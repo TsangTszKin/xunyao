@@ -97,7 +97,7 @@ export default {
     getMyMoney() {
       userService.getMyMoney().then(res => {
         if (!common.isOk(res)) return
-        this.money = res.data.money;
+        this.money = res.data.money || this.money;
       })
     }
   }
