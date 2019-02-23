@@ -84,6 +84,10 @@ export default {
   color: #333;
 }
 .footer {
+  position: fixed;
+  bottom: 0;
+  height: 55px;
+  width: 100%;
   .mint-tabbar {
     background-color: #fff;
     background-image: none;
