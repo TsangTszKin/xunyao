@@ -117,7 +117,7 @@
                         <v-baseline />
                 </mt-popup>
         </div>
-        <v-footer :totalMoney="$store.state.cart.totalFee" @submitCart="submitCart"></v-footer>
+        <v-footer :totalMoney="totalMoney" @submitCart="submitCart"></v-footer>
 </div>
 
 </template>
@@ -150,7 +150,7 @@ export default {
     FriendsPicker,
     'mt-picker': Picker,
     'v-ticket-cell': Cell,
-     'v-baseline': Baseline,
+    'v-baseline': Baseline,
   },
   data() {
     return {
@@ -165,7 +165,7 @@ export default {
         id: '',
         phone: ''
       },
-      totalMoney: 0,
+      totalMoney: this.$store.state.cart.totalFee,
       saveData: [],
       activityList: [],
       currentShopIndex: 0,
@@ -195,8 +195,8 @@ export default {
           "isLabel": null
         }
       },
-      getType: this.$store.state.cart.getType
-
+      getType: this.$store.state.cart.getType,
+      couponList: []
     }
   },
 
@@ -225,6 +225,7 @@ export default {
 
     this.saveData.forEach(element => {
       this.mainData.isFriendGet.push(false);
+      this.couponList.push(0);
     });
 
     $(".v-picker").height($('#app').height());
@@ -282,6 +283,12 @@ export default {
           break;
       }
       this.modal.coupon1 = false;
+      this.couponList[this.currentShopIndex] = coupon.cash;
+      let totalCash = 0;
+      this.couponList.forEach(element => {
+        totalCash += element;
+      })
+      this.totalMoney = this.$store.state.cart.totalFee - totalCash > 0 ? this.$store.state.cart.totalFee - totalCash : 0;
     },
     submitCart() {
       let params = this.packData();

@@ -14,8 +14,8 @@ export default {
 	saveAddress(params) {
 		return axios.put(`${prefix}/app/my/receiver/save`, params).catch(errorHandler);
 	},
-	saveAddressInfo(id) {
-		return axios.put(`${prefix}/app/my/receiver/info?id=${id}`).catch(errorHandler);
+	getAddressInfo(id) {
+		return axios.get(`${prefix}/app/my/receiver/info?id=${id}`).catch(errorHandler);
 	},
 	submitFeedback(params) {
 		return axios.put(`${prefix}/app/other/submitSuggest`, params).catch(errorHandler);

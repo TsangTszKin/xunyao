@@ -89,6 +89,10 @@ export default {
       let self = this;
       MessageBox.prompt('请输入金额').then(({ value, action }) => {
         console.log(value);
+        if (isNaN(value)) {
+          Toast("请输入正确的金额");
+          return
+        }
         self.money = value;
         // self.reCharge();
       });

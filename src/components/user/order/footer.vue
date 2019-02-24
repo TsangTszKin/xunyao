@@ -1,7 +1,7 @@
 <template>
   <footer class="footer">
     <div class="footer-result">
-      <p>合计保证金：</p>
+      <p>合计金额：</p>
       <p>
         <span>{{totalMoney}}</span>元
       </p>

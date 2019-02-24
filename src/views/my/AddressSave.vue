@@ -180,21 +180,24 @@ export default {
       userService.saveAddress(data).then(res => {
         Indicator.close();
         if (!common.isOk(res)) return
-        Toast({
-          message: '操作成功',
+        let timer = Toast({
+          message: '保存成功',
           iconClass: 'fa fa-check'
         });
       })
+      setTimeout(() => {
+        timer.close();
+      }, 500);
 
     },
     getInfo(id) {
 
       Indicator.open();
-      userService.saveAddressInfo(id).then(res => {
+      userService.getAddressInfo(id).then(res => {
         Indicator.close();
         if (!common.isOk(res)) return
         let data = common.deepClone(res.data.data);
-        data.isDefault == true ? data.isDefault = 1 : data.isDefault = 0;
+        data.isDefault == 1 ? data.isDefault = true : data.isDefault = false;
         this.saveData = data;
       })
 

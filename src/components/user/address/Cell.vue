@@ -1,5 +1,5 @@
 <template>
-  <div style="margin-bottom: 20px;">
+  <div style="margin: 20px 0;">
     <div style="height: 40px; width: 40px; float:left;">
       <p
         style="background-color: gainsboro;

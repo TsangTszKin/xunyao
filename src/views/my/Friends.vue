@@ -13,6 +13,7 @@
         :key="key+Math.random()"
         @click.native="$router.push({name: '店铺主页', params:{id: n.shopId}})"
       />
+      <v-baseline/>
     </div>
   </div>
 </template>
@@ -23,6 +24,7 @@ import FavoriteCell from '@/components/user/favorite/Cell';
 import Footer from '@/common/_footer.vue'
 import userService from '@/api/userService';
 import common from '@/util/common';
+import Baseline from '@/common/_baseline.vue';
 
 export default {
   data() {
@@ -55,10 +57,11 @@ export default {
       });
     },
     addFriendForApi(phone) {
+      let self = this;
       userService.addFriend(phone).then(res => {
         if (!common.isOk(res)) return
         Toast("添加好友成功");
-        this.getMyFriendList();
+        self.getMyFriendList();
       })
     }
 
@@ -69,7 +72,8 @@ export default {
     'mt-header': Header,
     'mt-cell-swipe': CellSwipe,
     'v-favorite-cell': FavoriteCell,
-    'v-footer': Footer
+    'v-footer': Footer,
+    'v-baseline': Baseline,
   }
 }
 </script>
