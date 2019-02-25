@@ -2,7 +2,7 @@ import { Toast } from 'mint-ui';
 import axios from '@/http/api.js'
 const prefix = axios.defaults.baseURL;
 const errorHandler = error => {
-	Toast("操作失败，请稍候再试！");
+	// Toast("操作失败，请稍候再试！");
 	console.log(error);
 };
 
