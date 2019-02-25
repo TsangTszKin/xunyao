@@ -159,6 +159,15 @@
                     <span>商家入驻</span><i class="icon-go"></i>
                   </p>
               </router-link>
+               <a class="my-settle-top" @click="clearCache()">
+                  <div>
+                   <i class="fa fa-trash-o fa-lg"></i>
+                  </div>
+
+                  <p>
+                    <span>清除缓存</span><i class="icon-go"></i>
+                  </p>
+              </a>
           </section>
 
       </div>
@@ -172,7 +181,7 @@
 
 import Baseline from '@/common/_baseline.vue'
 import Footer from '@/common/_footer.vue'
-import { Badge, MessageBox } from 'mint-ui';
+import { Badge, MessageBox, Toast } from 'mint-ui';
 import userService from '@/api/userService';
 import common from '@/util/common';
 
@@ -203,23 +212,9 @@ export default {
     }
   },
   methods: {
-    test() {
-      MessageBox({
-        title: '提示',
-        message: '是否查看订单？',
-        showCancelButton: true,
-        confirmButtonText: '去查看',
-        cancelButtonText: '返回购物车'
-      }).then(action => {
-        console.log("right", action);
-        if (action === 'confirm') {
-
-        } else if (action === 'cancel') {
-
-        }
-      }).catch(action => {
-        console.log("left", action);
-      });
+    clearCache() {
+      localStorage.clear();
+      Toast("已清除");
     },
     getMyHomeInfo() {
       userService.getMyHomeInfo().then(res => {
