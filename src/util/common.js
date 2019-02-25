@@ -88,7 +88,7 @@ export default {
   },
   isOk(res) {
     if (this.isEmpty(res)) {
-      Toast("后台返回数据有误");
+      console.error("后台返回数据有误");
       return false
     } else {
       if (res.data.code != 0) {

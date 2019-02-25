@@ -73,6 +73,7 @@ export default {
   },
   mounted() {
     this.getCartList();
+    localStorage.removeItem("cityName");
   },
   methods: {
     getCartList() {

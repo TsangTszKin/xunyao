@@ -3,16 +3,17 @@ import * as types from '../types'
 
 const state = {
   user: {
-    "userId": 4,
-    "username": "zwd",
-    "mobile": "13570412412",
+    "userId": 0,
+    "username": "",
+    "mobile": "",
     "password": null,
-    "nickname": "东",
-    "money": 333,
-    "openId": "1oCCaktyrI_Kezt8RnFBtV_IflIOk",
-    "headimgurl": "http://thirdwx.qlogo.cn/mmopen/vi_32/mLiaDGfzJnMH5phlnsxaLLoIIOWPh9yKTwe5KZKMXKa29kWRicUHRrgEGj5cv6akvVEwChnBrc2EmSmibh9YJnFUA/132",
+    "nickname": "",
+    "money": '',
+    "openId": "",
+    "headimgurl": "",
     "type": null,
-    "createTime": null
+    "createTime": null,
+    "id": ''
   },
   shop: {
     "shopId": 2,

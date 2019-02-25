@@ -5,9 +5,9 @@
       <i
         class="fa fa-plus fa-lg"
         slot="right"
-        style="font-size: 12px;"
+        style="font-size: 12px;margin-right:10px;"
         @click="$router.push({path: '/addressSave'})"
-      >新增地址</i>
+      ></i>
     </mt-header>
 
     <div class="v-content">

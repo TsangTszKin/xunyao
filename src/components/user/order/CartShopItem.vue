@@ -9,8 +9,9 @@
     <v-cart-goods-list :shopIndex="shopIndex" :goodsList="cartShop.orderItemlist" @click.native="$router.push({name: '订单详情', params:{id: cartShop.id}})" />
     <p style="margin-top: 10px;text-align: right;">
       <!-- <mt-button type="default" size="small">删除订单</mt-button> -->
-      <mt-button type="default" size="small" @click="cancelOrder(cartShop.id)" v-if="this.cartShop.orderStatus == 0 || this.cartShop.orderStatus == 1" >取消订单</mt-button>
+      <mt-button type="default" size="small" @click="cancelOrder(cartShop.id)" v-if="this.cartShop.orderStatus == 1" >取消订单</mt-button>
       <mt-button type="default" size="small" @click="receiverOrder(cartShop.id)" v-if="this.cartShop.orderStatus == 1" >确认收货</mt-button>
+      <mt-button type="default" size="small" @click="confirmOrder(cartShop.id)" v-if="this.cartShop.orderStatus == 0 && this.cartShop.insteadBuyerId == $store.state.user.user.id" >确认订单</mt-button>
     </p>
   </li>
 </template>
@@ -94,6 +95,9 @@ export default {
     },
     receiverOrder(id){
       bus.$emit("my.order.receiverOrder", id);
+    },
+     confirmOrder(id){
+      bus.$emit("my.order.confirmOrder", id);
     }
   }
 }

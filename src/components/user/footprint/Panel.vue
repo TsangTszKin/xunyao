@@ -40,7 +40,7 @@ div.panel {
     padding-left: 10px;
   }
   > ul {
-    background-color: #dcdcdc38;
+    // background-color: #dcdcdc38;
     > li.v-clear {
       margin-bottom: 20px;
     }

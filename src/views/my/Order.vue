@@ -17,19 +17,19 @@
     width: 100%;
     z-index: 0;">
       <mt-tab-container-item id="-1">
-        <v-cart-shop-list :orderList="this.list" :key="1"/>
+        <v-cart-shop-list :orderList="this.list" :key="Math.random()+Math.random()"/>
       </mt-tab-container-item>
       <mt-tab-container-item id="0">
-        <v-cart-shop-list :orderList="this.list" :key="2"/>
+        <v-cart-shop-list :orderList="this.list" :key="Math.random()+Math.random()"/>
       </mt-tab-container-item>
       <mt-tab-container-item id="1">
-        <v-cart-shop-list :orderList="this.list" :key="3"/>
+        <v-cart-shop-list :orderList="this.list" :key="Math.random()+Math.random()"/>
       </mt-tab-container-item>
       <mt-tab-container-item id="2">
-        <v-cart-shop-list :orderList="this.list" :key="4"/>
+        <v-cart-shop-list :orderList="this.list" :key="Math.random()+Math.random()"/>
       </mt-tab-container-item>
       <mt-tab-container-item id="3">
-        <v-cart-shop-list :orderList="this.list" :key="5"/>
+        <v-cart-shop-list :orderList="this.list" :key="Math.random()+Math.random()"/>
       </mt-tab-container-item>
     </mt-tab-container>
   </div>
@@ -77,6 +77,13 @@ export default {
 
       });
 
+       bus.$on("my.order.confirmOrder", id => {
+        MessageBox.confirm('是否确认该订单？').then(action => {
+          self.confirmOrder(id);
+        });
+
+      });
+
     },
     showMore() {
       // MessageBox('海王星辰', '亲，仓库会根据亲的地亲，仓库会根据亲的地亲，仓库会根据亲的地亲，仓库会根据亲的地');
@@ -101,6 +108,13 @@ export default {
       userService.receiverOrder(id).then(res => {
         if (!common.isOk(res)) return
         Toast("已确认收货");
+        this.getOrderList(this.orderStatus, 1);
+      })
+    },
+    confirmOrder(id) {
+      userService.confirmOrder(id).then(res => {
+        if (!common.isOk(res)) return
+        Toast("已确认订单");
         this.getOrderList(this.orderStatus, 1);
       })
     }

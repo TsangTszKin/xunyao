@@ -56,6 +56,9 @@ export default {
 	receiverOrder(orderId) {
 		return axios.post(`${prefix}/app/my/receiverOrder?orderId=${orderId}`).catch(errorHandler);
 	},
+	confirmOrder(orderId){
+		return axios.post(`${prefix}/app/my/confirmOrder?orderId=${orderId}`).catch(errorHandler);
+	},
 	removeFavorite(favoriteId) {
 		return axios.delete(`${prefix}/app/other/cancelFavorite?favoriteId=${favoriteId}`).catch(errorHandler)
 	},

@@ -225,6 +225,9 @@ export default {
       userService.getMyHomeInfo().then(res => {
         if (!common.isOk(res)) return
         this.doOrderCount = res.data.doOrderCount;
+        res.data.loginUser.user.id = res.data.loginUser.id;
+        localStorage.user = JSON.stringify(res.data.loginUser.user);
+        this.$store.commit("CHANGE_USER_INFO", res.data.loginUser.user);
       })
     }
   }

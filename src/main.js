@@ -45,6 +45,8 @@ router.beforeEach((to, from, next) => {
 let getMyInfo = () => {
   authService.getMyInfo().then(res => {
     if (!common.isOk(res)) return
+    console.log("res.data.data", res.data.data)
+    res.data.data.user['id'] = res.data.data.id;
     let user = res.data.data.user;
     localStorage.user = JSON.stringify(user);
     store.commit("CHANGE_USER_INFO", user);
