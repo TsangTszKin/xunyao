@@ -2,7 +2,9 @@
   <div class="message">
     <mt-header title="我的好友">
       <mt-button icon="back" slot="left" @click="$router.go(-1)"></mt-button>
-      <i slot="right" class="fa fa-plus-circle fa-lg" @click="addFriends"></i>
+      <span slot="right" style="font-size: 12px;" @click="addFriends">
+        <i class="fa fa-plus-circle fa-lg"  style="margin-right: 5px;"></i>添加好友
+      </span>
     </mt-header>
 
     <div class="v-content">
@@ -11,7 +13,6 @@
         :name="n.friendName"
         :avatar="n.friendHeadimgurl"
         :key="key+Math.random()"
-        @click.native="$router.push({name: '店铺主页', params:{id: n.shopId}})"
       />
       <v-baseline/>
     </div>
