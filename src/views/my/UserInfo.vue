@@ -5,62 +5,44 @@
     </mt-header>
 
     <div class="v-content">
-      <a class="mint-cell mint-field">
-        <!---->
-        <div class="mint-cell-left"></div>
-        <div class="mint-cell-wrapper">
-          <div class="mint-cell-title">
-            <!---->
-            <span class="mint-cell-text">头像</span>
-            <!---->
-          </div>
-          <div class="mint-cell-value">
-            <div class="goods-ui-div">
-              <img :src="$store.state.user.user.headimgurl">
-            </div>
-            <div class="mint-field-clear" style="display: none;">
-              <i class="mintui mintui-field-error"></i>
-            </div>
-            <span class="mint-field-state is-default">
-              <i class="mintui mintui-field-default"></i>
-            </span>
-            <div class="mint-field-other"></div>
-          </div>
-        </div>
-        <div class="mint-cell-right"></div>
-        <!---->
-      </a>
+      <ImgPicker label="头像" :value="saveData.imgUrl" fieldKey="imgUrl" @changeFile="changeFile"/>
 
-      <mt-field label="名称" :readonly="true" :disableClear="true" placeholder v-model="$store.state.user.user.nickname"></mt-field>
-      <mt-field label="手机号" :readonly="true" :disableClear="true" placeholder type="number" v-model="$store.state.user.user.mobile"></mt-field>
+      <mt-field label="名称" placeholder v-model="saveData.name"></mt-field>
+      <mt-field label="手机号" placeholder type="number" v-model="saveData.mobile"></mt-field>
+
+      <p>
+        <mt-button type="primary" size="large" @click="save">保存</mt-button>
+      </p>
     </div>
   </div>
 </template>
 
 <script>
 import { Button, Header, Field, Indicator, Toast } from 'mint-ui';
+import ImgPicker from '@/components/ImgPicker';
+import common from '@/util/common';
+import userService from '@/api/userService';
 
 export default {
   components: {
     'mt-header': Header,
     'mt-button': Button,
     'mt-field': Field,
-    'mt-button': Button
+    'mt-button': Button,
+    ImgPicker
   },
   data() {
     return {
       saveData: {
-        imgUrl: '',
-        name: 'TT',
-        age: 20
+        imgUrl: this.$store.state.user.user.headimgurl,
+        name: this.$store.state.user.user.nickname,
+        mobile: this.$store.state.user.user.mobile
       }
     }
   },
   methods: {
-    changeFile(e) {
-      console.log(e);
-      let src = this.getObjectURL(e.target.files[0]);
-      this.saveData.imgUrl = src;
+    changeFile(src, fieldKey) {
+      this.saveData[fieldKey] = src;
     },
     getObjectURL(file) {
       var url = null;
@@ -75,13 +57,14 @@ export default {
     },
     save() {
       Indicator.open();
-      setTimeout(() => {
+      userService.updateUser(this.saveData.mobile, this.saveData.name, this.saveData.imgUrl).then(res => {
         Indicator.close();
+        if (!common.isOk(res)) return
         Toast({
           message: '操作成功',
           iconClass: 'fa fa-check'
         });
-      }, 1000)
+      })
 
     }
   },
@@ -93,10 +76,11 @@ export default {
 
 <style lang="less" scoped>
 .goods-save {
-  > p {
-    // text-align: center;
-    margin-top: 20px;
-    padding: 0 10%;
+  > .v-content {
+    > p {
+      margin: 20px;
+      padding: 0 10%;
+    }
   }
 }
 .goods-ui-div {
@@ -111,6 +95,7 @@ export default {
   justify-content: center;
   overflow: hidden;
   align-items: center;
+
   > img {
     width: 100%;
     position: absolute;

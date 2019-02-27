@@ -40,6 +40,12 @@ const state = {
     "isClosed": 0
   },
   isShop: false,
+  messageCount: {
+    all: 0,
+    count1: 0,
+    count2: 0,
+    count3: 0,
+  }
 }
 
 const mutations = {
@@ -51,6 +57,9 @@ const mutations = {
   },
   [types.CHANGE_USER_SHOP](state, res) {
     state.shop = res
+  },
+  [types.CHANGE_USER_MESSAGECOUNT](state, res) {
+    state.messageCount = res
   }
 }
 

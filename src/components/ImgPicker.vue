@@ -10,7 +10,7 @@
       </div>
       <div class="mint-cell-value">
         <div class="goods-ui-div">
-          <img :src="value" v-if="imgUrl">
+          <img :src="value" v-if="value">
           <i v-else class="fa fa-camera fa-lg"></i>
           <input
             placeholder="请选择商品图片"

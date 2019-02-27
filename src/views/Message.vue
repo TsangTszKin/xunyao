@@ -11,10 +11,18 @@
     width: 100%;
     z-index: 999;"
       >
-        <mt-tab-item id="1">店铺消息</mt-tab-item>
-        <mt-tab-item id="2">订阅</mt-tab-item>
-        <mt-tab-item id="3">通知</mt-tab-item>
-        <mt-tab-item id="4">好友</mt-tab-item>
+        <mt-tab-item id="1">
+          <mt-badge size="small" type="error" style=" position: absolute;top: 0px;left: 75px;" v-if="$store.state.user.messageCount.count1 > 0">{{$store.state.user.messageCount.count1}}</mt-badge>
+          店铺消息
+          </mt-tab-item>
+        <mt-tab-item id="2">
+          <mt-badge size="small" type="error" style=" position: absolute;top: 0px;left: 75px;" v-if="$store.state.user.messageCount.count2 > 0">{{$store.state.user.messageCount.count2}}</mt-badge>
+          系统消息
+          </mt-tab-item>
+        <mt-tab-item id="3">
+          <mt-badge size="small" type="error" style=" position: absolute;top: 0px;left: 75px;" v-if="$store.state.user.messageCount.count3 > 0">{{$store.state.user.messageCount.count3}}</mt-badge>
+          好友消息
+          </mt-tab-item>
       </mt-navbar>
 
       <!-- tab-container -->
@@ -25,19 +33,11 @@
             :key="key+Math.random()"
             @click.native="showMore"
             class="v-message-large"
+            :isConfig="false"
           />
           <v-baseline/>
         </mt-tab-container-item>
         <mt-tab-container-item id="2" style="margin-bottom: 50px;">
-          <v-cell
-            v-for="(n, key) in 6"
-            :key="key+Math.random()"
-            @click.native="showMore"
-            class="v-message-large"
-          />
-          <v-baseline/>
-        </mt-tab-container-item>
-        <mt-tab-container-item id="3" style="margin-bottom: 50px;">
           <v-cell
             v-for="(n, key) in 8"
             :key="key+Math.random()"
@@ -46,7 +46,7 @@
           />
           <v-baseline/>
         </mt-tab-container-item>
-        <mt-tab-container-item id="4" style="margin-bottom: 50px;">
+        <mt-tab-container-item id="3" style="margin-bottom: 50px;">
           <v-cell
             v-for="(n, key) in friendList"
             :name="n.friendName"
@@ -56,6 +56,7 @@
             :key="key+Math.random()"
             @click.native="showMore"
             class="v-message-large"
+            :isConfig="false"
           />
           <v-baseline/>
         </mt-tab-container-item>
@@ -67,7 +68,7 @@
 </template>
 
 <script>
-import { Navbar, TabItem, Header, CellSwipe, MessageBox, Cell } from 'mint-ui';
+import { Navbar, TabItem, Header, CellSwipe, MessageBox, Cell, Badge } from 'mint-ui';
 import VCell from '@/components/message/Cell';
 import Footer from '@/common/_footer.vue';
 import userService from '@/api/userService';
@@ -105,6 +106,7 @@ export default {
     'v-footer': Footer,
     'mt-cell': Cell,
     'v-baseline': Baseline,
+    'mt-badge': Badge
   }
 }
 </script>

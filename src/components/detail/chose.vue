@@ -6,10 +6,16 @@
         <!-- <span>(已选 {{colText}} - {{sizeText}})</span> -->
       </h1>
       <span>￥{{discountPrice}}元</span>
+
+       <p class="" style="font-size: 12px;
+    margin-top: 5px;">
+          库存：{{stock == 1?'有':'无'}}
+      </p>
       <p class="" style="font-size: 12px;
     margin-top: 5px;">
           规格：{{specification}}
       </p>
+     
        <p class="" style="font-size: 12px;
     margin-top: 5px;">
           厂家：{{manufacturer}}

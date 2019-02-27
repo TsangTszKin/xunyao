@@ -73,5 +73,8 @@ export default {
 	},
 	reCharge(money) {
 		return axios.post(`${prefix}/app/my/recharge?money=${money}`).catch(errorHandler)
+	},
+	updateUser(phone, nickname, headimgurl) {
+		return axios.post(`${prefix}/app/my/updateUser?phone=${phone}&nickname=${nickname}&headimgurl=${headimgurl}`).catch(errorHandler)
 	}
 }

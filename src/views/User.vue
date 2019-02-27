@@ -142,7 +142,7 @@
 
            <section class="my-settle">
              <router-link :to="{ name: ''}" class="my-settle-top" >
-                  <div @click="test">
+                  <div>
                    <i class="fa fa-cog fa-lg"></i>
                   </div>
 
@@ -287,11 +287,11 @@ export default {
       }
       > .mobile {
         margin-left: 3.2vw;
-        .fz(font-size, 10);
         color: #000;
         letter-spacing: 0.2vw;
+        font-size: 10px;
         > .fa {
-          font-size: 3em;
+          font-size: 15px;
           margin-right: 3px;
         }
       }

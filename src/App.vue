@@ -9,6 +9,7 @@
 import Loading from '@/common/_loading';
 import cartService from '@/api/cartService';
 import common from '@/util/common';
+import otherService from '@/api/otherService';
 
 export default {
   components: {
@@ -68,11 +69,18 @@ export default {
             }
           ]
         }
-      ]
+      ],
+      messageCount: {
+        all: 0,
+        count1: 0,
+        count2: 0,
+        count3: 0,
+      }
     }
   },
   mounted() {
     this.getCartList();
+    this.getNoReadMessageCount();
     localStorage.removeItem("cityName");
   },
   methods: {
@@ -92,6 +100,22 @@ export default {
         this.$store.commit("CHANGE_CART_SUREFREE", res.data.sureFee);
         this.$store.commit("CHANGE_CART_TOTALFREE", res.data.totalFee);
         this.$store.commit("CHANGE_CART_TIME", res.data.deliveryTime);
+      })
+    },
+    getNoReadMessageCount() {
+      otherService.getNoReadMessageCount().then(res => {
+        if (!common.isOk(res)) return
+        this.messageCount.all = res.data.total;
+        this.getNoReadMessageCount2();
+      })
+    },
+    getNoReadMessageCount2() {
+      otherService.getNoReadMessageCount2().then(res => {
+        if (!common.isOk(res)) return
+        this.messageCount.count1 = res.data.count1;
+        this.messageCount.count2 = res.data.count2;
+        this.messageCount.count3 = res.data.count3;
+        this.$store.commit("CHANGE_USER_MESSAGECOUNT", this.messageCount)
       })
     }
   }
