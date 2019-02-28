@@ -184,10 +184,12 @@ export default {
           message: '保存成功',
           iconClass: 'fa fa-check'
         });
+        setTimeout(() => {
+          timer.close();
+          this.goBack();
+        }, 500);
       })
-      setTimeout(() => {
-        timer.close();
-      }, 500);
+
 
     },
     getInfo(id) {

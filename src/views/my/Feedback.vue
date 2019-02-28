@@ -35,7 +35,12 @@
           v-model="saveData.remarks"
         ></mt-field>
         <mt-field label="称呼" placeholder="您的称呼" v-model="saveData.name"></mt-field>
-        <mt-field label="手机号" placeholder="留下手机号码，以便我们回复您" type="tel" v-model="saveData.telephone"></mt-field>
+        <mt-field
+          label="手机号"
+          placeholder="留下手机号码，以便我们回复您"
+          type="number"
+          v-model="saveData.telephone"
+        ></mt-field>
         <mt-field label="QQ" placeholder="您的QQ（选填）" v-model="saveData.qq"></mt-field>
         <mt-field label="微信号" placeholder="您的微信号（选填）" v-model="saveData.weixin"></mt-field>
       </div>
@@ -129,6 +134,11 @@ export default {
       if (common.isEmpty(this.saveData.telephone)) {
         Toast("请填写您的联系电话");
         return false
+      } else {
+        if (!(/^1[3|4|5|8][0-9]\d{4,8}$/.test(this.saveData.telephone))) {
+          Toast("请填写正确的手机号");
+          return false;
+        }
       }
       return true
     }

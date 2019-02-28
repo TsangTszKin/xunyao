@@ -62,7 +62,7 @@
             left: 0;
             top: 50%;
             margin-top: -14px;
-            background-color: green;
+            background-color: #38af43;
           }
         }
       }
