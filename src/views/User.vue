@@ -141,15 +141,6 @@
 
 
            <section class="my-settle">
-             <router-link :to="{ name: ''}" class="my-settle-top" >
-                  <div>
-                   <i class="fa fa-cog fa-lg"></i>
-                  </div>
-
-                  <p>
-                    <span>设置</span><i class="icon-go"></i>
-                  </p>
-              </router-link>
               <router-link :to="{ name: '商铺入驻申请'}" class="my-settle-top">
                   <div>
                    <i class="fa fa-handshake-o fa-lg"></i>
@@ -169,6 +160,19 @@
                   </p>
               </a>
           </section>
+
+           <section class="my-settle">
+             <router-link :to="{ name: '设置'}" class="my-settle-top" >
+                  <div>
+                   <i class="fa fa-cog fa-lg"></i>
+                  </div>
+
+                  <p>
+                    <span>设置</span><i class="icon-go"></i>
+                  </p>
+              </router-link>
+          </section>
+
 
       </div>
       <!-- <v-baseline></v-baseline> -->
@@ -236,7 +240,7 @@ export default {
 
 .car {
   width: 100%;
-  padding-bottom: 14vw;
+  padding-bottom: 20vw;
   background-color: #f8fcff;
   .header {
     width: 100%;

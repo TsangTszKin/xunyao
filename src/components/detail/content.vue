@@ -2,7 +2,7 @@
   <section class="content">
     <p class="title">说明书</p>
     <div style="padding: 10px;">
-      {{productExplain}}
+      {{product.productExplain}}
     </div>
 
     <div id="goods-detail-panel">
@@ -47,13 +47,12 @@
         </mt-tab-container-item>
         <mt-tab-container-item id="2">
           <div class="goods-params">
-            <p>名称：<span>复方金银花颗粒(诺金)</span></p>
-            <p>通用名：<span>复方金银花颗粒(诺金)</span></p>
-            <p>规格：<span>复方金银花颗粒(诺金)</span></p>
-            <p>生产厂商：<span>复方金银花颗粒(诺金)</span></p>
-            <p>储藏条件：<span>复方金银花颗粒(诺金)</span></p>
-            <p>注意事项：<span>复方金银花颗粒(诺金)</span></p>
-            
+            <p>药名：<span>{{product.name}}</span></p>
+            <p>通用名：<span>{{product.commonName}}</span></p>
+            <p>规格：<span>{{product.specification}}</span></p>
+            <p>生产厂商：<span>{{product.manufacturer}}</span></p>
+            <p>注意事项：<span>{{product.reminder}}</span></p>
+            <p>储藏条件：<span>放阴凉处</span></p>
           </div>
         </mt-tab-container-item>
       </mt-tab-container>
@@ -73,9 +72,11 @@ import $ from 'jquery';
 
 export default {
   props: {
-    productExplain: {
-      type: String,
-      default: ''
+    product: {
+      type: Object,
+      default: function () {
+        return {}
+      }
     }
   },
   data() {

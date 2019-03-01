@@ -35,6 +35,8 @@ const Location = resolve => require(['@/views/Location.vue'], resolve)
 const OrderInfo = resolve => require(['@/views/my/Pay.vue'], resolve)
 const AllGoodsListByCate = resolve => require(['@/views/AllGoodsListByCate.vue'], resolve)
 const ReCharge = resolve => require(['@/views/my/ReCharge.vue'], resolve)
+const Setting = resolve => require(['@/views/my/Setting.vue'], resolve)
+const Help = resolve => require(['@/views/my/Help.vue'], resolve)
 
 export default new Router({
 
@@ -257,6 +259,22 @@ export default new Router({
     path: '/reCharge',
     name: '充值',
     component: ReCharge,
+    meta: {
+      requireAuth: true
+    }
+  },
+  {
+    path: '/setting',
+    name: '设置',
+    component: Setting,
+    meta: {
+      requireAuth: true
+    }
+  },
+  {
+    path: '/help',
+    name: '帮助',
+    component: Help,
     meta: {
       requireAuth: true
     }

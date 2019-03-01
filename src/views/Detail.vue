@@ -1,20 +1,23 @@
 <template lang="html">
   <div class="detail">
+
     <v-swiper :imgs="[product.productImg]" />
+
     <v-chose :name="product.name" :discountPrice="product.discountPrice" :stock="product.stock" :manufacturer="product.manufacturer" :specification="product.specification" />
-    <v-content :productExplain="product.productExplain" />
 
+    <v-content :product="product" />
 
+    <div class="ralative">
+      <p class="title">相关药品</p>
+      <ul>
+        <goods-item v-for="(item, key) in list" class="goods" :key="key" :data="item"/>
+      </ul>
+    </div>
 
-  <!-- <div class="ralative">
-    <p class="title">相关药品</p>
-    <ul
-    >
-      <goods-item v-for="(item, key) in list" class="goods" :key="key" :data="item"/>
-    </ul>
-  </div> -->
     <v-baseline/>
+
     <v-footer :shopId="shop.shopId" :goods="product" :isFavorite="isFavorite" :favoriteId="favorite?favorite.id:null" />
+
   </div>
 </template>
 
