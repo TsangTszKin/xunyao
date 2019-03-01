@@ -150,15 +150,6 @@
                     <span>商家入驻</span><i class="icon-go"></i>
                   </p>
               </router-link>
-               <a class="my-settle-top" @click="clearCache()">
-                  <div>
-                   <i class="fa fa-trash-o fa-lg"></i>
-                  </div>
-
-                  <p>
-                    <span>清除缓存</span><i class="icon-go"></i>
-                  </p>
-              </a>
           </section>
 
            <section class="my-settle">
