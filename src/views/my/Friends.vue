@@ -3,25 +3,27 @@
     <mt-header title="我的好友">
       <mt-button icon="back" slot="left" @click="$router.go(-1)"></mt-button>
       <span slot="right" style="font-size: 12px;" @click="addFriends">
-        <i class="fa fa-plus-circle fa-lg"  style="margin-right: 5px;"></i>添加好友
+        <i class="fa fa-plus-circle fa-lg" style="margin-right: 5px;"></i>添加好友
       </span>
     </mt-header>
 
     <div class="v-content">
-      <v-favorite-cell
+      <v-friend-cell
         v-for="(n, key) in friendList"
         :name="n.friendName"
         :avatar="n.friendHeadimgurl"
         :key="key+Math.random()"
+        :friendId="n.friendId"
+        @deleteCallBack="deleteCallBack"
       />
-      <v-baseline/>
+      <!-- <v-baseline/> -->
     </div>
   </div>
 </template>
 
 <script>
-import { Navbar, TabItem, Header, CellSwipe, MessageBox, Cell, Popup } from 'mint-ui';
-import FavoriteCell from '@/components/user/favorite/Cell';
+import { Navbar, TabItem, Header, CellSwipe, MessageBox, Cell, Popup, Toast  } from 'mint-ui';
+import FriendCell from '@/components/user/friend/Cell';
 import Footer from '@/common/_footer.vue'
 import userService from '@/api/userService';
 import common from '@/util/common';
@@ -44,10 +46,17 @@ export default {
         this.friendList = res.data.data.list;
       })
     },
-    deleteCallBack() {
-      MessageBox.alert('操作成功').then(action => {
+    deleteCallBack(friendId) {
+      let self = this;
 
-      });
+      userService.deleteFriend(friendId).then(res => {
+        if (!common.isOk(res)) return
+        MessageBox.alert('删除成功').then(action => {
+          self.getMyFriendList();
+        });
+      })
+
+
     },
     addFriends() {
       let self = this;
@@ -72,7 +81,7 @@ export default {
     'mt-tab-item': TabItem,
     'mt-header': Header,
     'mt-cell-swipe': CellSwipe,
-    'v-favorite-cell': FavoriteCell,
+    'v-friend-cell': FriendCell,
     'v-footer': Footer,
     'v-baseline': Baseline,
   }

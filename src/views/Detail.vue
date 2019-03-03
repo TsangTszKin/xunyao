@@ -10,7 +10,7 @@
     <div class="ralative">
       <p class="title">相关药品</p>
       <ul>
-        <goods-item v-for="(item, key) in list" class="goods" :key="key" :data="item"/>
+        <goods-item v-for="(item, key) in list" class="goods" :key="key" :data="item" />
       </ul>
     </div>
 
@@ -49,8 +49,11 @@ export default {
     this.getGoodsInfo(this.$route.params.id);
     this.listener();
   },
+  beforeUpdate() {
+    window.scrollTo(0, 0);
+  },
   beforeCreate() {
-    this.$store.dispatch('setDatas');
+    // this.$store.dispatch('setDatas');
   },
   computed: {
     isFavorite() {
@@ -149,6 +152,14 @@ export default {
         if (!common.isOk(res)) return
 
       })
+    }
+  },
+  watch: {
+    '$route'(to, from) { //监听路由是否变化
+      if (this.$route.params.id) {//判断id是否有值
+        //调数据
+        this.getGoodsInfo(this.$route.params.id);
+      }
     }
   }
 }

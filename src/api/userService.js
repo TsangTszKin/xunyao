@@ -53,10 +53,13 @@ export default {
 	getMyFriendList() {
 		return axios.get(`${prefix}/app/my/friends?page=1&limit=100`).catch(errorHandler)
 	},
+	deleteFriend(friendId) {
+		return axios.delete(`${prefix}/app/my/friend/delete?friendId=${friendId}`).catch(errorHandler)
+	},
 	receiverOrder(orderId) {
 		return axios.post(`${prefix}/app/my/receiverOrder?orderId=${orderId}`).catch(errorHandler);
 	},
-	confirmOrder(orderId){
+	confirmOrder(orderId) {
 		return axios.post(`${prefix}/app/my/confirmOrder?orderId=${orderId}`).catch(errorHandler);
 	},
 	removeFavorite(favoriteId) {

@@ -5,15 +5,15 @@
               {
                 content: '删除好友',
                 style: { background: 'red', color: '#fff', lineHeight: '48px', fontSize: '13px' },
-                handler: () => this.$messagebox('已删除')
+                handler: () => this.deleteCallBack()
               }
             ]"
   >
     <!-- <div class="msg-cell"> -->
-      <img :src="avatar" slot="icon" width="30" height="30" style="    margin-right: 10px;">
-      <!-- <div class="right" style="width: calc(100% - 40px - 10px);">
+    <img :src="avatar" slot="icon" width="30" height="30" style="    margin-right: 10px;">
+    <!-- <div class="right" style="width: calc(100% - 40px - 10px);">
         <span class="name">海王星辰</span>
-      </div> -->
+    </div>-->
     <!-- </div> -->
   </mt-cell-swipe>
 </template>
@@ -24,10 +24,16 @@ export default {
   components: {
     'mt-cell-swipe': CellSwipe
   },
-   props: {
+  props: {
     name: { type: String, default: '海王星辰' },
     avatar: { type: String, default: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1550682456839&di=7e051074d444088572c62ded90c4e9f3&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201704%2F27%2F20170427155254_Kctx8.jpeg' },
+    friendId: { type: Number, default: 0 }
   },
+  methods: {
+    deleteCallBack() {
+      this.$emit('deleteCallBack', this.friendId)
+    }
+  }
 }
 </script>
 

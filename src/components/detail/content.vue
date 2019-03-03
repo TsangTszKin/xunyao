@@ -20,29 +20,8 @@
       <!-- tab-container -->
       <mt-tab-container v-model="selected" style="margin-top: 3px;">
         <mt-tab-container-item id="1">
-          <div class="img-wrap">
-            <img src="../../assets/images/1.jpg">
-          </div>
-          <div class="img-wrap">
-            <img src="../../assets/images/2.jpg">
-          </div>
-          <div class="img-wrap">
-            <img src="../../assets/images/3.jpg">
-          </div>
-          <div class="img-wrap">
-            <img src="../../assets/images/4.jpg">
-          </div>
-          <div class="img-wrap">
-            <img src="../../assets/images/5.jpg">
-          </div>
-          <div class="img-wrap">
-            <img src="../../assets/images/6.jpg">
-          </div>
-          <div class="img-wrap">
-            <img src="../../assets/images/7.jpg">
-          </div>
-          <div class="img-wrap">
-            <img src="../../assets/images/8.jpg">
+          <div class="img-wrap" v-show="product.detailImgs" v-for="(n, i) in product.detailImgs" >
+            <img :src="n">
           </div>
         </mt-tab-container-item>
         <mt-tab-container-item id="2">

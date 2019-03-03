@@ -19,5 +19,14 @@ export default {
 	},
 	updateMessage(messageId) {
 		return axios.post(`${prefix}/app/other/updateMessage?messageId=${messageId}`).catch(errorHandler);
+	},
+	getMessageList(type, pageno) {
+		return axios.get(`${prefix}/app/other/getMessageList?type=${type}&pageno=${pageno}&size=100`).catch(errorHandler);
+	},
+	updateMessage(messageId) {
+		return axios.post(`${prefix}/app/other/updateMessage?messageId=${messageId}`).catch(errorHandler);
+	},
+	deleteMessage(messageId) {
+		return axios.delete(`${prefix}/app/other/deleteMessage?messageId=${messageId}`).catch(errorHandler);
 	}
 }

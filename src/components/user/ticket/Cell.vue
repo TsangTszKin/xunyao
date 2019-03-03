@@ -40,6 +40,7 @@
       >{{type == 1?data.startTime:data.beginTime}}~{{data.endTime}}</p>
     </div>
     <mt-button
+      :disabled="data.status == 0"
       type="primary"
       size="small"
       style="position: absolute;
@@ -49,6 +50,7 @@
       @click="$emit('callBack', data)"
     >选择</mt-button>
     <mt-button
+      :disabled="data.status == 0"
       type="primary"
       size="small"
       style="position: absolute;
@@ -58,6 +60,7 @@
       @click="$router.push({name: '店铺主页', params: {id: data.shopId}})"
     >去使用</mt-button>
     <mt-button
+      :disabled="data.status == 0"
       type="primary"
       size="small"
       style="position: absolute;
