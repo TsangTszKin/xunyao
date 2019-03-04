@@ -116,6 +116,7 @@ export default {
       }
     },
     weChatPayInit() {
+      let self = this;
       WeixinJSBridge.invoke(
         'getBrandWCPayRequest', this.WCPay,
         function (res) {
@@ -154,6 +155,7 @@ export default {
       width: 100%;
       position: fixed;
       bottom: 0;
+      z-index: 9999;
       > .prefix {
         flex: 3;
         line-height: 60px;
