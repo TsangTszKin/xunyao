@@ -61,7 +61,14 @@ export default {
     return {
       money: 30,
       moneyList: [30, 50, 100, 200, 500],
-
+      WCPay: {
+        "appId": "",     //公众号名称，由商户传入     
+        "timeStamp": "",         //时间戳，自1970年以来的秒数     
+        "nonceStr": "", //随机串     
+        "package": "",
+        "signType": "",         //微信签名方式：     
+        "paySign": "" //微信签名 
+      }
     }
   },
   mounted() {
@@ -73,17 +80,15 @@ export default {
     reCharge() {
       let self = this;
       userService.reChargeOrder(this.money).then(res => {
-        MessageBox.alert(JSON.stringify(res.data));
         if (!common.isOk(res)) return
-        // let timer = Toast({
-        //   message: '充值成功',
-        //   iconClass: 'fa fa-check'
-        // });
-        // setTimeout(() => {
-        //   timer.close();
-        //   self.$router.go(-1);
-        // }, 500);
-
+        let data = res.data.result;
+        this.WCPay.appId = data.appId;
+        this.WCPay.nonceStr = data.nonceStr;
+        this.WCPay.timeStamp = data.timeStamp;
+        this.WCPay.package = data.package;
+        this.WCPay.signType = data.signType;
+        this.WCPay.paySign = data.paySign;
+        this.goPay();
       })
     },
     showBox() {
@@ -112,18 +117,19 @@ export default {
     },
     weChatPayInit() {
       WeixinJSBridge.invoke(
-        'getBrandWCPayRequest', {
-          "appId": "wx2421b1c4370ec43b",     //公众号名称，由商户传入     
-          "timeStamp": "1395712654",         //时间戳，自1970年以来的秒数     
-          "nonceStr": "e61463f8efa94090b1f366cccfbbb444", //随机串     
-          "package": "prepay_id=u802345jgfjsdfgsdg888",
-          "signType": "MD5",         //微信签名方式：     
-          "paySign": "70EA570631E4BB79628FBCA90534C63FF7FADD89" //微信签名 
-        },
+        'getBrandWCPayRequest', this.WCPay,
         function (res) {
           if (res.err_msg == "get_brand_wcpay_request:ok") {
             // 使用以上方式判断前端返回,微信团队郑重提示：
             //res.err_msg将在用户支付成功后返回ok，但并不保证它绝对可靠。
+            let timer = Toast({
+              message: '充值成功',
+              iconClass: 'fa fa-check'
+            });
+            setTimeout(() => {
+              timer.close();
+              self.$router.go(-1);
+            }, 500);
           }
         });
     }
