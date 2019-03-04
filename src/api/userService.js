@@ -74,8 +74,11 @@ export default {
 	getMyMoney() {
 		return axios.get(`${prefix}/app/my/purse`).catch(errorHandler)
 	},
-	reCharge(money) {
-		return axios.post(`${prefix}/app/my/recharge?money=${money}`).catch(errorHandler)
+	reChargeOrder(money) {
+		return axios.get(`${prefix}/app/my/recharge/getOrder?money=${money}`).catch(errorHandler)
+	},
+	reChargeNotify(xmlData) {
+		return axios.post(`${prefix}/app/my/recharge/notify`, xmlData).catch(errorHandler)
 	},
 	updateUser(phone, nickname, headimgurl) {
 		return axios.post(`${prefix}/app/my/updateUser?phone=${phone}&nickname=${nickname}&headimgurl=${headimgurl}`).catch(errorHandler)

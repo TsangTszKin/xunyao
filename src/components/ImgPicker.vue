@@ -35,7 +35,7 @@
 
 <script>
 import commonService from '@/api/commonService';
-import { Indicator } from 'mint-ui';
+import { Indicator, Toast } from 'mint-ui';
 
 export default {
   props: {
@@ -65,6 +65,7 @@ export default {
       commonService.fileUpload(e).then((res) => {
         Indicator.close();
         if (res.data.code == 0) {
+          Toast("上传成功");
           let filepath = res.data.url;
           this.imgUrl = filepath;
           this.$emit("changeFile", filepath, this.fieldKey);
