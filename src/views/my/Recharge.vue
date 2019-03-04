@@ -129,7 +129,7 @@ export default {
             });
             setTimeout(() => {
               timer.close();
-              self.$router.go(-1);
+              self.$router.push({ name: '钱包' });
             }, 500);
           }
         });
