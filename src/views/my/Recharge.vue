@@ -123,14 +123,32 @@ export default {
           if (res.err_msg == "get_brand_wcpay_request:ok") {
             // 使用以上方式判断前端返回,微信团队郑重提示：
             //res.err_msg将在用户支付成功后返回ok，但并不保证它绝对可靠。
-            let timer = Toast({
+            // let timer = Toast({
+            //   message: '充值成功',
+            //   iconClass: 'fa fa-check'
+            // });
+            // setTimeout(() => {
+            //   timer.close();
+            //   self.$router.push({ name: '钱包' });
+            // }, 500);
+
+            MessageBox({
+              title: '提示',
               message: '充值成功',
-              iconClass: 'fa fa-check'
+              showCancelButton: true,
+              confirmButtonText: '继续充值',
+              cancelButtonText: '查看钱包'
+            }).then(action => {
+              console.log("right", action);
+              if (action === 'confirm') {//去查看
+                // this.$router.push({ name: '我的订单', params: { status: '1' } })
+              } else if (action === 'cancel') {//返回首页
+                // this.$router.push({ name: '首页' })
+                self.$router.go(-1);
+              }
+            }).catch(action => {
+              console.log("left", action);
             });
-            setTimeout(() => {
-              timer.close();
-              self.$router.push({ name: '钱包' });
-            }, 500);
           }
         });
     }
@@ -155,7 +173,7 @@ export default {
       width: 100%;
       position: fixed;
       bottom: 0;
-      z-index: 9999;
+      // z-index: 9999;
       > .prefix {
         flex: 3;
         line-height: 60px;
