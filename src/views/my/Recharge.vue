@@ -85,7 +85,7 @@ export default {
         this.WCPay.appId = data.appId;
         this.WCPay.nonceStr = data.nonceStr;
         this.WCPay.timeStamp = data.timeStamp;
-        this.WCPay.package = data.package;
+        this.WCPay.package = data.packageValue;
         this.WCPay.signType = data.signType;
         this.WCPay.paySign = data.paySign;
         this.goPay();
