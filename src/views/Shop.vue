@@ -58,6 +58,7 @@
           :type="1"
           @callBack="getCoupon"
         />
+        <v-baseline/>
       </div>
     </mt-popup>
   </div>
@@ -72,6 +73,7 @@ import userService from '@/api/userService';
 import common from '@/util/common';
 import { Popup, Navbar, TabItem, Indicator, Toast } from 'mint-ui';
 import Cell from '@/components/user/ticket/Cell';
+import Baseline from '@/common/_baseline.vue';
 
 export default {
   components: {
@@ -81,7 +83,8 @@ export default {
     'mt-popup': Popup,
     'mt-navbar': Navbar,
     'mt-tab-item': TabItem,
-    'v-ticket-cell': Cell
+    'v-ticket-cell': Cell,
+    'v-baseline': Baseline,
   },
   mounted() {
     window.scrollTo(0, 0);

@@ -4,11 +4,11 @@ import store from '@/vuex/store.js'
 import router from '../router'
 
 const api = axios.create();
-// api.defaults.baseURL = 'http://192.168.0.110:8888';
+// api.defaults.baseURL = 'http://192.168.0.110:80';
 // api.defaults.baseURL = 'http://47.106.168.53:8091';
 // api.defaults.baseURL = 'http://zwdjack.iok.la:40229';
 api.defaults.baseURL = 'http://testapi.gu-dao.cn';
-api.defaults.timeout = 5000;
+// api.defaults.timeout = 100000;
 api.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 api.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';
 api.defaults.headers['Access-Control-Allow-Origin'] = '*';
@@ -48,6 +48,7 @@ api.interceptors.response.use(function (response) {
   return response;
 
 }, function (error) {
+  console.warn(error);
   // 对响应错误做点什么
   // store.commit('SET_LOADING',false);
 

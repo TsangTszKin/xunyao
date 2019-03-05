@@ -16,7 +16,7 @@
         :friendId="n.friendId"
         @deleteCallBack="deleteCallBack"
       />
-      <!-- <v-baseline/> -->
+      <v-baseline/>
     </div>
   </div>
 </template>

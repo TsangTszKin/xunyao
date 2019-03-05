@@ -6,6 +6,7 @@
 
     <div class="v-content">
       <Cell v-for="(n, key) in list" :key="key" :data="n" :type="2"/>
+      <v-baseline/>
     </div>
   </div>
 </template>
@@ -16,6 +17,8 @@ import Cell from '@/components/user/ticket/Cell';
 import Footer from '@/common/_footer.vue';
 import userService from '@/api/userService';
 import common from '@/util/common';
+import Baseline from '@/common/_baseline.vue';
+
 
 export default {
   data() {
@@ -45,11 +48,11 @@ export default {
     'mt-header': Header,
     'mt-cell-swipe': CellSwipe,
     Cell,
-    'v-footer': Footer
+    'v-footer': Footer,
+    'v-baseline': Baseline,
   }
 }
 </script>
 
 <style lang="less">
-
 </style>

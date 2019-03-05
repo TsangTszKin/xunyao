@@ -15,7 +15,6 @@
           <input
             placeholder="请选择商品图片"
             type="file"
-            accept="image/jpg, image/png, image/jpeg, image/gif, image/svg"
             @change="changeFile"
           >
         </div>
