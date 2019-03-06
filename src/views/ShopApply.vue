@@ -54,8 +54,7 @@
         placeholder="显示经纬度"
         :disableClear="true"
         :value="!saveData.longitude?'':`${saveData.longitude}，${saveData.latitude}`"
-      ></mt-field> -->
-
+      ></mt-field>-->
       <!-- <mt-field label="地址" placeholder="请输入地址" v-model="saveData.address"></mt-field> -->
       <mt-field label="电话" placeholder="请输入电话" v-model="saveData.telephone"></mt-field>
       <mt-field label="店长姓名" placeholder="请输入店长姓名" v-model="saveData.realName"></mt-field>
@@ -193,6 +192,7 @@ export default {
             message: '提交成功',
             iconClass: 'fa fa-check'
           });
+          this.$router.push({ name: '我的' })
         }).catch(() => {
           Indicator.close();
         })

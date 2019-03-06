@@ -67,7 +67,7 @@ export default {
     let self = this;
     if (!common.isEmpty(this.$route.query.business)) {
       this.city = this.$route.query.business;
-    } else if (!localStorage.cityName) {
+    } else {
       let timer = setInterval(() => {
         if (!common.isEmpty(BMap)) {
           self.locationInit();
