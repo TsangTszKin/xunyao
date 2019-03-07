@@ -77,7 +77,6 @@ export default {
 
 <style lang="less" scoped>
 @import "../assets/fz.less";
-@import "../assets/index/style.css";
 .section3-list {
   width: 100%;
   .bt();

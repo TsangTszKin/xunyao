@@ -11,7 +11,6 @@
 
 <style lang="less" scoped>
   @import '../../assets/fz.less';
-  @import '../../assets/index/style.css';
   .service {
     .bd();
     ul {

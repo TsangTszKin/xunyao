@@ -100,7 +100,6 @@ export default {
 
 <style lang="less" scoped>
 @import "../../assets/fz.less";
-@import "../../assets/index/style.css";
 .section4 {
   width: 100%;
   overflow: hidden;

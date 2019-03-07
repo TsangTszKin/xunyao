@@ -39,7 +39,6 @@ export default {
 
 <style lang="less" scoped>
 @import "../../assets/fz.less";
-@import "../../assets/index/style.css";
 .section1 {
   .pt();
   .section1-title {

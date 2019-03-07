@@ -155,7 +155,6 @@ export default {
 
 <style lang="less" scoped>
 @import "../../assets/fz.less";
-@import "../../assets/index/style.css";
 
 .footer {
   width: 100%;

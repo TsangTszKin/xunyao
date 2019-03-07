@@ -226,7 +226,6 @@ export default {
 
 <style lang="less" scoped>
 @import "../assets/fz.less";
-@import "../assets/index/style.css";
 @import "../assets/user/icon/carstyle.css";
 
 .car {
