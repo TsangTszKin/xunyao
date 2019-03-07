@@ -28,7 +28,7 @@ export default {
       background-color: #38af43;
       border-radius: 10px;
       font-size: 30px;
-      font-family: cursive;
+      font-family: 'xunyao';
     }
     > .name {
       text-align: center;
