@@ -1,5 +1,5 @@
 <template lang="html">
-  <section class="chose" v-if="view">
+  <section class="chose">
     <div class="chose-view">
       <h1 class="chose-view-title">
         {{name}}

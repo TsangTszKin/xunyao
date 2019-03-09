@@ -161,7 +161,11 @@ export default {
         'drugRegisterCert': '',// '执业药师注册证',(图片)
         'remarks': '',//'备注',
         'longitude': '',
-        'latitude': ''
+        'latitude': '',
+        "province": '',
+        "city": '',
+        "district": '',
+        "openAccountCert": '' 
       },
       isShowMap: false
     }
@@ -324,6 +328,9 @@ export default {
         console.log("e", e)
         // self.$router.push({ name: '首页', query: { business: e.item.value.business } })
         myValue = _value.province + _value.city + _value.district + _value.street + _value.business;
+        self.saveData.province = _value.province;
+        self.saveData.city = _value.city;
+        self.saveData.district = _value.district;
         self.getLngAndLatBtAddressForApi(myValue)
         self.saveData.address = myValue;
         G("searchResultPanel").innerHTML = "onconfirm<br />index = " + e.item.index + "<br />myValue = " + myValue;
@@ -352,32 +359,49 @@ export default {
       });
     },
     getLngAndLatBtAddressForApi(address) {
-      // shopService.getLngAndLatBtAddress(address).then(res => {
-      //   if (res.data.status == 0) {
-      //     this.saveData.lng = res.data.result.location.lng;
-      //     this.saveData.lat = res.data.result.location.lat;
-      //   } else {
-      //     this.saveData.lng = null;
-      //     this.saveData.lat = null;
-      //     Toast("获取地址经纬度失败");
-      //   }
-      // })
       let self = this;
       $.ajax({
         type: "GET",
-        url: "http://api.map.baidu.com/geocoder/v2/?address=%E5%B9%BF%E5%B7%9E%E5%B8%82%E6%B5%B7%E7%8F%A0%E5%8C%BA%E5%B9%BF%E5%B7%9E%E5%A1%94&output=json&ak=AuOY7KgIDlUnzBsTxL7YZeo8UAfpYXmQ",
+        url: `http://api.map.baidu.com/geocoder/v2/?address=${address}&output=json&ak=AuOY7KgIDlUnzBsTxL7YZeo8UAfpYXmQ`,
         dataType: "jsonp",  //数据格式设置为jsonp
         jsonp: "callback",  //Jquery生成验证参数的名称
         success: function (res) {  //成功的回调函数
           // alert(res);
-          console.log(res)
+          console.log("getLngAndLatBtAddressForApi", res)
           if (res.status == 0) {
             self.saveData.longitude = res.result.location.lng;
             self.saveData.latitude = res.result.location.lat;
+            self.getBtAddressForApi(self.saveData.latitude, self.saveData.longitude);
           } else {
             self.saveData.longitude = null;
             self.saveData.latitude = null;
             Toast("获取地址经纬度失败");
+          }
+        },
+        error: function (e) {
+          alert("error");
+        }
+      });
+    },
+    getBtAddressForApi(lat, lng) {
+      let self = this;
+      $.ajax({
+        type: "GET",
+        url: `http://api.map.baidu.com/geocoder/v2/?location=${lat},${lng}&output=json&ak=AuOY7KgIDlUnzBsTxL7YZeo8UAfpYXmQ`,
+        dataType: "jsonp",  //数据格式设置为jsonp
+        jsonp: "callback",  //Jquery生成验证参数的名称
+        success: function (res) {  //成功的回调函数
+          // alert(res);
+          console.log("getLngAndLatBtAddressForApi", res)
+          if (res.status == 0) {
+            self.saveData.province = res.result.addressComponent.province;
+            self.saveData.city = res.result.addressComponent.city;
+            self.saveData.district = res.result.addressComponent.district;
+          } else {
+            self.saveData.province = null;
+            self.saveData.city = null;
+            self.saveData.district = null;
+            Toast("解析地址有误");
           }
         },
         error: function (e) {

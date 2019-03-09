@@ -23,7 +23,7 @@ export default {
 		return axios.post(`${prefix}/app/other/uploadFile`, param, config).catch(errorHandler);
 	},
 	shopApply(params) {
-		return axios.post(`${prefix}/app/shop/shopEnterApply?shopName=${params.shopName}&shopLogo=${params.shopLogo}&address=${params.address}&telephone=${params.telephone}&realName=${params.realName}&cardId1=${params.cardId1}&cardId2=${params.cardId2}&drugBusinessCert=${params.drugBusinessCert}&businessLicense=${params.businessLicense}&foodBusinessCert=${params.foodBusinessCert}&drugQualityCert=${params.drugQualityCert}&openAccountCert=${params.openAccountCert}&drugRegisterCert=${params.drugRegisterCert}&longitude=${params.longitude}&latitude=${params.latitude}`).catch(errorHandler)
+		return axios.post(`${prefix}/app/shop/shopEnterApply?shopName=${params.shopName}&shopLogo=${params.shopLogo}&address=${params.address}&telephone=${params.telephone}&realName=${params.realName}&cardId1=${params.cardId1}&cardId2=${params.cardId2}&drugBusinessCert=${params.drugBusinessCert}&businessLicense=${params.businessLicense}&foodBusinessCert=${params.foodBusinessCert}&drugQualityCert=${params.drugQualityCert}&openAccountCert=${params.openAccountCert}&drugRegisterCert=${params.drugRegisterCert}&longitude=${params.longitude}&latitude=${params.latitude}&province=${params.province}&city=${params.city}&district=${params.district}`).catch(errorHandler)
 	},
 	getLngAndLatBtAddress(address) {
 		return axios.get(`http://api.map.baidu.com/geocoder/v2/?address=${encodeURIComponent(address)}&output=json&ak=AuOY7KgIDlUnzBsTxL7YZeo8UAfpYXmQ`).catch(errorHandler);

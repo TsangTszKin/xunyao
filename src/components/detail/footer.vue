@@ -1,7 +1,7 @@
 <template lang="html">
   <footer class="footer">
-    <router-link :to="{name:'店铺主页', params:{id: shopId}}" class="footer-index">
-      <i class="icon-index"></i>
+    <router-link :to="{name:'店铺主页', params:{id: shopId}}" class="footer-index" style="padding: 0;">
+      进店
     </router-link>
     <a class="footer-index" style="padding-top: 0;" @click="addFavorite(goods.id)"  v-if="!isFavorite">
         <i class="fa fa-star fa-lg"></i>
