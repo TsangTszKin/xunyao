@@ -114,6 +114,7 @@ export default {
   watch: {
     type: {
       handler: function (value, oldVal) {
+        this.isEnd = false;
         this.pageno = 1;
         if (value == '1') {
           this.goodsList = [];

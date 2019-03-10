@@ -107,6 +107,7 @@ export default {
         align-items: center;
 
         height: 13vw;
+        border-radius: 50%;
         > img {
           // display: block;
           width: 100%;

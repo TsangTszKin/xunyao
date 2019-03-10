@@ -85,9 +85,9 @@
                                 <div class="mint-cell-right"></div>
                         </a>
                 </div>
-                <div style="height: 55px"></div>
+                <!-- <div style="height: 55px"></div> -->
         </div>
-        <v-footer :totalMoney="order.totalPrice" ></v-footer>
+        <v-footer :totalPrice="order.totalPrice" :sureFee="order.sureFee" ></v-footer>
 </div>
 
 </template>
@@ -211,6 +211,7 @@ export default {
     background-size: 100%; // 满屏
     padding: 8px 0 0 0;
     margin-top: 10px;
+    margin-bottom: 55px;
     > ul.shop-panel {
       // margin: 10px;
       padding: 10px;

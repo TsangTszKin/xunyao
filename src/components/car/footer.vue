@@ -5,9 +5,6 @@
       <p>共{{count}}件 金额：</p>
       <p><span>{{$store.state.cart.totalFee.toFixed(2)}} </span>元</p>
     </div>
-    <!-- <router-link :to="{ name: '分类页'}" class="footer-goon" >
-      继续购物
-    </router-link> -->
     <div class="footer-result">
       <p>保证金：</p>
       <p><span>{{$store.state.cart.sureFee.toFixed(2)}} </span>元</p>

@@ -88,8 +88,26 @@ export default {
   },
   methods: {
     addIntoCar() {
+      if (this.$store.state.user.user.type == 0) {
+        MessageBox({
+          title: '提示',
+          message: '请先完善您的信息！',
+          showCancelButton: true,
+          confirmButtonText: '去完善',
+          cancelButtonText: '以后再算'
+        }).then(action => {
+          console.log("right", action);
+          if (action === 'confirm') {//去查看
+            this.$router.push({ name: '个人信息'})
+          } else if (action === 'cancel') {//返回首页
+            // this.$router.push({ name: '首页' })
+          }
+        }).catch(action => {
+          console.log("left", action);
+        });
+        return
+      }
       this.modal = true;
-
     },
     addCart() {
       let productId = this.goods.id;

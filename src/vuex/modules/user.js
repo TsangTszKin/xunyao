@@ -13,7 +13,11 @@ const state = {
     "headimgurl": "",
     "type": null,
     "createTime": null,
-    "id": ''
+    "id": '',
+    "idCard": '',
+    "sex": '',
+    "realname": ''
+
   },
   shop: {
     "shopId": 2,

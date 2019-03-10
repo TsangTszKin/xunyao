@@ -24,7 +24,7 @@ import common from '@/util/common';
 import ShopCell from '@/components/ShopCell';
 
 export default {
-  components:{
+  components: {
     'v-shop-cell': ShopCell
   },
   data() {
@@ -54,6 +54,7 @@ export default {
           } else {
             element.distance = element.distance.toFixed(1) + 'm';
           }
+          element.shopService = common.stringToArray(element.shopService);
         })
         this.list = data;
       })
@@ -62,7 +63,6 @@ export default {
       // 百度地图API功能
       let self = this;
       var map = new BMap.Map("allmap");
-
 
       var geolocation = new BMap.Geolocation();
       geolocation.getCurrentPosition(function (r) {

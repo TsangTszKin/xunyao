@@ -8,56 +8,82 @@
       :autofocus="true"
       :show="true"
       @keyup.enter.native="search"
-      style="position: fixed;
-    top: 0;
-    width: 100%;
-    z-index: 1;"
+      style="position: fixed;top: 0;width: 100%;z-index: 1;height: 40px;"
     ></mt-search>
-    <div class="result">
-      <ul
-        v-if="$route.params.type == 'shopGoods'"
-        v-infinite-scroll="getGoodsList"
-        infinite-scroll-disabled="loading"
-        infinite-scroll-distance="10"
-      >
-        <goods-item v-for="(item, i) in shopGoodsList" class="goods" :key="i" :data="item"/>
-      </ul>
-      <ul
-        v-if="$route.params.type == 'goods'"
-        class="section3-list"
-        v-infinite-scroll="getShopList"
-        infinite-scroll-disabled="loading"
-        infinite-scroll-distance="10"
-      >
-        <!-- <v-shop-cell v-for="(k, index) in goodsList" :key="index" :shop="k"/> -->
-        <goods-item v-for="(item, i) in goodsList" class="goods" :key="i" :data="item"/>
-      </ul>
-      <p
-        style="margin-top: 10px; text-align:center;"
-        v-if="$route.params.type == 'goods' && goodsList.length == 0"
-      >暂无数据</p>
-      <p
-        style="margin-top: 10px; text-align:center;"
-        v-if="$route.params.type == 'shopGoods' && shopGoodsList.length == 0"
-      >暂无数据</p>
-    </div>
-    <div style="margin-top: 100px;">
-      <p style="padding: 5px 13px;color: #000;">热门搜索</p>
-      <div>
-        <v-search-key-cell
-          v-for="(n, i) in hotSearchKey"
-          :data="n"
-          :key="i"
-          v-if="i < 10"
-          @click.native="selectSearchKeyWord(n)"
-        />
+    <mt-navbar v-model="searchType" style="margin-top: 40px;">
+      <mt-tab-item id="1">药品</mt-tab-item>
+      <mt-tab-item id="2">店铺</mt-tab-item>
+    </mt-navbar>
+    <mt-tab-container v-model="searchType" style="margin: 5px 0 30px 0;">
+      <mt-tab-container-item id="1">
+        <ul
+          class="section3-list"
+          v-infinite-scroll="getShopList"
+          infinite-scroll-disabled="loading"
+          infinite-scroll-distance="10"
+        >
+          <!-- <v-shop-cell v-for="(k, index) in goodsList" :key="index" :shop="k"/> -->
+          <goods-item v-for="(item, i) in goodsList" class="goods" :key="i" :data="item"/>
+        </ul>
+        <p
+          style="margin-top: 10px; text-align:center;"
+          v-if="searchType == '1' && goodsList.length == 0"
+        >暂无数据</p>
+      </mt-tab-container-item>
+
+      <mt-tab-container-item id="2">
+        <ul
+          v-infinite-scroll="getShopList"
+          infinite-scroll-disabled="loading"
+          infinite-scroll-distance="10"
+        >
+          <v-shop-cell v-for="(item, i) in shopList" :key="i" :shop="item"/>
+        </ul>
+
+        <p
+          style="margin-top: 10px; text-align:center;"
+          v-if="searchType == '2' && shopList.length == 0"
+        >暂无数据</p>
+      </mt-tab-container-item>
+    </mt-tab-container>
+
+    <div v-if="goodsList.length == 0 && shopList.length == 0">
+      <div v-if="historySearchKey.length > 0">
+        <p style="padding: 5px 13px;color: #000;">
+          历史搜索
+          <i class="fa fa-trash-o fa-lg" style="float: right;" @click="deleteHistorySearchKey"></i>
+        </p>
+        <div>
+          <v-search-key-cell
+            v-for="(n, i) in historySearchKey"
+            :data="n"
+            :key="i"
+            v-if="i < 10"
+            @click.native="selectSearchKeyWord(n)"
+          />
+        </div>
+      </div>
+
+      <div style="margin-top: 20px;">
+        <p style="padding: 5px 13px;color: #000;">热门搜索</p>
+        <div>
+          <v-search-key-cell
+            v-for="(n, i) in hotSearchKey"
+            :data="n"
+            :key="i"
+            v-if="i < 10"
+            @click.native="selectSearchKeyWord(n)"
+          />
+        </div>
       </div>
     </div>
+
+    <!-- <div class="result"></div> -->
   </div>
 </template>
 
 <script>
-import { Search, Header, Button, Indicator, InfiniteScroll, Cell } from 'mint-ui';
+import { Search, Header, Button, Indicator, InfiniteScroll, Cell, Navbar, TabItem } from 'mint-ui';
 import GoodsItem from '@/components/goods/GoodsItem';
 import ShopCell from '@/components/ShopCell';
 import shopService from '@/api/shopService';
@@ -117,6 +143,8 @@ export default {
         // }
       ],
       shopGoodsList: [],
+      searchType: '1',
+      historySearchKey: [],
       hotSearchKey: [],
     }
   },
@@ -126,30 +154,63 @@ export default {
     'goods-item': GoodsItem,
     'v-shop-cell': ShopCell,
     'mt-cell': Cell,
+    'mt-navbar': Navbar,
+    'mt-tab-item': TabItem,
     'v-search-key-cell': SearchkeyCell
   },
   mounted() {
-    switch (this.$route.params.type) {
-      case 'shop':
-        // this.getHotSearchKeyWord(this.$route.query.shopId);
-        break;
-      case 'goods':
-        this.getHotSearchKeyWord("");
-        break;
-      case 'shopGoods':
-        this.getHotSearchKeyWord(this.$route.query.shopId);
-        break;
-      default:
-        break;
-    }
+    this.initHistorySearchKey();
+    this.getHotSearchKeyWord();
   },
   methods: {
     selectSearchKeyWord(value) {
       this.searchValue = value;
       this.search();
     },
-    getHotSearchKeyWord(shopId) {
-      commonService.getHotSearchKeyWord(shopId, 1).then(res => {
+    search() {
+      if (common.isEmpty(this.searchValue)) return
+      this.isInit = true;
+      // this.$messagebox("搜索");
+      switch (this.searchType) {
+        case '1':
+          this.getGoodsList();
+          break;
+        case '2':
+          this.getShopList();
+          break;
+        default:
+          break;
+      }
+      if (common.isEmpty(localStorage.historySearchKey)) {
+        localStorage.historySearchKey = this.searchValue;
+      } else {
+
+        let arrayTemp = [];
+        let array2 = common.stringToArray(localStorage.historySearchKey);
+        array2.forEach(element => {
+          if (element != this.searchValue) {
+            arrayTemp.push(element);
+          }
+        })
+        localStorage.historySearchKey = common.arrayToString(arrayTemp) + ',' + this.searchValue;
+
+      }
+      this.initHistorySearchKey();
+    },
+    initHistorySearchKey() {
+      if (common.isEmpty(localStorage.historySearchKey)) {
+        this.historySearchKey = [];
+      } else {
+        this.historySearchKey = common.stringToArray(localStorage.historySearchKey).reverse();
+      }
+
+    },
+    deleteHistorySearchKey() {
+      localStorage.removeItem("historySearchKey");
+      this.initHistorySearchKey();
+    },
+    getHotSearchKeyWord() {
+      commonService.getHotSearchKeyWord("", this.searchType).then(res => {
         if (!common.isOk(res)) return
         let arrayTemp = [];
         res.data.data.forEach(element => {
@@ -157,23 +218,6 @@ export default {
         })
         this.hotSearchKey = arrayTemp;
       })
-    },
-    search() {
-      this.isInit = true;
-      // this.$messagebox("搜索");
-      switch (this.$route.params.type) {
-        case 'shop':
-          this.getShopList();
-          break;
-        case 'goods':
-          this.getGoodsList();
-          break;
-        case 'shopGoods':
-          this.getShopGoodsList();
-          break;
-        default:
-          break;
-      }
     },
     getShopList() {
       if (!this.isInit) return
@@ -186,6 +230,7 @@ export default {
           this.isEnd = true;
         } else {
           res.data.data.list.forEach(element => {
+            element.shopService = common.stringToArray(element.shopService);
             this.shopList.push(element)
           })
           this.page++;
@@ -247,8 +292,18 @@ export default {
       this.shopGoodsList = [];
       this.goodsList = [];
       if (!newvs) {
-        this.$router.go(-1);
+        // this.$router.go(-1);
       }
+    },
+    searchType: function (newvs, oldvs) {
+      console.log("newvs", newvs);
+      console.log("oldvs", oldvs);
+      this.page = 1;
+      this.shopGoodsList = [];
+      this.goodsList = [];
+      this.shopList = [];
+      this.search();
+      this.getHotSearchKeyWord();
     }
   }
 }

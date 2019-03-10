@@ -11,13 +11,12 @@
     
   </mt-header>
 
-   <router-link :to="{name:'搜索页', params:{type: 'goods'}}">
+   <router-link :to="{name:'主页搜索', params:{type: 'goods'}}">
       <mt-search
         cancel-text="取消"
         placeholder="搜索"
         class="index-search"
-        style="    position: relative;
-    top: 40px;"
+        style="position: relative;top: 40px;"
         >
       </mt-search>
     </router-link>
@@ -161,7 +160,7 @@ export default {
 <style lang="less">
 .index-header {
   background-color: #38af43 !important;
-  height: 90px;
+  height: 83px;
   header {
     background-color: #38af43 !important;
   }

@@ -20,7 +20,8 @@
           <p>{{k.name}}</p>
         </router-link>
         <!-- <h3>{{k.name}}</h3> -->
-        <span>￥ {{k.discountPrice}}</span>
+        <span style="font-size: 12px;">参考价￥</span>
+        <span style="font-size: 15px;">{{k.discountPrice}}</span>
       </li>
 
     </ul>
@@ -166,10 +167,12 @@ export default {
           bottom: 0;
           left: 0;
           width: 100%;
-          background-color: gold;
+          background-color: gainsboro;
           -webkit-box-sizing: border-box;
           box-sizing: border-box;
           padding: 1.2vw 2vw;
+          background-color: rgba(238, 238, 238, 0.9);
+          font-size: 13px;
         }
       }
 

@@ -62,7 +62,26 @@
                                 </div>
                                 <div class="mint-cell-right"></div>
                         </a>
-                        <mt-field label="配送时间" placeholder="" type="text" :readonly="true" :disableClear="true" :value="deliveryTime"></mt-field>
+                        <a class="mint-cell mint-field" @click="modal.limitHour = true;currentShopIndex = i;">
+                                <div class="mint-cell-left"></div>
+                                <div class="mint-cell-wrapper">
+                                        <div class="mint-cell-title">
+                                                <span class="mint-cell-text">{{$store.state.cart.getType == '1'?'自取时间':'送货时间'}}</span></div>
+                                        <div class="mint-cell-value" style="position: relative;">
+                                                <div>{{saveData[i].limitHour?saveData[i].limitHour+'小时后':'选择时间'}}</div>
+                                                <i class="fa fa-angle-right fa-lg" style="position: absolute;right: 10px;font-size: 14px;top: 4px;"></i>
+                                                <div class="mint-field-clear" style="display: none;">
+                                                        <i class="mintui mintui-field-error"></i>
+                                                </div>
+                                                <span class="mint-field-state is-default">
+                                                        <i class="mintui mintui-field-default"></i>
+                                                </span>
+                                                <div class="mint-field-other"></div>
+                                        </div>
+                                </div>
+                                <div class="mint-cell-right"></div>
+                        </a>
+                        <mt-field label="营业时间" :placeholder="saveData[i].businessTime" type="text" :readonly="true" :disableClear="true"></mt-field>
                         <mt-field label="留言" placeholder="给店家留言" type="textarea" rows="1" v-model="saveData[i].memo"></mt-field>
                         <a class="mint-cell mint-field" @click="getBuyerCouponForShop(saveData[i].shopId);currentShopIndex = i;">
                                 <div class="mint-cell-left"></div>
@@ -116,8 +135,11 @@
                         </div>
                         <v-baseline />
                 </mt-popup>
+                <mt-popup v-model="modal.limitHour" position="bottom" style="width: 100%;height: 30%;">
+                        <mt-picker :slots="$store.state.cart.getType == 1?slot1: slot2" @change="limitHourChange"></mt-picker>
+                </mt-popup>
         </div>
-        <v-footer :totalMoney="totalMoney" @submitCart="submitCart"></v-footer>
+        <v-footer @submitCart="submitCart"></v-footer>
 </div>
 
 </template>
@@ -158,6 +180,7 @@ export default {
         address: false,
         friends: false,
         coupon1: false,
+        limitHour: false
       },
       isFriendGet: false,
       friend: {
@@ -165,7 +188,8 @@ export default {
         id: '',
         phone: ''
       },
-      totalMoney: this.$store.state.cart.totalFee,
+      totalFee: this.$store.state.cart.totalFee,
+      sureFee: this.$store.state.cart.sureFee,
       saveData: [],
       activityList: [],
       currentShopIndex: 0,
@@ -196,7 +220,23 @@ export default {
         }
       },
       getType: this.$store.state.cart.getType,
-      couponList: []
+      couponList: [],
+      slot1: [
+        {
+          flex: 1,
+          values: [],
+          className: 'slot1',
+          textAlign: 'center'
+        }
+      ],
+      slot2: [
+        {
+          flex: 1,
+          values: [],
+          className: 'slot1',
+          textAlign: 'center'
+        }
+      ]
     }
   },
 
@@ -208,11 +248,13 @@ export default {
       return this.$store.state.detail.selectedList
     },
     deliveryTime() {
-      return this.$store.state.cart.deliveryTime
+      return this.$store.state.cart.deliveryTime + '~' + this.$store.state.cart.deliveryTime2
     },
   },
   beforeMount() {
+    console.log("this.$store.state.cart.cartList", this.$store.state.cart.cartList)
     this.saveData = this.$store.state.cart.cartList;
+    this.initSlots();
   },
   mounted() {
 
@@ -226,12 +268,34 @@ export default {
     this.saveData.forEach(element => {
       this.mainData.isFriendGet.push(false);
       this.couponList.push(0);
+      common.isEmpty(element.limitHour) ? element.limitHour = 6 : element.limitHour;
     });
 
     $(".v-picker").height($('#app').height());
   },
 
   methods: {
+    limitHourChange(picker, values) {
+      console.log(picker, values);
+      if (!common.isEmpty(values[0])) {
+        this.saveData[this.currentShopIndex]['limitHour'] = values[0];
+      } else {
+        this.saveData[this.currentShopIndex]['limitHour'] = 6;
+      }
+
+    },
+    initSlots() {
+      let arrayTemp1 = [];
+      for (let i = 1; i <= 48; i++) {
+        arrayTemp1.push(i);
+      }
+      let arrayTemp2 = [];
+      for (let i = 1; i <= 24; i++) {
+        arrayTemp2.push(i);
+      }
+      this.slot1[0].values = arrayTemp1;
+      this.slot2[0].values = arrayTemp2;
+    },
     listener() {
       bus.$on("car.pay.selectFriend", (insteadBuyerId, insteadBuyerName) => {
         console.log("this.saveData", this.saveData)
@@ -268,27 +332,31 @@ export default {
     selectCoupon(coupon) {
       console.log(this.currentShopIndex, coupon)
       this.saveData[this.currentShopIndex].couponId = coupon.id;
-      switch (coupon.type) {
-        case 1:
-          this.saveData[this.currentShopIndex].couponName = `满${coupon.meet}免邮`;
-          break;
-        case 2:
-          this.saveData[this.currentShopIndex].couponName = `满${coupon.meet}减${coupon.cash}现金`;
-          break;
-        case 3:
-          this.saveData[this.currentShopIndex].couponName = `满${coupon.meet}减${coupon.cash}抵压金`;
-          break;
-
-        default:
-          break;
-      }
       this.modal.coupon1 = false;
       this.couponList[this.currentShopIndex] = coupon.cash;
       let totalCash = 0;
       this.couponList.forEach(element => {
         totalCash += element;
       })
-      this.totalMoney = this.$store.state.cart.totalFee - totalCash > 0 ? this.$store.state.cart.totalFee - totalCash : 0;
+
+      switch (coupon.type) {
+        case 1:
+          this.saveData[this.currentShopIndex].couponName = `满${coupon.meet}免邮`;
+          break;
+        case 2:
+          this.saveData[this.currentShopIndex].couponName = `满${coupon.meet}减${coupon.cash}现金`;
+          this.$store.commit('CHANGE_CART_TOTALFREE', this.$store.state.cart.totalFee - totalCash > 0 ? this.$store.state.cart.totalFee - totalCash : 0)
+          break;
+        case 3:
+          this.saveData[this.currentShopIndex].couponName = `满${coupon.meet}减${coupon.cash}抵压金`;
+          this.$store.commit('CHANGE_CART_SUREFREE', this.$store.state.cart.sureFee - totalCash > 0 ? this.$store.state.cart.sureFee - totalCash : 0)
+          break;
+
+        default:
+          break;
+      }
+
+
     },
     submitCart() {
       let params = this.packData();
@@ -355,7 +423,10 @@ export default {
     // },
     getType: {
       handler(newValue, oldName) {
-        this.$store.commit('CHANGE_CART_GETTYPE', newValue)
+        this.$store.commit('CHANGE_CART_GETTYPE', newValue);
+        this.saveData.forEach(element => {
+          element.limitHour = 6;
+        })
       },
       // immediate: true,
       deep: true

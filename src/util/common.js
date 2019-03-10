@@ -99,5 +99,34 @@ export default {
       }
     }
 
-  }
+  },
+  /**
+    * 字符串转数组
+    * @param {*} value
+    * @returns
+    */
+  stringToArray(value) {
+    if (this.isEmpty(value)) return []
+    if (typeof value !== 'string') return []
+    if (value.indexOf(",") < 0) return [value]
+    let array = value.split(",");
+    return array
+  },
+  /**
+   * 数组转字符串
+   * @param {*} value
+   * @returns
+   */
+  arrayToString(value) {
+    if (typeof value == "object" && value instanceof Array) {
+      if (value.length == 0) return ""
+      let str = '';
+      value.forEach(element => {
+        str += element + ',';
+      })
+      return str.substr(0, str.length - 1);
+    } else {
+      return ""
+    }
+  },
 }

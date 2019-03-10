@@ -3,7 +3,13 @@
     <div class="footer-result">
       <p>合计金额：</p>
       <p>
-        <span>{{totalMoney}}</span>元
+        <span>{{totalPrice}}</span>元
+      </p>
+    </div>
+    <div class="footer-result">
+      <p>保证金：</p>
+      <p>
+        <span>{{sureFee}}</span>元
       </p>
     </div>
     <!-- <a class="footer-pay" @click="goPay">提交订单</a> -->
@@ -17,7 +23,11 @@ export default {
   mounted() {
   },
   props: {
-    totalMoney: {
+    totalPrice: {
+      type: Number,
+      default: 0
+    },
+    sureFee: {
       type: Number,
       default: 0
     }

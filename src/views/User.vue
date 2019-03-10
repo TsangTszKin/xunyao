@@ -8,7 +8,11 @@
             </div>
             <div>
               <p class="name">{{getUserNickName}}</p>
-              <p class="mobile"><i class="fa fa-mobile fa-lg"></i>{{getUserMobile}}</p>
+              <p class="mobile">
+                <img style="margin-right: 5px;" :src="getUserType == '1'?'/static/VIP.png':'/static/游客.png'" />
+                <i class="fa fa-mobile fa-lg" style="position: relative;top: 3px;"></i>
+                <span style="position: relative;top: 3px;">{{getUserMobile}}</span>
+              </p>
             </div>
             <i class="icon-go" style="position: absolute;
       right: 20px;
@@ -204,6 +208,9 @@ export default {
     },
     getUserMobile() {
       return this.$store.state.user.user.mobile
+    },
+    getUserType() {
+      return this.$store.state.user.user.type
     }
   },
   methods: {
@@ -216,6 +223,10 @@ export default {
         if (!common.isOk(res)) return
         this.doOrderCount = res.data.doOrderCount;
         res.data.loginUser.user.id = res.data.loginUser.id;
+        res.data.loginUser.user.idCard = res.data.loginUser.idCard;
+        res.data.loginUser.user.sex = res.data.loginUser.sex;
+        res.data.loginUser.user.realname = res.data.loginUser.realname;
+        res.data.loginUser.user.type = res.data.loginUser.type;
         localStorage.user = JSON.stringify(res.data.loginUser.user);
         this.$store.commit("CHANGE_USER_INFO", res.data.loginUser.user);
       })

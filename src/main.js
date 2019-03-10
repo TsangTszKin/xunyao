@@ -7,6 +7,7 @@ import store from '@/vuex/store.js';  //vuex
 import api from '@/http/api.js';       //http请求
 import axios from 'axios';
 import authService from '@/api/authService.js'
+import userService from '@/api/userService.js'
 import less from 'less';
 import Mint from 'mint-ui';    //移动端UI
 import 'mint-ui/lib/style.css';
@@ -60,6 +61,21 @@ let getMyInfo = () => {
       localStorage.removeItem("shop");
       store.commit("CHANGE_USER_ISSHOP", false);
     }
+    getMyHomeInfo();
+  })
+}
+
+let getMyHomeInfo = () => {
+  userService.getMyHomeInfo().then(res => {
+    if (!common.isOk(res)) return
+    this.doOrderCount = res.data.doOrderCount;
+    res.data.loginUser.user.id = res.data.loginUser.id;
+    res.data.loginUser.user.idCard = res.data.loginUser.idCard;
+    res.data.loginUser.user.sex = res.data.loginUser.sex;
+    res.data.loginUser.user.realname = res.data.loginUser.realname;
+    res.data.loginUser.user.type = res.data.loginUser.type;
+    localStorage.user = JSON.stringify(res.data.loginUser.user);
+    this.$store.commit("CHANGE_USER_INFO", res.data.loginUser.user);
   })
 }
 

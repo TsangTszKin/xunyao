@@ -37,6 +37,7 @@ const AllGoodsListByCate = resolve => require(['@/views/AllGoodsListByCate.vue']
 const ReCharge = resolve => require(['@/views/my/ReCharge.vue'], resolve)
 const Setting = resolve => require(['@/views/my/Setting.vue'], resolve)
 const Help = resolve => require(['@/views/my/Help.vue'], resolve)
+const SearchAll = resolve => require(['@/views/SearchAll.vue'], resolve)
 
 export default new Router({
 
@@ -275,6 +276,14 @@ export default new Router({
     path: '/help',
     name: '帮助',
     component: Help,
+    meta: {
+      requireAuth: true
+    }
+  },
+  {
+    path: '/searchAll',
+    name: '主页搜索',
+    component: SearchAll,
     meta: {
       requireAuth: true
     }

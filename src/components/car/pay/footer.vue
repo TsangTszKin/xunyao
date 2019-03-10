@@ -1,5 +1,12 @@
 <template>
   <footer class="footer">
+    
+    <div class="footer-result">
+      <p>总金额：</p>
+      <p>
+        <span>{{$store.state.cart.totalFee.toFixed(2)}}</span>元
+      </p>
+    </div>
     <div class="footer-result">
       <p>保证金：</p>
       <p>
@@ -7,6 +14,7 @@
       </p>
     </div>
     <a class="footer-pay" @click="goPay">提交订单</a>
+    
   </footer>
 </template>
 
@@ -17,7 +25,11 @@ export default {
   mounted() {
   },
   props: {
-    totalMoney: {
+    totalFee: {
+      type: Number,
+      default: 0
+    },
+     sureFee: {
       type: Number,
       default: 0
     }

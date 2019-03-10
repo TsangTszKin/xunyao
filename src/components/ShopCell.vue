@@ -9,10 +9,15 @@
       <div class="time">
         <span class="time-num">距离{{shop.distance}}</span>
       </div>
-      <p class="start">店铺地址： {{shop.address}}</p>
-      <p class="coupon">
-        <span>满减</span>
-        <!-- 满20减5，满50减10 -->
+      <p class="start">地址： {{shop.address}}</p>
+      <p class="coupon" v-if="shop.shopService.length > 0">
+        <!-- <span v-for="(n, i) in shop.shopService" :key="i">{{n ==1 ?'开发票': n == 2? '医保':'送上门'}}</span> -->
+        <img
+          :style="{height:n ==1 ?'23px': n == 2? '30px':'15px',marginRight: '10px'}"
+          v-for="(n, i) in shop.shopService"
+          :key="i"
+          :src="n ==1 ?'/static/发票管理.png': n == 2? '/static/医保.png':'/static/上门.png'"
+        >
       </p>
     </div>
   </li>
@@ -32,9 +37,18 @@ export default {
           "shopName": "",
           "shopLogo": "",
           "address": "",
-          "distance": 0
+          "distance": 0,
+          "shopService": []
         }
       }
+    }
+  },
+  watch: {
+    shop: {
+      handler: function (value) {
+        console.log(value)
+      },
+      deep: true
     }
   }
 
@@ -55,7 +69,7 @@ li {
 
   border-bottom: 1px solid #dcdcdc85;
   .section3-list-left {
-    padding: 5vw 3vw;
+    padding: 3vw;
     width: 80%;
     h4 {
       .fz(font-size, 34);
@@ -108,8 +122,13 @@ li {
   .section3-list-right {
     width: 30%;
     display: block;
-    padding-top: 5vw;
+    // padding-top: 5vw;
     position: relative;
+    display: -webkit-flex;
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+    align-items: center;
     img {
       display: block;
       width: 100%;

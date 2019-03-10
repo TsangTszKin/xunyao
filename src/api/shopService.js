@@ -37,8 +37,8 @@ export default {
 	getShopActivityList(shopId) {
 		return axios.get(`${prefix}/app/sales/shopActivityList?shopId=${shopId}`).catch(errorHandler);
 	},
-	getCoupon(activityId) {
-		return axios.get(`${prefix}/app/sales/getCoupon?activityId=${activityId}`).catch(errorHandler);
+	getCoupon(activityId, shopId) {
+		return axios.get(`${prefix}/app/sales/getCoupon?activityId=${activityId}&shopId=${shopId}`).catch(errorHandler);
 	},
 	getBuyerCouponForShop(totalFee, shopId) {
 		return axios.get(`${prefix}/app/sales/couponList?totalFee=${totalFee}&shopId=${shopId}`).catch(errorHandler);

@@ -169,7 +169,7 @@ export default {
     },
     getCoupon(id) {
       Indicator.open();
-      shopService.getCoupon(id).then(res => {
+      shopService.getCoupon(id, this.$route.params.id).then(res => {
         Indicator.close();
         if (!common.isOk(res)) return
         Toast('领取成功');
