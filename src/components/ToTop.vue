@@ -21,7 +21,7 @@ export default {
   position: fixed;
   bottom: 100px;
   right: 15px;
-  z-index: 999;
+  z-index: 9999;
   background-color: #000;
   border-radius: 50%;
   opacity: 0.5;

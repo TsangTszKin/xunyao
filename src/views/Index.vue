@@ -12,6 +12,15 @@
     <v-baseline/>
     <v-footer/>
     <div id="allmap" style="height: 0"></div>
+     <mt-popup v-model="modal" position="bottom" style="width: 100%;height: 100%;">
+                        <mt-header :title="data.title" style="">
+                                <mt-button icon="back" slot="left" @click="modal = false"></mt-button>
+                        </mt-header>
+                        <div style="padding-top: 40px;overflow: scroll;height: 100%;" v-html="data.content">
+                                
+                        </div>
+      </mt-popup>
+       <!-- <v-to-top v-if="modal" /> -->
   </div>
 </template>
 
@@ -26,7 +35,9 @@ import Section4 from '@/components/index/section4.vue'
 import Baseline from '@/common/_baseline.vue'
 import Footer from '@/common/_footer.vue'
 import index from '@/http/mock.js' //模拟数据
-
+import { MessageBox, Popup } from 'mint-ui';
+import bus from '@/util/bus';
+import ToTop from '@/components/ToTop';
 
 export default {
   components: {
@@ -38,7 +49,9 @@ export default {
     'v-section3': Section3,
     'v-section4': Section4,
     'v-baseline': Baseline,
-    'v-footer': Footer
+    'v-footer': Footer,
+    'mt-popup': Popup,
+    'v-to-top': ToTop
   },
   data() {
     return {
@@ -49,12 +62,22 @@ export default {
         section4: {},
         swiper: []
       },
-      loading: true
+      loading: true,
+      modal: false,
+      data: {
+        title: '',
+        content: ''
+      }
     }
   },
 
   mounted() {
-     window.scrollTo(0, 0);
+    window.scrollTo(0, 0);
+    bus.$on("advert.show", (title, content) => {
+      this.data.title = title;
+      this.data.content = content;
+      this.modal = true;
+    })
   }
 }
 </script>

@@ -1,10 +1,11 @@
 <template lang="html">
-    <mt-swipe :auto="4000">
-      <mt-swipe-item v-for="k in advertList" :key="k.id">
-        <router-link :to="{ name: '详情页'}">
+    <mt-swipe :auto="40000">
+      <mt-swipe-item v-for="k in advertList" :key="k.id" @click.native="showInfo(k)">
+        <!-- <router-link :to="{ name: '详情页'}"> -->
           <img :src="k.pic">
-        </router-link>
+        <!-- </router-link> -->
       </mt-swipe-item>
+
     </mt-swipe>
 
 </template>
@@ -12,6 +13,8 @@
 <script>
 import homeService from '@/api/homeService';
 import common from '@/util/common';
+import { MessageBox, Popup, Header } from 'mint-ui';
+import bus from '@/util/bus';
 
 export default {
   props: {
@@ -33,6 +36,10 @@ export default {
       // }
     }
   },
+  components: {
+    'mt-popup': Popup,
+    'v-header': Header,
+  },
   methods: {
     getAdvertList() {
       homeService.getAdvertList().then(res => {
@@ -40,6 +47,16 @@ export default {
         let data = res.data.data;
         this.advertList = data;
       })
+    },
+    showInfo(k) {
+      // MessageBox.alert(info);
+      // MessageBox({
+      //   title: '广告',
+      //   message: info,
+      //   showCancelButton: false
+      // });;
+      // k.content = ''
+      bus.$emit("advert.show", k.title, k.content)
     }
   },
   mounted() {
