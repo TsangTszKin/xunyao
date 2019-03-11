@@ -19,7 +19,7 @@
     </div>
   </mt-cell-swipe>-->
   <div class="ticket">
-    <p>{{data.shopName}}</p>
+    <!-- <p>{{data.shopName}}</p> -->
     <div>
       <p class="price">
         ￥
@@ -64,7 +64,7 @@
       type="primary"
       size="small"
       style="position: absolute;
-    top: 27px;
+    top: 22px;
     right: 8px;"
       v-if="type == 1"
       @click="$emit('callBack', data.id)"

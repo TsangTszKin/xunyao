@@ -1,6 +1,12 @@
 <template>
   <footer class="footer">
     <div class="footer-result">
+      <p>邮费</p>
+      <p>
+        <span>{{postFee}}</span>元
+      </p>
+    </div>
+    <div class="footer-result">
       <p>合计金额：</p>
       <p>
         <span>{{totalPrice}}</span>元
@@ -28,6 +34,10 @@ export default {
       default: 0
     },
     sureFee: {
+      type: Number,
+      default: 0
+    },
+    postFee: {
       type: Number,
       default: 0
     }

@@ -102,6 +102,7 @@
                                 </div>
                                 <div class="mint-cell-right"></div>
                         </a>
+                        <mt-field label="邮费" :placeholder="`${saveData[i].postage}元`" type="text" :readonly="true" :disableClear="true"></mt-field>
                 </div>
                 <div style="height: 55px"></div>
                 <mt-popup v-model="modal.address" position="bottom" style="width: 100%;height: 100%;">
@@ -271,6 +272,8 @@ export default {
       common.isEmpty(element.limitHour) ? element.limitHour = 6 : element.limitHour;
     });
 
+    this.resetCardList(this.packData());
+
     $(".v-picker").height($('#app').height());
   },
 
@@ -316,6 +319,7 @@ export default {
     selectAddress(address) {
       this.modal.address = false;
       this.mainData.address = address;
+      this.resetCardList(this.packData());
     },
     getBuyerCouponForShop(shopId) {
       this.modal.coupon1 = true;
@@ -331,30 +335,40 @@ export default {
     },
     selectCoupon(coupon) {
       console.log(this.currentShopIndex, coupon)
+      console.log(this.couponList);
       this.saveData[this.currentShopIndex].couponId = coupon.id;
+
       this.modal.coupon1 = false;
       this.couponList[this.currentShopIndex] = coupon.cash;
-      let totalCash = 0;
-      this.couponList.forEach(element => {
-        totalCash += element;
-      })
 
+
+      // let totalCash = 0;
+      // this.couponList.forEach(element => {
+      //   totalCash += element;
+      // })
+      // console.log(totalCash);
+
+      // const totalFree = this.$store.state.cart.totalFeeTemp;
+      // const sureFee = this.$store.state.cart.sureFeeTemp;
+      // console.log(totalFree);
       switch (coupon.type) {
         case 1:
           this.saveData[this.currentShopIndex].couponName = `满${coupon.meet}免邮`;
           break;
         case 2:
           this.saveData[this.currentShopIndex].couponName = `满${coupon.meet}减${coupon.cash}现金`;
-          this.$store.commit('CHANGE_CART_TOTALFREE', this.$store.state.cart.totalFee - totalCash > 0 ? this.$store.state.cart.totalFee - totalCash : 0)
+          // this.$store.commit('CHANGE_CART_TOTALFREE', totalFree - totalCash > 0 ? totalFree - totalCash : 0)
           break;
         case 3:
           this.saveData[this.currentShopIndex].couponName = `满${coupon.meet}减${coupon.cash}抵压金`;
-          this.$store.commit('CHANGE_CART_SUREFREE', this.$store.state.cart.sureFee - totalCash > 0 ? this.$store.state.cart.sureFee - totalCash : 0)
+          // this.$store.commit('CHANGE_CART_SUREFREE', sureFee - totalCash > 0 ? sureFee - totalCash : 0)
           break;
 
         default:
           break;
       }
+      this.resetCardList(this.packData());
+      // console.log(this.$store.state.cart.totalFee);
 
 
     },
@@ -404,6 +418,24 @@ export default {
         if (!common.isOk(res)) return
 
       })
+    },
+    resetCardList(params) {
+      cartService.cartList(params).then(res => {
+        if (!common.isOk(res)) return
+        let data = res.data.data;
+        let cartList = [];
+        for (const key in data) {
+          if (data.hasOwnProperty(key)) {
+            const element = data[key];
+            cartList.push(element);
+          }
+        }
+        this.$store.commit("CHANGE_CART_LIST", cartList);
+        this.$store.commit("CHANGE_CART_DATA", data);
+        this.$store.commit("CHANGE_CART_SUREFREE", res.data.sureFee);
+        this.$store.commit("CHANGE_CART_TOTALFREE", res.data.totalFee);
+        this.saveData = cartList;
+      })
     }
   },
   watch: {
@@ -427,6 +459,7 @@ export default {
         this.saveData.forEach(element => {
           element.limitHour = 6;
         })
+        this.resetCardList(this.packData());
       },
       // immediate: true,
       deep: true

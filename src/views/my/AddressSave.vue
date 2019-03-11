@@ -53,15 +53,13 @@
       </mt-cell>
 
       <div style="padding: 20px 20px;">
-        <mt-button type="primary" size="large" @click="save">保存</mt-button>
+        <mt-button type="primary" size="large" @click="readySave">保存</mt-button>
       </div>
     </div>
 
     <mt-popup v-model="isShowAddress" position="bottom" style="width: 100%;">
       <mt-picker :slots="myAddressSlots" @change="onMyAddressChange"></mt-picker>
     </mt-popup>
-
-    <!-- <mt-picker :slots="slots" @change="onValuesChange"></mt-picker> -->
   </div>
 </template>
 
@@ -70,6 +68,7 @@ import { Picker, Popup, Field, Cell, Switch, Button, Toast, Indicator } from 'mi
 import myaddress from '@/assets/city.json'
 import userService from '@/api/userService';
 import common from '@/util/common';
+import $ from 'jquery';
 
 export default {
   name: '',
@@ -102,6 +101,8 @@ export default {
         "receiverAddress": "",
         "receiverName": "",
         "receiverPhone": "",
+        "longitude": '',
+        "latitude": ''
         // "remarks": "string",
         // "updateBy": "string",
         // "updateDate": 0
@@ -134,23 +135,6 @@ export default {
           textAlign: 'center'
         }
       ],
-      slots: [
-        {
-          flex: 1,
-          values: ['2015-01', '2015-02', '2015-03', '2015-04', '2015-05', '2015-06'],
-          className: 'slot1',
-          textAlign: 'right'
-        }, {
-          divider: true,
-          content: '-',
-          className: 'slot2'
-        }, {
-          flex: 1,
-          values: ['2015-01', '2015-02', '2015-03', '2015-04', '2015-05', '2015-06'],
-          className: 'slot3',
-          textAlign: 'left'
-        }
-      ]
     }
   },
   created() {
@@ -192,6 +176,25 @@ export default {
 
 
     },
+    verify() {
+      if (common.isEmpty(this.saveData.receiverAddress)) {
+        Toast("地址不能为空");
+        return false
+      }
+      if (common.isEmpty(this.saveData.receiverName)) {
+        Toast("收货人不能为空");
+        return false
+      }
+      if (common.isEmpty(this.saveData.receiverPhone)) {
+        Toast("联系方式不能为空");
+        return false
+      }
+      return true
+    },
+    readySave() {
+      if (this.verify())
+        this.getLngAndLatBtAddressForApi(`${this.saveData.province}${this.saveData.city}${this.saveData.district}${this.saveData.receiverAddress}`);
+    },
     getInfo(id) {
 
       Indicator.open();
@@ -208,7 +211,32 @@ export default {
       if (values[0] > values[1]) {
         picker.setSlotValue(1, values[0]);
       }
-    }
+    },
+    getLngAndLatBtAddressForApi(address) {
+      let self = this;
+      $.ajax({
+        type: "GET",
+        url: `http://api.map.baidu.com/geocoder/v2/?address=${address}&output=json&ak=AuOY7KgIDlUnzBsTxL7YZeo8UAfpYXmQ`,
+        dataType: "jsonp",  //数据格式设置为jsonp
+        jsonp: "callback",  //Jquery生成验证参数的名称
+        success: function (res) {  //成功的回调函数
+          // alert(res);
+          console.log("getLngAndLatBtAddressForApi", res)
+          if (res.status == 0) {
+            self.saveData.longitude = res.result.location.lng;
+            self.saveData.latitude = res.result.location.lat;
+            self.save();
+          } else {
+            self.saveData.longitude = null;
+            self.saveData.latitude = null;
+            Toast("获取地址经纬度失败");
+          }
+        },
+        error: function (e) {
+          alert("error");
+        }
+      });
+    },
   },
   mounted() {
     window.scrollTo(0, 0);

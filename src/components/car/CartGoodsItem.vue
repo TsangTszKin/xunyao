@@ -138,6 +138,8 @@ export default {
         this.$store.commit("CHANGE_CART_DATA", data);
         this.$store.commit("CHANGE_CART_SUREFREE", res.data.sureFee);
         this.$store.commit("CHANGE_CART_TOTALFREE", res.data.totalFee);
+        his.$store.commit("CHANGE_CART_SUREFREETEMP", res.data.sureFee);
+        this.$store.commit("CHANGE_CART_TOTALFREETEMP", res.data.totalFee);
       })
     },
     addCart(productId, quantity, shopId) {

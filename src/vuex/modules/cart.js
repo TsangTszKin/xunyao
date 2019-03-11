@@ -8,6 +8,8 @@ const state = {
   cartData: {},
   sureFee: 0.0,
   totalFee: 0.0,
+  sureFeeTemp: 0.0,
+  totalFeeTemp: 0.0,
   deliveryTime: '',
   getType: '1'
 }
@@ -30,6 +32,12 @@ const mutations = {
   },
   [types.CHANGE_CART_TOTALFREE](state, res) {
     state.totalFee = res
+  },
+  [types.CHANGE_CART_SUREFREETEMP](state, res) {
+    state.sureFeeTemp = res
+  },
+  [types.CHANGE_CART_TOTALFREETEMP](state, res) {
+    state.totalFeeTemp = res
   },
   [types.CHANGE_CART_TIME](state, res) {
     state.deliveryTime = res

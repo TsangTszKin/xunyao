@@ -4,6 +4,7 @@
 
     <mt-header title="钱包">
       <mt-button icon="back" slot="left" @click="$router.go(-1)"></mt-button>
+      <i slot="right" class="fa fa-clock-o fa-lg" style="margin-right: 10px;"  @click="$router.push({name: '违约金额明细'})"></i>
     </mt-header>
 
 
@@ -18,6 +19,15 @@
               <p>
                 <span>保证金</span><span style="position: absolute;
     right: 6vw;">￥{{money}}</span>
+              </p>
+            </router-link>
+             <router-link class="my-vip-bottom ho" :to="{ name: ''}">
+              <div>
+                <i class="fa fa-cny fa-lg"></i>
+              </div>
+              <p>
+                <span>冻结金额</span><span style="position: absolute;
+    right: 6vw;">￥{{lockMoney}}</span>
               </p>
             </router-link>
             <router-link class="my-vip-bottom ho" :to="{ name: '充值'}">
@@ -78,7 +88,8 @@ export default {
   },
   data() {
     return {
-      money: 0.0
+      money: 0.0,
+      lockMoney: 0.0
     }
   },
   computed: {
@@ -98,6 +109,7 @@ export default {
       userService.getMyMoney().then(res => {
         if (!common.isOk(res)) return
         this.money = res.data.money || this.money;
+        this.lockMoney = res.data.lockMoney || this.lockMoney;
       })
     }
   }

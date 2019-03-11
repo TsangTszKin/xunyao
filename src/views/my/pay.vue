@@ -87,7 +87,7 @@
                 </div>
                 <!-- <div style="height: 55px"></div> -->
         </div>
-        <v-footer :totalPrice="order.totalPrice" :sureFee="order.sureFee" ></v-footer>
+        <v-footer :totalPrice="order.totalPrice" :sureFee="order.sureFee" :postFee="order.postFee" ></v-footer>
 </div>
 
 </template>

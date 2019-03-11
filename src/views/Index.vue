@@ -14,7 +14,7 @@
     <div id="allmap" style="height: 0"></div>
      <mt-popup v-model="modal" position="bottom" style="width: 100%;height: 100%;">
                         <mt-header :title="data.title" style="">
-                                <mt-button icon="back" slot="left" @click="modal = false"></mt-button>
+                                <mt-button icon="back" slot="left" @click="closeAdvert"></mt-button>
                         </mt-header>
                         <div style="padding-top: 40px;overflow: scroll;height: 100%;" v-html="data.content">
                                 
@@ -70,7 +70,12 @@ export default {
       }
     }
   },
-
+  methods: {
+    closeAdvert() {
+      this.modal = false;
+      window.scrollTo(0, 0);
+    }
+  },
   mounted() {
     window.scrollTo(0, 0);
     bus.$on("advert.show", (title, content) => {
