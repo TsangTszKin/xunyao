@@ -14,7 +14,7 @@ import 'mint-ui/lib/style.css';
 import '@/assets/index.less'
 import common from '@/util/common';
 import Vconsole from 'vconsole';
-export default new Vconsole()
+// export default new Vconsole()
 Vue.use(Mint);
 Vue.config.productionTip = false;
 Vue.prototype.$api = api;
