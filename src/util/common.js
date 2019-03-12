@@ -95,10 +95,12 @@ export default {
       return false
     } else {
       if (res.data.code != 0) {
-        Toast(res.data.msg);
+
         if (res.data.code == 401) {
           // alert(401)
           this.goWxOauth2();
+        } else {
+          Toast(res.data.msg);
         }
         return false
       } else {

@@ -44,7 +44,7 @@
       type="primary"
       size="small"
       style="position: absolute;
-    top: 27px;
+    top: 22px;
     right: 8px;"
       v-if="type == 0"
       @click="$emit('callBack', data)"
@@ -54,7 +54,7 @@
       type="primary"
       size="small"
       style="position: absolute;
-    top: 27px;
+    top: 22px;
     right: 8px;"
       v-if="type == 2"
       @click="$router.push({name: '店铺主页', params: {id: data.shopId}})"
