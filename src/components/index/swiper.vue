@@ -1,5 +1,5 @@
 <template lang="html">
-    <mt-swipe :auto="40000">
+    <mt-swipe :auto="4000">
       <mt-swipe-item v-for="k in advertList" :key="k.id" @click.native="showInfo(k)">
         <!-- <router-link :to="{ name: '详情页'}"> -->
           <img :src="k.pic">

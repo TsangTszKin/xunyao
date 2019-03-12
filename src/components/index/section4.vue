@@ -7,9 +7,6 @@
       </router-link> -->
     </h2>
     <ul class="section4-list"
-     v-infinite-scroll="getRecommendProductionList"
-      infinite-scroll-disabled="loading"
-      infinite-scroll-distance="10"
     >
       <li v-for="k in list" :key='k.id'>
         <router-link :to="{name:'详情页', params:{id: k.id}}">
@@ -25,6 +22,7 @@
       </li>
 
     </ul>
+    <p style="text-align: center;margin-top: 20px;" @click="getRecommendProductionList">加载更多</p>
     <!-- <router-link :to="{name:'分类页'}" class="section4-banner">
       <img v-lazy="banner">
     </router-link> -->
@@ -71,13 +69,19 @@ export default {
       ]
     }
   },
+  mounted() {
+    this.getRecommendProductionList();
+  },
   methods: {
     getRecommendProductionList() {
-      if (this.isEnd) return
+      // if (this.isEnd) return
       this.loading = true;
       let self = this;
       Indicator.open('加载中...');
       homeService.getRecommendProductionList(self.page).then(res => {
+        //todo
+        self.isEnd = true;
+        //todo
         self.loading = false;
         Indicator.close();
         if (!common.isOk(res)) return

@@ -2,6 +2,9 @@ const STORAGE_USER_KEY = 'STORAGE_USER_KEY'
 // const STORAGE_CARTLIST_KEY = 'STORAGE_CARTLIST_KEY'
 // const STORAGE_QUERYMYLIST_KEY = 'STORAGE_QUERYMYLIST_KEY'
 import { Toast } from 'mint-ui';
+import axios from 'axios'
+const prefix = 'http://192.168.0.110:80';
+// import authService from '@/api/authService.js'
 
 export default {
   // 获取
@@ -93,12 +96,26 @@ export default {
     } else {
       if (res.data.code != 0) {
         Toast(res.data.msg);
+        if (res.data.code == 401) {
+          // alert(401)
+          this.goWxOauth2();
+        }
         return false
       } else {
         return true
       }
     }
 
+  },
+  goWxOauth2() {
+    localStorage.removeItem("token");
+    var returnUrl = location.href;
+    var index = returnUrl.indexOf("?");
+    if (index >= 0) {
+      returnUrl = returnUrl.substr(0, index);
+    }
+    var url = prefix + "/app/auth/goWxOauth2?returnUrl=" + encodeURIComponent(returnUrl);
+    location.href = url;
   },
   /**
     * 字符串转数组
