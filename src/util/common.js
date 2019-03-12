@@ -3,7 +3,7 @@ const STORAGE_USER_KEY = 'STORAGE_USER_KEY'
 // const STORAGE_QUERYMYLIST_KEY = 'STORAGE_QUERYMYLIST_KEY'
 import { Toast } from 'mint-ui';
 import axios from 'axios'
-const prefix = 'http://192.168.0.110:80';
+const prefix = 'http://testapi.gu-dao.cn';
 // import authService from '@/api/authService.js'
 
 export default {
