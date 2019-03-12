@@ -5,7 +5,7 @@
                 <h1 slot="title">确认订单</h1></v-header>
         <div class="v-content">
                 <mt-radio title="收货方式" align="right" v-model="getType" :options="[{label: '到店自取',value: '1'},{label: '货到付款',value: '2'}]"></mt-radio>
-                <div class="pay-address" v-if="$store.state.cart.getType == '2'" @click="modal.address = true">
+                <div class="pay-address" v-if="getType == '2'" @click="modal.address = true">
                         <div>
                                 <p class="main-address-per">收货人:
                                         <span>{{mainData.address.receiverName}}</span></p>
@@ -35,7 +35,7 @@
                                         </ul>
                                 </li>
                         </ul>
-                        <div class="pay-address" style="padding-left: 3vw" v-if="$store.state.cart.getType == 2">
+                        <div class="pay-address" style="padding-left: 3vw" v-if="getType == 2">
                                 <div>
                                         <p class="main-address-per" style="line-height: 32px;">好友代收</p>
                                         <p class="main-address-tel">
@@ -66,7 +66,7 @@
                                 <div class="mint-cell-left"></div>
                                 <div class="mint-cell-wrapper">
                                         <div class="mint-cell-title">
-                                                <span class="mint-cell-text">{{$store.state.cart.getType == '1'?'自取时间':'送货时间'}}</span></div>
+                                                <span class="mint-cell-text">{{mainData.getType == '1'?'自取时间':'送货时间'}}</span></div>
                                         <div class="mint-cell-value" style="position: relative;">
                                                 <div>{{saveData[i].limitHour?saveData[i].limitHour+'小时后':'选择时间'}}</div>
                                                 <i class="fa fa-angle-right fa-lg" style="position: absolute;right: 10px;font-size: 14px;top: 4px;"></i>
@@ -102,7 +102,7 @@
                                 </div>
                                 <div class="mint-cell-right"></div>
                         </a>
-                        <mt-field label="邮费" :placeholder="`${saveData[i].postage}元`" type="text" :readonly="true" :disableClear="true"></mt-field>
+                        <mt-field label="邮费" :placeholder="saveData[i].postage?`${saveData[i].postage}元`:'无'" type="text" :readonly="true" :disableClear="true"></mt-field>
                 </div>
                 <div style="height: 55px"></div>
                 <mt-popup v-model="modal.address" position="bottom" style="width: 100%;height: 100%;">
@@ -137,7 +137,7 @@
                         <v-baseline />
                 </mt-popup>
                 <mt-popup v-model="modal.limitHour" position="bottom" style="width: 100%;height: 30%;">
-                        <mt-picker :slots="$store.state.cart.getType == 1?slot1: slot2" @change="limitHourChange"></mt-picker>
+                        <mt-picker :slots="mainData == 1?slot1: slot2" @change="limitHourChange"></mt-picker>
                 </mt-popup>
         </div>
         <v-footer @submitCart="submitCart"></v-footer>
@@ -195,7 +195,7 @@ export default {
       activityList: [],
       currentShopIndex: 0,
       mainData: {
-        getType: this.$store.state.cart.getType,
+        getType: '1',
         isFriendGet: [],
         address: {
           "id": 1,
@@ -220,7 +220,7 @@ export default {
           "isLabel": null
         }
       },
-      getType: this.$store.state.cart.getType,
+      getType: '1',
       couponList: [],
       slot1: [
         {
@@ -314,6 +314,7 @@ export default {
       userService.getDefaultAddress().then(res => {
         if (!common.isOk(res)) return
         this.mainData.address = res.data.data || this.mainData.address;
+
       })
     },
     selectAddress(address) {
@@ -406,7 +407,7 @@ export default {
     packData() {
       let data = {}
       this.saveData.forEach(element => {
-        element.getType = Number(this.$store.state.cart.getType);
+        element.getType = Number(this.mainData.getType);
         element.receiverId = this.mainData.address.id;
         element.address = `${this.mainData.address.province}${this.mainData.address.city}${this.mainData.address.district}${this.mainData.address.receiverAddress}`;
         data[element.shopId] = element;
@@ -455,11 +456,13 @@ export default {
     // },
     getType: {
       handler(newValue, oldName) {
-        this.$store.commit('CHANGE_CART_GETTYPE', newValue);
+        // this.$store.commit('CHANGE_CART_GETTYPE', newValue);
         this.saveData.forEach(element => {
           element.limitHour = 6;
         })
+        this.mainData.getType = newValue;
         this.resetCardList(this.packData());
+
       },
       // immediate: true,
       deep: true

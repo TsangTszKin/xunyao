@@ -9,7 +9,7 @@
             <div>
               <p class="name">{{getUserNickName}}</p>
               <p class="mobile">
-                <img style="margin-right: 5px;" :src="getUserType == '1'?'/static/VIP.png':'/static/游客.png'" />
+                <img style="margin-right: 5px;" :src="getUserType == '1'?'/static/VIP.png':'/static/youke.png'" />
                 <i class="fa fa-mobile fa-lg" style="position: relative;top: 3px;"></i>
                 <span style="position: relative;top: 3px;">{{getUserMobile}}</span>
               </p>

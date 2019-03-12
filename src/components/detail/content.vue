@@ -1,5 +1,5 @@
 <template lang="html">
-  <section class="content">
+  <section class="content goods-detail">
     <p class="title">说明书</p>
     <div style="padding: 10px;">
       {{product.productExplain}}
@@ -68,7 +68,7 @@ export default {
     //jq部分
     this.toHeight = $("#goods-detail-panel").offset().top - $(window).scrollTop();
     let self = this;
-    $(document).scroll(function (e) {
+    $(".goods-detail").scroll(function (e) {
 
       let toHeight = $("#goods-detail-panel").offset().top - $(window).scrollTop();
       if (toHeight != self.toHeight) {

@@ -158,6 +158,7 @@ export default {
       }
     },
     save() {
+      let self = this;
       let data = common.deepClone(this.saveData);
       data.isDefault == true ? data.isDefault = 1 : data.isDefault = 0;
       Indicator.open();
@@ -170,7 +171,7 @@ export default {
         });
         setTimeout(() => {
           timer.close();
-          this.goBack();
+          self.goBack();
         }, 500);
       })
 

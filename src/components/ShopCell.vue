@@ -16,7 +16,7 @@
           :style="{height:n ==1 ?'23px': n == 2? '30px':'15px',marginRight: '10px'}"
           v-for="(n, i) in shop.shopService"
           :key="i"
-          :src="n ==1 ?'/static/发票管理.png': n == 2? '/static/医保.png':'/static/上门.png'"
+          :src="n ==1 ?'/static/fapiao.png': n == 2? '/static/yibao.png':'/static/shangmen.png'"
         >
       </p>
     </div>
