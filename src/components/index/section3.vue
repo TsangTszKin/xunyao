@@ -22,6 +22,7 @@ import { Lazyload, Toast } from 'mint-ui';
 import homeService from '@/api/homeService';
 import common from '@/util/common';
 import ShopCell from '@/components/ShopCell';
+import bus from '@/util/bus';
 
 export default {
   components: {
@@ -33,15 +34,9 @@ export default {
     }
   },
   mounted() {
-
-    let self = this;
-    let timer = setInterval(() => {
-      if (!common.isEmpty(BMap)) {
-        self.locationInit();
-        clearInterval(timer);
-      }
-    }, 500)
-
+    bus.$on("getNearShopList", (lng, lat) => {
+      this.getNearShopList(lng, lat);
+    })
   },
   methods: {
     getNearShopList(lng, lat) {
@@ -58,51 +53,7 @@ export default {
         })
         this.list = data;
       })
-    },
-    locationInit() {
-      // 百度地图API功能
-      let self = this;
-      var map = new BMap.Map("allmap");
-
-      var geolocation = new BMap.Geolocation();
-      geolocation.getCurrentPosition(function (r) {
-        if (this.getStatus() == BMAP_STATUS_SUCCESS) {
-          map.panTo(r.point);
-          // alert('您的位置：' + r.point.lng + ',' + r.point.lat);
-          var point = new BMap.Point(r.point.lng, r.point.lat);
-          self.getNearShopList(r.point.lng, r.point.lat);
-        }
-        else {
-          Toast("定位失败。原因：", self.locationFailReason(this.getStatus()));
-          console.error('failed' + this.getStatus());
-        }
-      }, { enableHighAccuracy: true })
-
-    },
-    locationFailReason(code) {
-      switch (code) {
-        case 0:
-          return '检索成功'
-        case 1:
-          return '城市列表'
-        case 2:
-          return '位置结果未知'
-        case 3:
-          return '导航结果未知'
-        case 4:
-          return '非法密钥'
-        case 5:
-          return '非法请求'
-        case 6:
-          return '没有权限'
-        case 7:
-          return '服务不可用'
-        case 8:
-          return '超时'
-        default:
-          return '原因未知'
-      }
-    },
+    }
   }
 }
 </script>

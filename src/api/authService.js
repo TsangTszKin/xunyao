@@ -10,14 +10,17 @@ export default {
 	goWxOauth2() {
 		var returnUrl = location.href;
 		var index = returnUrl.indexOf("?");
-		if(index>=0){
-			returnUrl = returnUrl.substr(0,index);
+		if (index >= 0) {
+			returnUrl = returnUrl.substr(0, index);
 		}
-		var url = prefix+"/app/auth/goWxOauth2?returnUrl="+encodeURIComponent(returnUrl);
+		var url = prefix + "/app/auth/goWxOauth2?returnUrl=" + encodeURIComponent(returnUrl);
 		location.href = url;
 	},
 	getMyInfo() {
 		return axios.get(`${prefix}/app/auth/loginUser`).catch(errorHandler)
+	},
+	getWxConfig(url) {
+		return axios.get(`${prefix}/app/auth/getJsapiSignature?url=${url}`).catch(errorHandler)
 	}
 
 

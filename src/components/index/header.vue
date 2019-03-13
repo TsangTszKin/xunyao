@@ -50,6 +50,8 @@ import { Toast, Popup, MessageBox } from 'mint-ui';
 import CityPicker from '@/components/CityPicker';
 import $ from "jquery";
 import userService from '@/api/userService';
+import authService from '@/api/authService';
+import bus from '@/util/bus';
 
 export default {
   data() {
@@ -68,8 +70,12 @@ export default {
       this.city = this.$route.query.business;
     } else {
       let timer = setInterval(() => {
-        if (!common.isEmpty(BMap)) {
-          self.locationInit();
+        // if (!common.isEmpty(BMap)) {
+        //   self.locationInit();
+        //   clearInterval(timer);
+        // }
+        if (!common.isEmpty(wx)) {
+          self.locationInitWx();
           clearInterval(timer);
         }
       }, 500)
@@ -78,6 +84,36 @@ export default {
     setInterval(function () { $(".index-search .mint-searchbar").css("background-color", '#38af43 !important') }, 100)
   },
   methods: {
+    locationInitWx() {
+      let self = this;
+      authService.getWxConfig(encodeURIComponent(location.href)).then(res => {
+        if (!common.isOk(res)) return
+        wx.config({
+          debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+          appId: res.data.data.appId, // 必填，公众号的唯一标识
+          timestamp: res.data.data.timestamp, // 必填，生成签名的时间戳
+          nonceStr: res.data.data.nonceStr, // 必填，生成签名的随机串
+          signature: res.data.data.signature,// 必填，签名
+          jsApiList: ['getLocation'] // 必填，需要使用的JS接口列表
+        });
+
+        wx.getLocation({
+          type: 'wgs84', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
+          success: function (res) {
+            var latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
+            var longitude = res.longitude; // 经度，浮点数，范围为180 ~ -180。
+            localStorage.lng = longitude;
+            localStorage.lat = latitude;
+            self.getBtAddressForApi(latitude, longitude);
+            var speed = res.speed; // 速度，以米/每秒计
+            var accuracy = res.accuracy; // 位置精度
+            console.warn(latitude, longitude);
+            bus.$emit("getNearShopList", latitude, longitude);
+          }
+        });
+      })
+
+    },
     locationInit() {
       // 百度地图API功能
       let self = this;
@@ -138,6 +174,39 @@ export default {
         default:
           return '原因未知'
       }
+    },
+    getBtAddressForApi(lat, lng) {
+      let self = this;
+      $.ajax({
+        type: "GET",
+        url: `http://api.map.baidu.com/geocoder/v2/?location=${lat},${lng}&output=json&ak=AuOY7KgIDlUnzBsTxL7YZeo8UAfpYXmQ`,
+        dataType: "jsonp",  //数据格式设置为jsonp
+        jsonp: "callback",  //Jquery生成验证参数的名称
+        success: function (res) {  //成功的回调函数
+          // alert(res);
+          if (res.status == 0) {
+            let sematic_description = res.result.sematic_description;
+            if (!common.isEmpty(sematic_description)) {
+              if (sematic_description.indexof(',') != -1) {
+                let address = sematic_description.split(",")[0];
+                self.city = address;
+                localStorage.cityName = address;
+              } else {
+                self.city = sematic_description;
+                localStorage.cityName = sematic_description;
+              }
+            }
+
+          } else {
+            Toast("解析地址有误");
+            self.city = '定位失败，点击重新定位';
+            localStorage.cityName = '';
+          }
+        },
+        error: function (e) {
+          alert("error");
+        }
+      });
     },
     addFriends() {
       let self = this;

@@ -85,10 +85,10 @@ export default {
         self.loading = false;
         Indicator.close();
         if (!common.isOk(res)) return
-        if (common.isEmpty(res.data.data.list)) {
+        if (common.isEmpty(res.data.data)) {
           self.isEnd = true;
         } else {
-          res.data.data.list.forEach(element => {
+          res.data.data.forEach(element => {
             self.list.push(element)
           })
           self.page++;
@@ -136,7 +136,7 @@ export default {
     display: flex;
     -webkit-box-pack: center;
     -ms-flex-pack: center;
-    justify-content: center;
+    justify-content: space-between;
     -ms-flex-wrap: wrap;
     flex-wrap: wrap;
     overflow: hidden;
