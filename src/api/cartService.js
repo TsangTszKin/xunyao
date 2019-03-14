@@ -14,7 +14,7 @@ export default {
 	},
 	cartList(params) {
 		if (common.isEmpty(params)) {
-			return axios.post(`${prefix}/app/sales/cartList`).catch(errorHandler);
+			return axios.post(`${prefix}/app/sales/cartList`, {}).catch(errorHandler);
 		} else {
 			return axios.post(`${prefix}/app/sales/cartList`, params).catch(errorHandler);
 		}

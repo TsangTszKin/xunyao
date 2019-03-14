@@ -2,9 +2,9 @@
 
 <div class="index-header">
   <mt-header title="">
-    <router-link :to="{name:'定位'}" slot="left">
+    <a  slot="left" @click="reLocation">
       <span style="font-size: 15px;"><i class="fa fa-map-marker fa-lg" style="font-size:17px;margin-right:5px;"></i>{{city}}</span>
-    </router-link>
+    </a>
   
 
        <i slot="right" class="fa fa-plus-circle fa-lg" @click="popupVisible = true"></i>
@@ -46,7 +46,7 @@
 
 <script>
 import common from '@/util/common';
-import { Toast, Popup, MessageBox } from 'mint-ui';
+import { Toast, Popup, MessageBox, Indicator } from 'mint-ui';
 import CityPicker from '@/components/CityPicker';
 import $ from "jquery";
 import userService from '@/api/userService';
@@ -56,7 +56,7 @@ import bus from '@/util/bus';
 export default {
   data() {
     return {
-      city: localStorage.cityName ? localStorage.cityName : '定位中',
+      city: '点击重新定位',
       popupVisible: false
     }
   },
@@ -72,17 +72,18 @@ export default {
       bus.$emit("getNearShopList", this.$route.query.lat, this.$route.query.lng);
     } else {
       if (!common.isEmpty(localStorage.cityName)) {
+        this.city = localStorage.cityName;
         bus.$emit("getNearShopList", localStorage.lat, localStorage.lng);
       } else {
         let timer = setInterval(() => {
-          // if (!common.isEmpty(BMap)) {
-          //   self.locationInit();
-          //   clearInterval(timer);
-          // }
-          if (!common.isEmpty(wx)) {
-            self.locationInitWx();
+          if (!common.isEmpty(BMap)) {
+            self.locationInit();
             clearInterval(timer);
           }
+          // if (!common.isEmpty(wx)) {
+          //   self.locationInitWx();
+          //   clearInterval(timer);
+          // }
         }, 500)
       }
 
@@ -91,6 +92,15 @@ export default {
     setInterval(function () { $(".index-search .mint-searchbar").css("background-color", '#38af43 !important') }, 100)
   },
   methods: {
+    reLocation() {
+      if (this.city.indexOf("点击重新定位") != -1) {
+        this.locationInit();
+        // this.locationInitWx();
+      } else {
+        this.$router.push({ name: '定位' })
+      }
+
+    },
     locationInitWx() {
       let self = this;
       authService.getWxConfig(encodeURIComponent(location.href)).then(res => {
@@ -104,6 +114,7 @@ export default {
           jsApiList: ['getLocation'] // 必填，需要使用的JS接口列表
         });
 
+        Indicator.open('正在定位...');
         wx.getLocation({
           type: 'wgs84', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
           success: function (res) {
@@ -119,16 +130,17 @@ export default {
             // localStorage.getNearbyShop = JSON.stringify({ lat: latitude, lng: longitude })
           }
         });
+        Indicator.close();
       })
 
     },
     locationInit() {
-      // 百度地图API功能
       let self = this;
-      var map = new BMap.Map("allmap");
+      // 百度地图API功能
 
-
+      let map = new BMap.Map("allmap");
       var geolocation = new BMap.Geolocation();
+      console.log(geolocation)
       geolocation.getCurrentPosition(function (r) {
         if (this.getStatus() == BMAP_STATUS_SUCCESS) {
           map.panTo(r.point);
@@ -136,6 +148,8 @@ export default {
           var point = new BMap.Point(r.point.lng, r.point.lat);
           localStorage.lng = r.point.lng;
           localStorage.lat = r.point.lat;
+
+          bus.$emit("getNearShopList", r.point.lat, r.point.lng);
 
           var geoc = new BMap.Geocoder();
 
@@ -151,12 +165,12 @@ export default {
             self.city = currentAddress;
             localStorage.cityName = currentAddress;
           });
-        }
-        else {
+        } else {
           Toast("定位失败。原因：", self.locationFailReason(this.getStatus()));
           console.error('failed' + this.getStatus());
         }
       }, { enableHighAccuracy: true })
+
 
     },
     locationFailReason(code) {

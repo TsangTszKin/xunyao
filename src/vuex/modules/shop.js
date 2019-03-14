@@ -6,7 +6,8 @@ const state = {
     id: '',
     className: ''
   },
-  goodsList: []
+  goodsList: [],
+  nearbyShopList: []
 }
 
 const mutations = {
@@ -15,6 +16,9 @@ const mutations = {
   },
   [types.CHANGE_GOODSLIST_BY_SHOPANDCATE](state, res) {
     state.goodsList = res
+  },
+  [types.CHANGE_HOME_NEARBYSHOPLIST](state, res) {
+    state.nearbyShopList = res
   },
 }
 

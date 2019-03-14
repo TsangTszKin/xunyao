@@ -9,9 +9,9 @@
       
     </h2>
     <ul class="section3-list">
-      <v-shop-cell v-for="(k, index) in dataList" :key='Math.random()' :shop="k" />
+      <v-shop-cell v-for="k in $store.state.shop.nearbyShopList" :key='Math.random()' :shop="k" />
     </ul>
-    <p v-if="dataList.length == 0" style="text-align: center;margin: 10px 0 20px 0;">暂无数据</p>
+    <p v-if="$store.state.shop.nearbyShopList.length == 0" style="text-align: center;margin: 10px 0 20px 0;">暂无数据</p>
     <!-- <router-link :to="{name:'分类页'}" class="section3-banner">
       <img v-lazy="banner">
     </router-link> -->
@@ -32,7 +32,6 @@ export default {
   },
   data() {
     return {
-      dataList: [],
     }
   },
   mounted() {
@@ -55,20 +54,21 @@ export default {
           }
           element.shopService = common.stringToArray(element.shopService);
         })
-        self.dataList = [];
-        self.dataList = common.deepClone(data);
-        console.log(self.dataList);
+        self.dataList = data;
+        this.$store.commit("CHANGE_HOME_NEARBYSHOPLIST", data)
+        // console.log(self.dataList);
         // $(".section3").show();
       })
     }
   },
   watch: {
-    dataList: {
-      handler: function (value) {
-        console.log("dataList 更新");
-      },
-      deep: true
-    }
+    // dataList: {
+    //   handler: function (value, oldValue) {
+    //     console.log("value, oldValue", value, oldValue)
+    //     console.log("dataList 更新");
+    //   },
+    //   deep: true
+    // }
   }
 }
 </script>

@@ -82,6 +82,13 @@ export default {
     this.getCartList();
     this.getNoReadMessageCount();
     localStorage.removeItem("cityName");
+
+    // if (!localStorage.haveReload) {
+    //   localStorage.haveReload = 1;
+    //   window.location.reload();
+    // }
+
+
   },
   methods: {
     getCartList() {
