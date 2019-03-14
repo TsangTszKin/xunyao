@@ -27,6 +27,7 @@
 <script>
 import common from '@/util/common';
 import { MessageBox, Header } from 'mint-ui';
+import $ from 'jquery';
 
 export default {
   data() {
@@ -42,18 +43,41 @@ export default {
     if (!common.isEmpty(this.$route.query.city)) {
       this.city = this.$route.query.city;
     } else {
-      let timer = setInterval(() => {
-        if (!common.isEmpty(window.BMap)) {
-          self.init();
-          clearInterval(timer);
-        }
-      }, 500)
+
     }
+
+    let timer = setInterval(() => {
+      if (!common.isEmpty(window.BMap)) {
+        self.init();
+        clearInterval(timer);
+      }
+    }, 500)
 
 
 
   },
   methods: {
+    getLngAndLatBtAddressForApi(address, business) {
+      let self = this;
+      $.ajax({
+        type: "GET",
+        url: `http://api.map.baidu.com/geocoder/v2/?address=${address}&output=json&ak=AuOY7KgIDlUnzBsTxL7YZeo8UAfpYXmQ`,
+        dataType: "jsonp",  //数据格式设置为jsonp
+        jsonp: "callback",  //Jquery生成验证参数的名称
+        success: function (res) {  //成功的回调函数
+          // alert(res);
+          console.log("getLngAndLatBtAddressForApi", res)
+          if (res.status == 0) {
+            self.$router.push({ name: '首页', query: { business: business, lng: res.result.location.lng, lat: res.result.location.lat } })
+          } else {
+            Toast("获取地址经纬度失败");
+          }
+        },
+        error: function (e) {
+          alert("error");
+        }
+      });
+    },
     init() {
       let self = this;
       // 百度地图API功能
@@ -70,7 +94,8 @@ export default {
         self.city = cityName;
       }
       var myCity = new BMap.LocalCity();
-      myCity.get(myFun);
+      if (common.isEmpty(this.$route.query.city))
+        myCity.get(myFun);
 
       // 添加带有定位的导航控件
       var navigationControl = new BMap.NavigationControl({
@@ -112,8 +137,9 @@ export default {
       ac.addEventListener("onconfirm", function (e) {    //鼠标点击下拉列表后的事件
         var _value = e.item.value;
         console.log("e", e)
-        self.$router.push({ name: '首页', query: { business: e.item.value.business } })
+
         myValue = _value.province + _value.city + _value.district + _value.street + _value.business;
+        self.getLngAndLatBtAddressForApi(myValue, e.item.value.business);
         G("searchResultPanel").innerHTML = "onconfirm<br />index = " + e.item.index + "<br />myValue = " + myValue;
 
         setPlace();
@@ -132,12 +158,6 @@ export default {
         });
         local.search(myValue);
       }
-
-      map.addEventListener("click", (e) => {
-        MessageBox.confirm(`拾取经纬度${e.point.lng}，${e.point.lat}?`).then(action => {
-          self.$emit('getPoint', { longitude: e.point.lng, latitude: e.point.lat })
-        });
-      });
     }
   }
 }

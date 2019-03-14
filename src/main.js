@@ -75,7 +75,7 @@ let getMyHomeInfo = () => {
     res.data.loginUser.user.realname = res.data.loginUser.realname;
     res.data.loginUser.user.type = res.data.loginUser.type;
     localStorage.user = JSON.stringify(res.data.loginUser.user);
-    this.$store.commit("CHANGE_USER_INFO", res.data.loginUser.user);
+    store.commit("CHANGE_USER_INFO", res.data.loginUser.user);
   })
 }
 

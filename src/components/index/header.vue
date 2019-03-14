@@ -68,17 +68,24 @@ export default {
     let self = this;
     if (!common.isEmpty(this.$route.query.business)) {
       this.city = this.$route.query.business;
+      localStorage.cityName = this.city;
+      bus.$emit("getNearShopList", this.$route.query.lat, this.$route.query.lng);
     } else {
-      let timer = setInterval(() => {
-        // if (!common.isEmpty(BMap)) {
-        //   self.locationInit();
-        //   clearInterval(timer);
-        // }
-        if (!common.isEmpty(wx)) {
-          self.locationInitWx();
-          clearInterval(timer);
-        }
-      }, 500)
+      if (!common.isEmpty(localStorage.cityName)) {
+        bus.$emit("getNearShopList", localStorage.lat, localStorage.lng);
+      } else {
+        let timer = setInterval(() => {
+          // if (!common.isEmpty(BMap)) {
+          //   self.locationInit();
+          //   clearInterval(timer);
+          // }
+          if (!common.isEmpty(wx)) {
+            self.locationInitWx();
+            clearInterval(timer);
+          }
+        }, 500)
+      }
+
     }
 
     setInterval(function () { $(".index-search .mint-searchbar").css("background-color", '#38af43 !important') }, 100)
@@ -89,7 +96,7 @@ export default {
       authService.getWxConfig(encodeURIComponent(location.href)).then(res => {
         if (!common.isOk(res)) return
         wx.config({
-          debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+          debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
           appId: res.data.data.appId, // 必填，公众号的唯一标识
           timestamp: res.data.data.timestamp, // 必填，生成签名的时间戳
           nonceStr: res.data.data.nonceStr, // 必填，生成签名的随机串
@@ -109,6 +116,7 @@ export default {
             var accuracy = res.accuracy; // 位置精度
             console.warn(latitude, longitude);
             bus.$emit("getNearShopList", latitude, longitude);
+            // localStorage.getNearbyShop = JSON.stringify({ lat: latitude, lng: longitude })
           }
         });
       })
@@ -187,7 +195,7 @@ export default {
           if (res.status == 0) {
             let sematic_description = res.result.sematic_description;
             if (!common.isEmpty(sematic_description)) {
-              if (sematic_description.indexof(',') != -1) {
+              if (sematic_description.indexOf(',') != -1) {
                 let address = sematic_description.split(",")[0];
                 self.city = address;
                 localStorage.cityName = address;
@@ -208,6 +216,7 @@ export default {
         }
       });
     },
+
     addFriends() {
       let self = this;
       this.popupVisible = false;

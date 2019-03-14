@@ -9,8 +9,9 @@
       
     </h2>
     <ul class="section3-list">
-      <v-shop-cell v-for="(k, index) in list" :key='index' :shop="k" />
+      <v-shop-cell v-for="(k, index) in dataList" :key='Math.random()' :shop="k" />
     </ul>
+    <p v-if="dataList.length == 0" style="text-align: center;margin: 10px 0 20px 0;">暂无数据</p>
     <!-- <router-link :to="{name:'分类页'}" class="section3-banner">
       <img v-lazy="banner">
     </router-link> -->
@@ -23,6 +24,7 @@ import homeService from '@/api/homeService';
 import common from '@/util/common';
 import ShopCell from '@/components/ShopCell';
 import bus from '@/util/bus';
+import $ from 'jquery';
 
 export default {
   components: {
@@ -30,19 +32,21 @@ export default {
   },
   data() {
     return {
-      list: [],
+      dataList: [],
     }
   },
   mounted() {
-    bus.$on("getNearShopList", (lng, lat) => {
-      this.getNearShopList(lng, lat);
+    let self = this;
+    bus.$on("getNearShopList", (lat, lng) => {
+      self.getNearShopList(lat, lng);
     })
   },
   methods: {
-    getNearShopList(lng, lat) {
+    getNearShopList(lat, lng) {
+      let self = this;
       homeService.getNearShopList(lng, lat).then(res => {
         if (!common.isOk(res)) return
-        let data = res.data.data;
+        let data = common.deepClone(res.data.data);
         data.forEach(element => {
           if (element.distance > 1000) {
             element.distance = (element.distance / 1000).toFixed(1) + 'km';
@@ -51,8 +55,19 @@ export default {
           }
           element.shopService = common.stringToArray(element.shopService);
         })
-        this.list = data;
+        self.dataList = [];
+        self.dataList = common.deepClone(data);
+        console.log(self.dataList);
+        // $(".section3").show();
       })
+    }
+  },
+  watch: {
+    dataList: {
+      handler: function (value) {
+        console.log("dataList 更新");
+      },
+      deep: true
     }
   }
 }
@@ -62,6 +77,7 @@ export default {
 @import "../../assets/fz.less";
 .section3 {
   width: 100%;
+  // display: none;
   .pt();
   .section3-title {
     .bt();
