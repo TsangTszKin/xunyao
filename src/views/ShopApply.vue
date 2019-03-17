@@ -161,12 +161,9 @@ export default {
   mounted() {
     window.scrollTo(0, 0);
     let self = this;
-    let timer = setInterval(() => {
-      if (!common.isEmpty(window.BMap)) {
-        self.init();
-        clearInterval(timer);
-      }
-    }, 500)
+    setTimeout(() => {
+      self.init();
+    }, 2000);
   },
   data() {
     return {

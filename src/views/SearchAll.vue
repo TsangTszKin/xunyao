@@ -7,7 +7,7 @@
       placeholder="搜索"
       :autofocus="true"
       :show="true"
-      @keyup.enter.native="search"
+      @keyup.enter.native="search(true)"
       style="position: fixed;top: 0;width: 100%;z-index: 1;height: 40px;"
     ></mt-search>
     <mt-navbar v-model="searchType" style="margin-top: 40px;">
@@ -18,7 +18,7 @@
       <mt-tab-container-item id="1">
         <ul
           class="section3-list"
-          v-infinite-scroll="getShopList"
+          v-infinite-scroll="getGoodsList"
           infinite-scroll-disabled="loading"
           infinite-scroll-distance="10"
         >
@@ -167,8 +167,11 @@ export default {
       this.searchValue = value;
       this.search();
     },
-    search() {
+    search(isInitPageno) {
       if (common.isEmpty(this.searchValue)) return
+      if (isInitPageno) {
+        this.page = 1;
+      }
       this.isInit = true;
       // this.$messagebox("搜索");
       switch (this.searchType) {

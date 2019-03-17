@@ -14,14 +14,6 @@
           <i style="margin: 0 3px;">有</i>
         </span>-->
       </p>
-      <p class="status" style="height: 20px;">
-        <span class="stock" style="position: relative;">
-          库存：
-          <i style="margin: 0 3px;color: red;" v-if="this.data.stock == 0">无</i>
-          <i style="margin: 0 3px;" v-else>有</i>
-          <!-- <i style="margin: 0 3px;">有</i> -->
-        </span>
-      </p>
       <div class="shop">
         <!-- <p class="name">{{this.data.shopName}}</p> -->
         <p class="in">
@@ -129,8 +121,8 @@ export default {
       }
       .in {
         // width: 40px;
-        margin-top: -19px;
-        float: right;
+        // margin-top: -19px;
+        float: left;
         font-size: 12px;
         opacity: 0.8;
         > .num {

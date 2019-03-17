@@ -9,7 +9,7 @@
     <ul class="section4-list"
     >
       <li v-for="k in list" :key='k.id'>
-        <router-link :to="{name:'详情页', params:{id: k.id}}">
+        <router-link :to="{name:'搜索结果', params:{id: k.id}}">
           <div>
             <img :src="k.productImg">
           </div>
@@ -17,8 +17,9 @@
           <p>{{k.name}}</p>
         </router-link>
         <!-- <h3>{{k.name}}</h3> -->
-        <span style="font-size: 12px;">参考价￥</span>
-        <span style="font-size: 15px;">{{k.discountPrice}}</span>
+        <span style="font-size: 12px;">参考价</span>
+        <span style="font-size: 15px;">￥{{k.minPrice?k.minPrice:0}}~￥{{k.maxPrice?k.maxPrice:0}}</span>
+         <p style="font-size: 13px;"><span style="margin-right:3px;color:#38af43">{{k.useCount?k.useCount:0}}</span>家商家在售</p>
       </li>
 
     </ul>
@@ -144,8 +145,8 @@ export default {
       width: 50%;
       -webkit-box-sizing: border-box;
       box-sizing: border-box;
-      padding: 0 3vw;
-      height: 135px;
+      padding: 0 4vw;
+      height: 155px;
       > a {
         display: block;
         width: 100%;
@@ -186,7 +187,7 @@ export default {
       }
       > span {
         display: inline-block;
-        padding-bottom: 3vw;
+        // padding-bottom: 3vw;
         color: #b4282d;
       }
     }
