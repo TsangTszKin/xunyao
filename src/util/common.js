@@ -5,6 +5,12 @@ import { Toast } from 'mint-ui';
 import axios from 'axios'
 const prefix = 'http://testapi.gu-dao.cn';
 // import authService from '@/api/authService.js'
+//定义一些常量
+var x_PI = 3.14159265358979324 * 3000.0 / 180.0;
+var PI = 3.1415926535897932384626;
+var a = 6378245.0;
+var ee = 0.00669342162296594323;
+
 
 export default {
   // 获取
@@ -148,4 +154,21 @@ export default {
       return ""
     }
   },
+
+
+  /**
+   * 火星坐标系 (GCJ-02) 与百度坐标系 (BD-09) 的转换
+   * 即谷歌、高德 转 百度
+   * @param lng
+   * @param lat
+   * @returns {*[]}
+   */
+  gcj02tobd09(lng, lat) {
+    var z = Math.sqrt(lng * lng + lat * lat) + 0.00002 * Math.sin(lat * x_PI);
+    var theta = Math.atan2(lat, lng) + 0.000003 * Math.cos(lng * x_PI);
+    var bd_lng = z * Math.cos(theta) + 0.0065;
+    var bd_lat = z * Math.sin(theta) + 0.006;
+    return [bd_lng, bd_lat]
+  }
+
 }

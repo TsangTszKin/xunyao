@@ -30,9 +30,9 @@
 
           <section class="my-pay">
               <router-link :to="{ name: '我的订单', params:{status: '0'}}">
-                <div style="position: relative;">
- <span class="icon2-money"></span>
-                  <p>待确认</p>
+                <div style="position: relative;margin-top: 2vw;">
+                  <span class="icon2-money" style="font-size: 28px;"></span>
+                  <p style="padding: 3px;">待确认</p>
                   <mt-badge size="small" type="error" style="position: absolute;top: 0;right: 30px;" v-if="doOrderCount >0">{{doOrderCount}}</mt-badge>
                 </div>
                  

@@ -2,7 +2,7 @@
     <mt-swipe :auto="4000">
       <mt-swipe-item v-for="k in advertList" :key="k.id" @click.native="showInfo(k)">
         <!-- <router-link :to="{ name: '详情页'}"> -->
-          <img :src="k.pic">
+          <img v-lazy="k.pic">
         <!-- </router-link> -->
       </mt-swipe-item>
 
@@ -13,7 +13,7 @@
 <script>
 import homeService from '@/api/homeService';
 import common from '@/util/common';
-import { MessageBox, Popup, Header } from 'mint-ui';
+import { MessageBox, Popup, Header, Lazyload  } from 'mint-ui';
 import bus from '@/util/bus';
 
 export default {

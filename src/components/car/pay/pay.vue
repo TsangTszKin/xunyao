@@ -68,7 +68,7 @@
                                         <div class="mint-cell-title">
                                                 <span class="mint-cell-text">{{mainData.getType == '1'?'自取时间':'送货时间'}}</span></div>
                                         <div class="mint-cell-value" style="position: relative;">
-                                                <div>{{saveData[i].limitHour?saveData[i].limitHour+'小时后':'选择时间'}}</div>
+                                                <div>{{saveData[i].limitHour?saveData[i].limitHour+'小时内':'选择时间'}}</div>
                                                 <i class="fa fa-angle-right fa-lg" style="position: absolute;right: 10px;font-size: 14px;top: 4px;"></i>
                                                 <div class="mint-field-clear" style="display: none;">
                                                         <i class="mintui mintui-field-error"></i>
@@ -378,30 +378,52 @@ export default {
       Indicator.open();
       cartService.submit(params).then(res => {
         Indicator.close();
-        if (!common.isOk(res)) return
-        Toast({
-          message: '提交成功',
-          iconClass: 'fa fa-check',
-          duration: 500
-        });
-        setTimeout(() => {
-          MessageBox({
-            title: '提示',
-            message: '是否查看订单？',
-            showCancelButton: true,
-            confirmButtonText: '去查看',
-            cancelButtonText: '返回首页'
-          }).then(action => {
-            console.log("right", action);
-            if (action === 'confirm') {//去查看
-              this.$router.push({ name: '我的订单', params: { status: '1' } })
-            } else if (action === 'cancel') {//返回首页
-              this.$router.push({ name: '首页' })
-            }
-          }).catch(action => {
-            console.log("left", action);
+        // if (!common.isOk(res)) return
+        if (res.data.code != 0) {
+          if (String(res.data.msg).indexOf('请充值') != -1) {
+            MessageBox({
+              title: '提示',
+              message: '您的保证金余额不足！请先充值',
+              showCancelButton: true,
+              confirmButtonText: '去充值',
+              cancelButtonText: '稍后再试'
+            }).then(action => {
+              console.log("right", action);
+              if (action === 'confirm') {//去查看
+                this.$router.push({ name: '充值' })
+              }
+            }).catch(action => {
+              console.log("left", action);
+            });
+          }
+          return
+        } else {
+          Toast({
+            message: '提交成功',
+            iconClass: 'fa fa-check',
+            duration: 500
           });
-        }, 500)
+          setTimeout(() => {
+            MessageBox({
+              title: '提示',
+              message: '是否查看订单？',
+              showCancelButton: true,
+              confirmButtonText: '去查看',
+              cancelButtonText: '返回首页'
+            }).then(action => {
+              console.log("right", action);
+              if (action === 'confirm') {//去查看
+                this.$router.push({ name: '我的订单', params: { status: '1' } })
+              } else if (action === 'cancel') {//返回首页
+                this.$router.push({ name: '首页' })
+              }
+            }).catch(action => {
+              console.log("left", action);
+            });
+          }, 500)
+        }
+
+
       })
     },
     packData() {

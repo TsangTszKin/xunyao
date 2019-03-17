@@ -39,6 +39,7 @@ const Setting = resolve => require(['@/views/my/Setting.vue'], resolve)
 const Help = resolve => require(['@/views/my/Help.vue'], resolve)
 const SearchAll = resolve => require(['@/views/SearchAll.vue'], resolve)
 const BreakMoney = resolve => require(['@/views/my/BreakMoney.vue'], resolve)
+const GoodsSearch = resolve => require(['@/views/GoodsSearch.vue'], resolve)
 
 export default new Router({
 
@@ -293,6 +294,14 @@ export default new Router({
     path: '/my/breakMoney',
     name: '违约金额明细',
     component: BreakMoney,
+    meta: {
+      requireAuth: true
+    }
+  },
+  {
+    path: '/goods-search',
+    name: '搜索结果',
+    component: GoodsSearch,
     meta: {
       requireAuth: true
     }

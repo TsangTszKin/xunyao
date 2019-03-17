@@ -2,8 +2,8 @@
 
 <div class="index-header">
   <mt-header title="">
-    <a  slot="left" @click="reLocation">
-      <span style="font-size: 15px;"><i class="fa fa-map-marker fa-lg" style="font-size:17px;margin-right:5px;"></i>{{city}}</span>
+    <a  slot="left">
+      <i class="fa fa-map-marker fa-lg" style="font-size:17px;margin-right:5px;" @click="locationInitWx(true)"></i><span style="font-size: 15px;" @click="reLocation">{{city}}</span>
     </a>
   
 
@@ -65,6 +65,39 @@ export default {
     'mt-popup': Popup
   },
   mounted() {
+
+
+    //方案一 ，H5定位
+    // if (navigator.geolocation) {
+    //   navigator.geolocation.getCurrentPosition(showPosition, showError);
+    // } else {
+    //   alert("浏览器不支持地理定位。");
+    // }
+    // function showPosition(position) {
+    //   var lat = position.coords.latitude; //纬度 
+    //   var lag = position.coords.longitude; //经度 
+    //   alert('纬度:' + lat + ',经度:' + lag);
+    //   console.log('纬度:' + lat + ',经度:' + lag)
+    // }
+    // function showError(error) {
+    //   switch (error.code) {
+    //     case error.PERMISSION_DENIED:
+    //       alert("定位失败,用户拒绝请求地理定位");
+    //       break;
+    //     case error.POSITION_UNAVAILABLE:
+    //       alert("定位失败,位置信息是不可用");
+    //       break;
+    //     case error.TIMEOUT:
+    //       alert("定位失败,请求获取用户位置超时");
+    //       break;
+    //     case error.UNKNOWN_ERROR:
+    //       alert("定位失败,定位系统失效");
+    //       break;
+    //   }
+    // }
+
+
+
     let self = this;
     if (!common.isEmpty(this.$route.query.business)) {
       this.city = this.$route.query.business;
@@ -73,18 +106,37 @@ export default {
     } else {
       if (!common.isEmpty(localStorage.cityName)) {
         this.city = localStorage.cityName;
-        bus.$emit("getNearShopList", localStorage.lat, localStorage.lng);
+        setTimeout(() => {
+          bus.$emit("getNearShopList", localStorage.lat, localStorage.lng);
+        }, 1000);
       } else {
         let timer = setInterval(() => {
-          if (!common.isEmpty(BMap)) {
-            self.locationInit();
-            clearInterval(timer);
-          }
-          // if (!common.isEmpty(wx)) {
-          //   self.locationInitWx();
+
+          //方案二 ，百度地图浏览器定位（优先调用浏览器H5定位接口，如果失败会调用IP定位）
+          // if (!common.isEmpty(BMap)) {
+          //   self.locationInit();
           //   clearInterval(timer);
           // }
-        }, 500)
+
+          //方案三 ，微信定位
+          if (!common.isEmpty(wx)) {
+            self.locationInitWx();
+            if (self.city === '点击重新定位') {
+              self.locationInitWx();
+            } else {
+              clearInterval(timer);
+            }
+
+          }
+        }, 2000)
+
+        setTimeout(() => {
+          clearInterval(timer);
+          if (self.city === '点击重新定位') {
+            self.$router.push({ name: '定位' });
+            Indicator.close();
+          }
+        }, 6000);
       }
 
     }
@@ -94,8 +146,8 @@ export default {
   methods: {
     reLocation() {
       if (this.city.indexOf("点击重新定位") != -1) {
-        this.locationInit();
-        // this.locationInitWx();
+        // this.locationInit(true);
+        this.locationInitWx();
       } else {
         this.$router.push({ name: '定位' })
       }
@@ -118,8 +170,13 @@ export default {
         wx.getLocation({
           type: 'wgs84', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
           success: function (res) {
-            var latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
-            var longitude = res.longitude; // 经度，浮点数，范围为180 ~ -180。
+            console.log("微信经纬度", [res.longitude, res.latitude]);
+            let bd09POint = common.gcj02tobd09(res.longitude, res.latitude);
+            console.log("转百度经纬度", bd09POint);
+            // var latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
+            // var longitude = res.longitude; // 经度，浮点数，范围为180 ~ -180。
+            var latitude = bd09POint[1]; // 纬度，浮点数，范围为90 ~ -90
+            var longitude = bd09POint[0]; // 经度，浮点数，范围为180 ~ -180。
             localStorage.lng = longitude;
             localStorage.lat = latitude;
             self.getBtAddressForApi(latitude, longitude);
@@ -127,19 +184,29 @@ export default {
             var accuracy = res.accuracy; // 位置精度
             console.warn(latitude, longitude);
             bus.$emit("getNearShopList", latitude, longitude);
+            Indicator.close();
             // localStorage.getNearbyShop = JSON.stringify({ lat: latitude, lng: longitude })
+          },
+          fail: function () {
+            // Toast("微信定位失败，请重新定位");
+            Indicator.close();
           }
         });
-        Indicator.close();
+
       })
 
     },
-    locationInit() {
+    locationInit(isLaoding) {
+      if (isLaoding) {
+        Indicator.open('正在定位...');
+      }
       let self = this;
       // 百度地图API功能
 
       let map = new BMap.Map("allmap");
       var geolocation = new BMap.Geolocation();
+      var point = new BMap.Point(116.331398, 39.897445);
+      map.centerAndZoom(point, 12);
       console.log(geolocation)
       geolocation.getCurrentPosition(function (r) {
         if (this.getStatus() == BMAP_STATUS_SUCCESS) {
@@ -148,6 +215,9 @@ export default {
           var point = new BMap.Point(r.point.lng, r.point.lat);
           localStorage.lng = r.point.lng;
           localStorage.lat = r.point.lat;
+          if (isLaoding) {
+            Indicator.close();
+          }
 
           bus.$emit("getNearShopList", r.point.lat, r.point.lng);
 
@@ -207,6 +277,7 @@ export default {
         success: function (res) {  //成功的回调函数
           // alert(res);
           if (res.status == 0) {
+            console.log("百度地图 地址逆解析", res)
             let sematic_description = res.result.sematic_description;
             if (!common.isEmpty(sematic_description)) {
               if (sematic_description.indexOf(',') != -1) {
@@ -222,7 +293,7 @@ export default {
           } else {
             Toast("解析地址有误");
             self.city = '定位失败，点击重新定位';
-            localStorage.cityName = '';
+            // localStorage.cityName = '';
           }
         },
         error: function (e) {

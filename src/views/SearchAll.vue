@@ -84,7 +84,7 @@
 
 <script>
 import { Search, Header, Button, Indicator, InfiniteScroll, Cell, Navbar, TabItem } from 'mint-ui';
-import GoodsItem from '@/components/goods/GoodsItem';
+import GoodsItem from '@/components/goods/GoodsItemSearch';
 import ShopCell from '@/components/ShopCell';
 import shopService from '@/api/shopService';
 import goodsService from '@/api/goodsService';

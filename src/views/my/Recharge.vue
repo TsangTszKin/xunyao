@@ -137,7 +137,7 @@ export default {
               message: '充值成功',
               showCancelButton: true,
               confirmButtonText: '继续充值',
-              cancelButtonText: '查看钱包'
+              cancelButtonText: '返回'
             }).then(action => {
               console.log("right", action);
               if (action === 'confirm') {//去查看

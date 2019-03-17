@@ -81,7 +81,7 @@ export default {
   mounted() {
     this.getCartList();
     this.getNoReadMessageCount();
-    localStorage.removeItem("cityName");
+    // localStorage.removeItem("cityName");
 
     // if (!localStorage.haveReload) {
     //   localStorage.haveReload = 1;

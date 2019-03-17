@@ -11,7 +11,7 @@
           <!-- <router-link :to="{name:'详情页'}"> -->
           <div class="ui-img-div">
             <img
-              :src="k.classImg?k.classImg:'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1550516282049&di=b2c37b954f6f93e0bf508b414fbbe9dc&imgtype=0&src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F0168f3583bd7b7a801219c77ca6435.png'"
+               v-lazy="k.classImg?k.classImg:'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1550516282049&di=b2c37b954f6f93e0bf508b414fbbe9dc&imgtype=0&src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F0168f3583bd7b7a801219c77ca6435.png'"
             >
           </div>
           <!-- </router-link> -->
@@ -30,7 +30,7 @@
           <!-- <router-link :to="{name:'详情页'}"> -->
           <div class="ui-img-div">
             <img
-              :src="k.classImg?k.classImg:'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1550516282049&di=b2c37b954f6f93e0bf508b414fbbe9dc&imgtype=0&src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F0168f3583bd7b7a801219c77ca6435.png'"
+               v-lazy="k.classImg?k.classImg:'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1550516282049&di=b2c37b954f6f93e0bf508b414fbbe9dc&imgtype=0&src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F0168f3583bd7b7a801219c77ca6435.png'"
             >
           </div>
           <!-- </router-link> -->

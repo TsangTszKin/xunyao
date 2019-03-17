@@ -7,111 +7,135 @@
     <div id="shopApply-map"></div>
 
     <div class="v-content">
-      <mt-field label="店铺名称" placeholder="请输入店铺名称" v-model="saveData.shopName"></mt-field>
-      <ImgPicker
-        label="店铺logo"
-        :value="saveData.shopLogo"
-        fieldKey="shopLogo"
-        @changeFile="changeFile"
-      />
+      <mt-radio
+        title="反馈类型"
+        v-model="type"
+        v-if="!type"
+        :options="[
+          {
+            label: '单体入驻',
+            value: 1
+          },
+          {
+            label: '连锁入驻',
+            value: 2
+          }
+        ]"
+      ></mt-radio>
 
-      <a class="mint-cell mint-field">
-        <!---->
-        <div class="mint-cell-left"></div>
-        <div class="mint-cell-wrapper">
-          <div class="mint-cell-title">
-            <!---->
-            <span class="mint-cell-text">店铺地址</span>
-            <!---->
-          </div>
-          <div class="mint-cell-value">
-            <div>
-              <input
-                placeholder="请输入地址"
-                type="text"
-                style="font-size: inherit;"
-                v-model="saveData.address"
-                id="shopApply-suggestId"
-                @blur="blurFunc"
-              >
-            </div>
-            <div class="mint-field-clear" style="display: none;">
-              <i class="mintui mintui-field-error"></i>
-            </div>
-            <span class="mint-field-state is-default">
-              <i class="mintui mintui-field-default"></i>
-            </span>
-            <div class="mint-field-other"></div>
-          </div>
-        </div>
-        <div class="mint-cell-right"></div>
-        <!---->
-      </a>
+      <div v-else>
+        <div v-if="type == 1">
+          <mt-field label="店铺名称" placeholder="请输入店铺名称" v-model="saveData.shopName"></mt-field>
+          <ImgPicker
+            label="店铺logo"
+            :value="saveData.shopLogo"
+            fieldKey="shopLogo"
+            @changeFile="changeFile"
+          />
 
-      <!-- <mt-field
+          <a class="mint-cell mint-field">
+            <!---->
+            <div class="mint-cell-left"></div>
+            <div class="mint-cell-wrapper">
+              <div class="mint-cell-title">
+                <!---->
+                <span class="mint-cell-text">店铺地址</span>
+                <!---->
+              </div>
+              <div class="mint-cell-value">
+                <div>
+                  <input
+                    placeholder="请输入地址"
+                    type="text"
+                    style="font-size: inherit;"
+                    v-model="saveData.address"
+                    id="shopApply-suggestId"
+                    @blur="blurFunc"
+                  >
+                </div>
+                <div class="mint-field-clear" style="display: none;">
+                  <i class="mintui mintui-field-error"></i>
+                </div>
+                <span class="mint-field-state is-default">
+                  <i class="mintui mintui-field-default"></i>
+                </span>
+                <div class="mint-field-other"></div>
+              </div>
+            </div>
+            <div class="mint-cell-right"></div>
+            <!---->
+          </a>
+
+          <!-- <mt-field
         label="经纬度"
         :readonly="true"
         placeholder="显示经纬度"
         :disableClear="true"
         :value="!saveData.longitude?'':`${saveData.longitude}，${saveData.latitude}`"
-      ></mt-field>-->
-      <!-- <mt-field label="地址" placeholder="请输入地址" v-model="saveData.address"></mt-field> -->
-      <mt-field label="电话" placeholder="请输入电话" v-model="saveData.telephone"></mt-field>
-      <mt-field label="店长姓名" placeholder="请输入店长姓名" v-model="saveData.realName"></mt-field>
+          ></mt-field>-->
+          <!-- <mt-field label="地址" placeholder="请输入地址" v-model="saveData.address"></mt-field> -->
+          <mt-field label="电话" placeholder="请输入电话" v-model="saveData.telephone"></mt-field>
+          <mt-field label="店长姓名" placeholder="请输入店长姓名" v-model="saveData.realName"></mt-field>
 
-      <ImgPicker
-        label="身份证正面"
-        :value="saveData.cardId1"
-        fieldKey="cardId1"
-        @changeFile="changeFile"
-      />
-      <ImgPicker
-        label="身份证反面"
-        :value="saveData.cardId2"
-        fieldKey="cardId2"
-        @changeFile="changeFile"
-      />
-      <ImgPicker
-        label="药品经营许可证"
-        :value="saveData.drugBusinessCert"
-        fieldKey="drugBusinessCert"
-        @changeFile="changeFile"
-      />
-      <ImgPicker
-        label="食品经营许可证"
-        :value="saveData.foodBusinessCert"
-        fieldKey="foodBusinessCert"
-        @changeFile="changeFile"
-      />
-      <ImgPicker
-        label="营业执照"
-        :value="saveData.businessLicense"
-        fieldKey="businessLicense"
-        @changeFile="changeFile"
-      />
-      <ImgPicker
-        label="药品经营质量管理规范"
-        :value="saveData.drugQualityCert"
-        fieldKey="drugQualityCert"
-        @changeFile="changeFile"
-      />
-      <ImgPicker
-        label="执业药师注册证"
-        :value="saveData.drugRegisterCert"
-        fieldKey="drugRegisterCert"
-        @changeFile="changeFile"
-      />
-      <ImgPicker
-        label="开户许可证"
-        :value="saveData.openAccountCert"
-        fieldKey="openAccountCert"
-        @changeFile="changeFile"
-      />
-      <mt-field label="备注" placeholder="请输入备注" v-model="saveData.remarks"></mt-field>
+          <ImgPicker
+            label="身份证正面"
+            :value="saveData.cardId1"
+            fieldKey="cardId1"
+            @changeFile="changeFile"
+          />
+          <ImgPicker
+            label="身份证反面"
+            :value="saveData.cardId2"
+            fieldKey="cardId2"
+            @changeFile="changeFile"
+          />
+          <ImgPicker
+            label="药品经营许可证"
+            :value="saveData.drugBusinessCert"
+            fieldKey="drugBusinessCert"
+            @changeFile="changeFile"
+          />
+          <ImgPicker
+            label="食品经营许可证"
+            :value="saveData.foodBusinessCert"
+            fieldKey="foodBusinessCert"
+            @changeFile="changeFile"
+          />
+          <ImgPicker
+            label="营业执照"
+            :value="saveData.businessLicense"
+            fieldKey="businessLicense"
+            @changeFile="changeFile"
+          />
+          <ImgPicker
+            label="药品经营质量管理规范"
+            :value="saveData.drugQualityCert"
+            fieldKey="drugQualityCert"
+            @changeFile="changeFile"
+          />
+          <ImgPicker
+            label="执业药师注册证"
+            :value="saveData.drugRegisterCert"
+            fieldKey="drugRegisterCert"
+            @changeFile="changeFile"
+          />
+          <ImgPicker
+            label="开户许可证"
+            :value="saveData.openAccountCert"
+            fieldKey="openAccountCert"
+            @changeFile="changeFile"
+          />
+          <mt-field label="备注" placeholder="请输入备注" v-model="saveData.remarks"></mt-field>
 
-      <p>
-        <mt-button type="primary" size="large" @click="save">保存</mt-button>
-      </p>
+          <p>
+            <mt-button type="primary" size="large" @click="save">保存</mt-button>
+          </p>
+        </div>
+
+        <div v-else style="text-align: center;margin-top: 50px;">
+          <p>连锁入驻请联系负责人邹伟 13789947741</p>
+        </div>
+      </div>
     </div>
     <v-map @getPoint="getPoint" v-show="isShowMap"/>
   </div>
@@ -146,6 +170,7 @@ export default {
   },
   data() {
     return {
+      type: null,
       saveData: {
         'shopName': '',// '店铺名称',
         'shopLogo': '',// '店铺logo',(图片)
@@ -165,7 +190,7 @@ export default {
         "province": '',
         "city": '',
         "district": '',
-        "openAccountCert": '' 
+        "openAccountCert": ''
       },
       isShowMap: false
     }
