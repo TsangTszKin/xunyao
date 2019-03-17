@@ -26,7 +26,10 @@ export default {
 	changeGoodsStock(id, stock) {
 		return axios.post(`${prefix}/app/product/productStock?id=${id}&stock=${stock}`).catch(errorHandler)
 	},
-	getGoodsListByClass(classId){
+	getGoodsListByClass(classId) {
 		return axios.get(`${prefix}/app/product/productList?classId=${classId}&pageno=1&size=100`)
-	}
+	},
+	getProductBaseInfo(lng, lat, id) {
+		return axios.get(`${prefix}/app/product/productBaseInfo?longitude=${lng}&latitude=${lat}&id=${id}&pageno=1&size=100`)
+	},
 }

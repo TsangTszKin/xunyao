@@ -299,7 +299,7 @@ export default new Router({
     }
   },
   {
-    path: '/goods-search',
+    path: '/goods-search/:id',
     name: '搜索结果',
     component: GoodsSearch,
     meta: {

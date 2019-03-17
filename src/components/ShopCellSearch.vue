@@ -1,5 +1,5 @@
 <template>
-  <li @click="$router.push({path: '/shop/'+shop.shopId})">
+  <li @click="$router.push({name: '详情页', params: {id: shop.productId}})">
     <a class="section3-list-right">
       <img :src="shop.shopLogo">
       <!-- <span>${{shop.price}}</span> -->
@@ -7,7 +7,7 @@
     <div class="section3-list-left">
       <h4>{{shop.shopName}}</h4>
       <div class="time">
-        <span class="time-num">参考价{{shop.price}}</span>
+        <span class="time-num">参考价￥{{shop.price}}</span>
       </div>
       <p class="start">地址： {{shop.address}}</p>
       <p class="coupon" v-if="shop.shopService.length > 0">
@@ -32,13 +32,13 @@ export default {
       type: Object,
       default: function () {
         return {
-          "shopId": 0,
-          "remarks": "",
+          "productId": '',
           "shopName": "",
           "shopLogo": "",
           "address": "",
+          "distance": 0,
           "shopService": [],
-          price: ""
+          "price": ""
         }
       }
     }

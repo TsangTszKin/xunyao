@@ -25,7 +25,7 @@
       <div class="shop">
         <!-- <p class="name">{{this.data.shopName}}</p> -->
         <p class="in">
-          <span class="num">37</span>家商家在售
+          <span class="num">{{this.data.useCount?this.data.useCount:0}}</span>家商家在售
           <!-- <i class="fa fa-angle-right fa-lg"></i> -->
         </p>
       </div>

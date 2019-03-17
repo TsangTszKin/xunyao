@@ -7,16 +7,20 @@
     <div class="v-content">
       <div class="goods">
         <div class="ui-img-div">
-          <img :src="goods.productImg">
+          <img :src="productBase.productImg">
         </div>
         <div class="brief" style="width: calc(60% - 14px)">
-          <p class="name">{{this.goods.name}}</p>
-          <p class="size">{{this.goods.specification}}</p>
+          <p class="name">{{this.productBase.name}}</p>
+          <p class="size">{{this.productBase.packaging}}</p>
           <p class="status">
-            <span style="font-size: 13px;color:red;">￥{{this.goods.min}}~￥{{this.goods.max}}</span>
+            <span style="font-size: 13px;color:red;">
+              ￥{{this.productBase.minPrice?this.productBase.minPrice: 0}}
+              ~
+              ￥{{this.productBase.maxPrice?this.productBase.maxPrice: 0}}
+            </span>
           </p>
           <p class="status" style="height: 20px;">
-            <span class="stock" style="position: relative;">（共{{this.goods.num}}个报价）</span>
+            <span class="stock" style="position: relative;">（共{{this.productBase.count}}个报价）</span>
           </p>
         </div>
       </div>
@@ -32,7 +36,7 @@
 import Header from '@/common/_header.vue';
 import ShopSwiper from '@/components/shop/Swiper';
 import Main from '@/components/shop/Main';
-import shopService from '@/api/shopService';
+import goodsService from '@/api/goodsService';
 import userService from '@/api/userService';
 import common from '@/util/common';
 import { Popup, Navbar, TabItem, Indicator, Toast } from 'mint-ui';
@@ -54,53 +58,56 @@ export default {
   },
   mounted() {
     window.scrollTo(0, 0);
+    if (common.isEmpty(localStorage.lng) || common.isEmpty(localStorage.lat)) {
+      Toast("请先定位的当前位置");
+      this.$router.push({ name: '定位' });
+    } else {
+      this.getProductBaseInfo(localStorage.lng, localStorage.lat, this.$route.params.id);
+    }
   },
   computed: {
 
   },
   data() {
     return {
-      goods: {
+      productBase: {
         productImg: '',
-        name: 'XXXXXXXXXXXXXXXXXXXXX',
-        specification: 'XXXXXXXXX',
-        min: '10',
-        max: '20',
-        num: '20'
+        name: '',
+        packaging: '',
+        minPrice: '',
+        maxPrice: '',
+        count: ''
       },
       shopList: [{
-        "shopId": 0,
-        "remarks": "",
+        "productId": '',
         "shopName": "XXXXX",
         "shopLogo": "",
-        "address": "XXXXXXXXXXXXXXXXXX",
+        "address": "",
         "distance": 0,
-        "shopService": [1,2,3],
-        "price": 10
-      },{
-        "shopId": 0,
-        "remarks": "",
-        "shopName": "XXXXX",
-        "shopLogo": "",
-        "address": "XXXXXXXXXXXXXXXXXX",
-        "distance": 0,
-        "shopService": [1,2,3],
-        "price": 10
-      },{
-        "shopId": 0,
-        "remarks": "",
-        "shopName": "XXXXX",
-        "shopLogo": "",
-        "address": "XXXXXXXXXXXXXXXXXX",
-        "distance": 0,
-        "shopService": [1,2,3],
-        "price": 10
+        "shopService": [],
+        "price": ""
       }]
     }
   },
   methods: {
 
+    getProductBaseInfo(lng, lat, id) {
+      goodsService.getProductBaseInfo(lng, lat, id).then(res => {
+        if (!common.isOk(res)) return
+        this.productBase = res.data.productBase;
+        if (res.data.shopPage.totalCount > 0) {
+          this.productBase.count = res.data.shopPage.totalCount;
+          res.data.shopPage.list.forEach(element => {
+            element.shopService = common.stringToArray(element.shopService);
+          })
+          this.shopList = res.data.shopPage.list;
+        } else {
+          this.shopList = [];
+          this.productBase.count = 0;
+        }
 
+      })
+    }
   }
 }
 </script>
@@ -108,7 +115,7 @@ export default {
 <style lang="less" scoped>
 .goods {
   height: 110px;
-  padding: 5px 10px;
+  padding: 5px 10px 30px 10px;
   border-bottom: 1px solid #eee;
   > .ui-img-div {
     display: webkit-flex;

@@ -102,6 +102,8 @@ export default {
     if (!common.isEmpty(this.$route.query.business)) {
       this.city = this.$route.query.business;
       localStorage.cityName = this.city;
+      localStorage.lat = this.$route.query.lat;
+      localStorage.lng = this.$route.query.lng;
       bus.$emit("getNearShopList", this.$route.query.lat, this.$route.query.lng);
     } else {
       if (!common.isEmpty(localStorage.cityName)) {
