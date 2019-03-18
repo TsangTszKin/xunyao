@@ -14,9 +14,8 @@
           <p class="size">{{this.productBase.packaging}}</p>
           <p class="status">
             <span style="font-size: 13px;color:red;">
-              ￥{{this.productBase.minPrice?this.productBase.minPrice: 0}}
-              ~
-              ￥{{this.productBase.maxPrice?this.productBase.maxPrice: 0}}
+              参考价
+              ￥{{this.productBase.discountPrice?this.productBase.discountPrice: 0}}
             </span>
           </p>
           <p class="status" style="height: 20px;">
