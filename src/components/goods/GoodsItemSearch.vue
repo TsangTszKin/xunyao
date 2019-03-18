@@ -7,7 +7,7 @@
       <p class="name">{{this.data.name}}</p>
       <p class="size">{{this.data.specification}}</p>
       <p class="status">
-        <span style="font-size: 13px;color:red;">参考价￥{{this.data.discountPrice}}</span>
+        <span style="font-size: 13px;color:red;">参考价￥{{this.data.discountPrice?this.data.discountPrice:0}}</span>
         <!-- <span class="price">{{this.data.prescription}}</span> -->
         <!-- <span class="stock">
           库存

@@ -17,8 +17,10 @@
           <p>{{k.name}}</p>
         </router-link>
         <!-- <h3>{{k.name}}</h3> -->
-        <span style="font-size: 12px;">参考价</span>
-        <span style="font-size: 15px;">￥{{k.minPrice?k.minPrice:0}}~￥{{k.maxPrice?k.maxPrice:0}}</span>
+        <p class="price" style="font-size: 12px;">
+          参考价
+          <span style="font-size: 15px;">￥{{k.discountPrice?k.discountPrice:0}}</span>
+        </p>
          <p style="font-size: 13px;"><span style="margin-right:3px;color:#38af43">{{k.useCount?k.useCount:0}}</span>家商家在售</p>
       </li>
 
@@ -147,6 +149,15 @@ export default {
       box-sizing: border-box;
       padding: 0 4vw;
       height: 155px;
+      > .price {
+
+        white-space: nowrap;
+        > span {
+          display: inline-block;
+          // padding-bottom: 3vw;
+          color: #b4282d;
+        }
+      }
       > a {
         display: block;
         width: 100%;
@@ -184,11 +195,6 @@ export default {
       > h3 {
         padding-top: 3vw;
         .fz(font-size, 40);
-      }
-      > span {
-        display: inline-block;
-        // padding-bottom: 3vw;
-        color: #b4282d;
       }
     }
   }
