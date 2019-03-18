@@ -83,9 +83,9 @@ li {
         display: inline-block;
         text-align: center;
         padding: 0.6vw;
-        color: #fff;
+        color: #444;
         border-radius: 0.5vw;
-        background-color: #444;
+        // background-color: #444;
         // .fz(font-size, 26);
         font-size: 12px;
         letter-spacing: 0.3vw;

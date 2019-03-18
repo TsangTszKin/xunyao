@@ -88,7 +88,7 @@ export default {
   },
   methods: {
     addIntoCar() {
-      if (this.$store.state.user.user.type == 0) {
+      if (this.$store.state.user.user.type != 1) {
         MessageBox({
           title: '提示',
           message: '请先完善您的信息！',
@@ -98,7 +98,7 @@ export default {
         }).then(action => {
           console.log("right", action);
           if (action === 'confirm') {//去查看
-            this.$router.push({ name: '个人信息'})
+            this.$router.push({ name: '个人信息' })
           } else if (action === 'cancel') {//返回首页
             // this.$router.push({ name: '首页' })
           }
