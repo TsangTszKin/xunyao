@@ -7,24 +7,20 @@
     <div id="shopApply-map"></div>
 
     <div class="v-content">
-      <mt-radio
-        title="反馈类型"
+      <mt-navbar
         v-model="type"
-        v-if="!type"
-        :options="[
-          {
-            label: '单体入驻',
-            value: 1
-          },
-          {
-            label: '连锁入驻',
-            value: 2
-          }
-        ]"
-      ></mt-radio>
+        style="position: ralative;
+    top: 40px;
+    width: 100%;
+    z-index: 999;"
+      >
+        <mt-tab-item id="1">单体入驻</mt-tab-item>
+        <mt-tab-item id="2">连锁入驻</mt-tab-item>
+      </mt-navbar>
 
-      <div v-else>
-        <div v-if="type == 1">
+      <mt-tab-container v-model="type" style="margin-top: 5px;">
+        <mt-tab-container-item id="1">
+          <div></div>
           <mt-field label="店铺名称" placeholder="请输入店铺名称" v-model="saveData.shopName"></mt-field>
           <ImgPicker
             label="店铺logo"
@@ -127,15 +123,17 @@
           />
           <mt-field label="备注" placeholder="请输入备注" v-model="saveData.remarks"></mt-field>
 
-          <p>
+          <p class="save-btn">
             <mt-button type="primary" size="large" @click="save">保存</mt-button>
           </p>
-        </div>
-
-        <div v-else style="text-align: center;margin-top: 50px;">
-          <p>连锁入驻请联系负责人邹伟 13789947741</p>
-        </div>
-      </div>
+        </mt-tab-container-item>
+        <mt-tab-container-item id="2">
+          <div style="text-align: center;margin-top: 50px;">
+            <p>负责人：邹伟</p>
+            <p>联系电话：13789947741</p>
+          </div>
+        </mt-tab-container-item>
+      </mt-tab-container>
     </div>
     <v-map @getPoint="getPoint" v-show="isShowMap"/>
   </div>
@@ -167,7 +165,7 @@ export default {
   },
   data() {
     return {
-      type: null,
+      type: '1',
       saveData: {
         'shopName': '',// '店铺名称',
         'shopLogo': '',// '店铺logo',(图片)
@@ -439,13 +437,12 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.goods-save {
-  > div > p {
-    // text-align: center;
-    margin: 20px;
-    padding: 0 10%;
-  }
+.goods-save .save-btn {
+  // text-align: center;
+  margin: 20px;
+  padding: 0 10%;
 }
+
 .goods-ui-div {
   height: 50px;
   width: 50px;

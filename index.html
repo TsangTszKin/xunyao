@@ -122,15 +122,38 @@
     .mint-searchbar-inner>.mint-searchbar-core::-webkit-input-placeholder {
       text-align: center;
     }
+
+  
+    .mint-cell-wrapper {
+      background-image: none !important;
+      border-bottom: 1px dashed gainsboro;
+    }
+    .sex-box {
+      overflow: hidden;
+      border-bottom: 1px dashed gainsboro;
+    }
+    .sex-box .mint-radiolist-title{
+      width: 20%;
+          float: left;
+          font-size: 16px;
+          color: #666;
+    }
+    
+    .sex-box .mint-cell {
+      width: 30%;
+      float: left;
+    }
+    .sex-box .mint-cell .mint-cell-wrapper{
+     
+      border-bottom: none;
+    }
+
+    .sex-box .mint-cell:last-child {
+      background-image: none !important;
+    }
+
   </style>
   <title>寻药</title>
-  <script>
-    /* eslint-disable prefer-arrow-callback,quotes */
-    // if (navigator.userAgent.toLowerCase().indexOf('windowswechat') > 0) {
-    //   delete window.ontouchstart;
-    // }
-
-  </script>
 
   <script type="text/javascript" src="http://res2.wx.qq.com/open/js/jweixin-1.4.0.js"></script>
 </head>

@@ -4,7 +4,7 @@
       附近药店
       
       <router-link :to="{path:'/shopList'}" >
-        <i class="icon-right"></i>
+        <i class="fa fa-angle-right fa-lg"></i>
       </router-link>
       
     </h2>

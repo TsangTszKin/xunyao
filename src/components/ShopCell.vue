@@ -6,9 +6,9 @@
     </a>
     <div class="section3-list-left">
       <h4>{{shop.shopName}}</h4>
-      <div class="time">
+      <!-- <div class="time">
         <span class="time-num">距离{{shop.distance}}</span>
-      </div>
+      </div>-->
       <p class="start">地址： {{shop.address}}</p>
       <p class="coupon" v-if="shop.shopService.length > 0">
         <!-- <span v-for="(n, i) in shop.shopService" :key="i">{{n ==1 ?'开发票': n == 2? '医保':'送上门'}}</span> -->
@@ -18,6 +18,7 @@
           :key="i"
           :src="n ==1 ?'/static/fapiao.png': n == 2? '/static/yibao.png':'/static/shangmen.png'"
         >
+        <span style>{{shop.distance}}</span>
       </p>
     </div>
   </li>
@@ -109,12 +110,17 @@ li {
     .coupon {
       font-size: 12px;
       margin-top: 5px;
+      position: relative;
       > span {
-        border: 1px solid #ef4f4f;
+        // border: 1px solid #ef4f4f;
         padding: 0 2px;
         border-radius: 2px;
-        color: #ef4f4f;
+        // color: #ef4f4f;
         margin-right: 5px;
+
+        position: absolute;
+        right: 0;
+        top: 5px;
       }
     }
   }

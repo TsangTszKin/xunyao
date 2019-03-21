@@ -18,6 +18,7 @@
           :key="i"
           :src="n ==1 ?'/static/fapiao.png': n == 2? '/static/yibao.png':'/static/shangmen.png'"
         >
+        <span style>{{shop.distance}}</span>
       </p>
     </div>
   </li>
@@ -109,12 +110,14 @@ li {
     .coupon {
       font-size: 12px;
       margin-top: 5px;
+      position: relative;
       > span {
-        border: 1px solid #ef4f4f;
         padding: 0 2px;
         border-radius: 2px;
-        color: #ef4f4f;
         margin-right: 5px;
+        position: absolute;
+        right: 0;
+        top: 5px;
       }
     }
   }

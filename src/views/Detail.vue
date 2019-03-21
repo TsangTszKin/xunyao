@@ -1,6 +1,10 @@
 <template lang="html">
   <div class="detail">
 
+    <mt-header title="商品详情">
+      <mt-button icon="back" slot="left" @click="$router.go(-1)"></mt-button>
+    </mt-header>
+
     <v-swiper :imgs="[product.productImg]" />
 
     <v-chose :name="product.name" :discountPrice="product.discountPrice" :stock="product.stock" :manufacturer="product.manufacturer" :specification="product.specification" />

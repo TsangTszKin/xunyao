@@ -98,6 +98,11 @@ export default {
           this.productBase.count = res.data.shopPage.totalCount;
           res.data.shopPage.list.forEach(element => {
             element.shopService = common.stringToArray(element.shopService);
+            if (element.distance > 1000) {
+              element.distance = (element.distance / 1000).toFixed(1) + 'km';
+            } else {
+              element.distance = element.distance.toFixed(1) + 'm';
+            }
           })
           this.shopList = res.data.shopPage.list;
         } else {

@@ -5,9 +5,6 @@
            <img :src="item">
         </mt-swipe-item>
       </mt-swipe>
-      <div class="back" @click="$router.go(-1)">
-        <span class="icon-go"></span>
-      </div>
     </div>
 
 </template>

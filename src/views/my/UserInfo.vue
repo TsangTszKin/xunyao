@@ -22,6 +22,7 @@
           label: '女',
           value: '0'
         }]"
+        class="sex-box"
       ></mt-radio>
       <p>
         <mt-button type="primary" size="large" @click="save">保存</mt-button>

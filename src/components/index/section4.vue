@@ -25,7 +25,8 @@
       </li>
 
     </ul>
-    <p style="text-align: center;margin-top: 20px;" @click="getRecommendProductionList">加载更多</p>
+    <p style="text-align: center;margin-top: 20px;" v-if="!isEnd" @click="getRecommendProductionList">加载更多</p>
+       <v-baseline v-if="isEnd" />
     <!-- <router-link :to="{name:'分类页'}" class="section4-banner">
       <img v-lazy="banner">
     </router-link> -->
@@ -36,6 +37,7 @@
 import { Lazyload, Indicator, InfiniteScroll } from 'mint-ui';
 import homeService from '@/api/homeService';
 import common from '@/util/common';
+import Baseline from '@/common/_baseline.vue'
 
 export default {
   props: {
@@ -49,6 +51,9 @@ export default {
     //     return []
     //   }
     // }
+  },
+  components: {
+    'v-baseline': Baseline,
   },
   data() {
     return {
@@ -83,7 +88,6 @@ export default {
       Indicator.open('加载中...');
       homeService.getRecommendProductionList(self.page).then(res => {
         //todo
-        self.isEnd = true;
         //todo
         self.loading = false;
         Indicator.close();
@@ -150,7 +154,6 @@ export default {
       padding: 0 4vw;
       height: 155px;
       > .price {
-
         white-space: nowrap;
         > span {
           display: inline-block;
