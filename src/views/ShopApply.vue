@@ -159,9 +159,17 @@ export default {
   mounted() {
     window.scrollTo(0, 0);
     let self = this;
+    Indicator.open();
     setTimeout(() => {
       self.init();
+      if (!common.isEmpty(this.$route.params.id)) {
+        this.getShopApply();
+      } else {
+        Indicator.close();
+      }
     }, 2000);
+
+
   },
   data() {
     return {
@@ -431,6 +439,14 @@ export default {
     },
     blurFunc(e) {
       this.getLngAndLatBtAddressForApi(e.target.value);
+    },
+    getShopApply() {
+
+      shopService.getShopApply().then(res => {
+        if (!common.isOk(res)) return
+        this.saveData = res.data.data;
+        Indicator.close();
+      })
     }
   }
 }

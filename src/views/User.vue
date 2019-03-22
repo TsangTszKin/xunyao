@@ -66,7 +66,7 @@
                 <i class="fa fa-cny fa-lg"></i>
               </div>
               <p>
-                <span>钱包</span><i class="icon-go"></i>
+                <span>钱包</span><i class="icon-go" style="    margin-left: 5px;"></i>
               </p>
             </router-link>
             <router-link class="my-vip-bottom ho" :to="{ name: '优惠券'}">
@@ -82,7 +82,7 @@
            <section class="my-vip">
             <router-link class="my-vip-top ho" :to="{ name: '收货地址'}" >
               <div class="my-vip-top-div">
-                <i class="fa fa-map-marker fa-lg"></i>
+                <i class="fa fa-map-marker fa-lg"  style="    margin-left: 5px;"></i>
               </div>
               <p>
                 <span>收货地址</span><i class="icon-go"></i>
@@ -114,7 +114,7 @@
             </router-link>
             <router-link class="my-vip-bottom ho" :to="{ name: '反馈'}">
               <div>
-                 <i class="fa fa-feed fa-lg"></i>
+                 <i class="fa fa-feed fa-lg" style="    margin-left: 2px;"></i>
               </div>
               <p>
                 <span>反馈</span><i class="icon-go"></i>
@@ -122,38 +122,17 @@
             </router-link>
           </section>
 
-          <!-- <section class="my-service">
-              <router-link class="my-service-top" :to="{ name: ''}">
-                  <div>
-                    <span class="icon2-service">
-                        <span class="path1"></span><span class="path2"></span><span class="path3"></span>
-                    </span>
-                  </div>
-                  <p>
-                    <span>服务中心</span><i class="icon-go"></i>
-                  </p>
-              </router-link>
-              <router-link class="my-service-bottom" :to="{ name: ''}">
-                  <div>
-                    <span class="icon2-milogo"></span>
-                  </div>
-                  <p>
-                    <span>电商之家</span><i class="icon-go"></i>
-                  </p>
-              </router-link>
-          </section> -->
-
-
-           <section class="my-settle">
-              <router-link :to="{ name: '商铺入驻申请'}" class="my-settle-top">
-                  <div>
+           <section class="my-settle" v-if="shopApplyStatus != -2">
+              <a class="my-settle-top" @click="shopApply">
+                  <div >
                    <i class="fa fa-handshake-o fa-lg"></i>
                   </div>
 
-                  <p>
-                    <span>商家入驻</span><i class="icon-go"></i>
+                  <p style="position: relative;">
+                    <span>商家入驻</span><i class="icon-go"  style="margin-left: -3px;"></i>
+                    <span style="position: absolute; right: 0px;">{{shopApplyLabel}}</span></span>
                   </p>
-              </router-link>
+              </a>
           </section>
 
            <section class="my-settle">
@@ -192,7 +171,10 @@ export default {
   },
   data() {
     return {
-      doOrderCount: 0
+      doOrderCount: 0,
+      shopApplyStatus: -1,
+      shopApplyLabel: '',
+      shopApplyId: null
     }
   },
   mounted() {
@@ -214,6 +196,35 @@ export default {
     }
   },
   methods: {
+    shopApply() {
+      switch (this.shopApplyStatus) {
+        case -2:
+          //还没初始化完，不作处理
+          break;
+        case -1:
+          //跳转到商品入驻申请界面
+          this.$router.push({ name: "商铺入驻申请" })
+          break;
+        case 0:
+          //未处理
+          MessageBox('正在审核', '预计1-3个工作日').then(action => {
+            //todo点击确定回调
+          });
+          break;
+        case 1:
+          //已经有审核通过的入驻申请 可以再次申请
+          this.$router.push({ name: "商铺入驻申请" })
+          break;
+        case 2:
+          //审核不通过
+          MessageBox.confirm('审核不通过', '确定执行此操作?').then(action => {
+            this.$router.push({ name: "商铺入驻申请", params: { id: this.shopApplyId} })
+          });
+          break;
+        default:
+          break;
+      }
+    },
     clearCache() {
       localStorage.clear();
       Toast("已清除");
@@ -229,6 +240,28 @@ export default {
         res.data.loginUser.user.type = res.data.loginUser.type;
         localStorage.user = JSON.stringify(res.data.loginUser.user);
         this.$store.commit("CHANGE_USER_INFO", res.data.loginUser.user);
+
+        if (!common.isEmpty(res.data.shopApply)) {
+          if (!common.isEmpty(res.data.shopApply.status)) {
+            this.shopApplyStatus = res.data.shopApply.status;
+            this.shopApplyId = res.data.shopApply.id;
+            switch (res.data.shopApply.status) {
+              case 0:
+                this.shopApplyLabel = "审核中";
+                break;
+              case 1:
+                // this.shopApplyLabel = "审核通过";
+                break;
+              case 2:
+                this.shopApplyLabel = "审核不通过";
+                break;
+              default:
+                break;
+            }
+          }
+        } else {
+          this.shopApplyStatus = -1;
+        }
       })
     }
   }

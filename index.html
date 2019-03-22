@@ -5,7 +5,8 @@
   <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=AuOY7KgIDlUnzBsTxL7YZeo8UAfpYXmQ"></script>
   <meta charset="utf-8">
 
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
 
   <!-- 针对手持设备优化，主要是针对一些老的不识别viewport的浏览器，比如黑莓 -->
   <meta name="HandheldFriendly" content="true">
@@ -123,35 +124,39 @@
       text-align: center;
     }
 
-  
+
     .mint-cell-wrapper {
       background-image: none !important;
       border-bottom: 1px dashed gainsboro;
     }
+
     .sex-box {
       overflow: hidden;
       border-bottom: 1px dashed gainsboro;
+      line-height: 30px;
     }
-    .sex-box .mint-radiolist-title{
+
+    .sex-box .mint-radiolist-title {
       width: 20%;
-          float: left;
-          font-size: 16px;
-          color: #666;
+      float: left;
+      font-size: 16px;
+      color: #666;
     }
-    
+
     .sex-box .mint-cell {
-      width: 30%;
+      width: calc(40% - 8px);
       float: left;
     }
-    .sex-box .mint-cell .mint-cell-wrapper{
-     
+
+    .sex-box .mint-cell .mint-cell-wrapper {
+      font-size: 14px;
+      padding: 0;
       border-bottom: none;
     }
 
     .sex-box .mint-cell:last-child {
       background-image: none !important;
     }
-
   </style>
   <title>寻药</title>
 

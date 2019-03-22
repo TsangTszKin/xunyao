@@ -39,7 +39,7 @@ export default {
       bus.$on("shop.aside.changeGoodsStock", (goodsId, stock) => this.changeGoodsStock(goodsId, stock));
     },
     changeCate(item) {
-      window.scrollTo(0, 0);
+      // window.scrollTo(0, 0);
       this.$store.commit('CHANGE_SHOP_SELECT_CATE', item);
       if (common.isEmpty(this.$route.query.classId) && common.isEmpty(this.$route.query.classId)) {
         this.getGoodsList(this.shopId, this.$store.state.shop.selectCate.id);

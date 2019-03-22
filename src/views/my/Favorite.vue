@@ -35,7 +35,7 @@
             :msg="'规格：'+n.specification"
             :id="n.id"
             time
-            @click.native="showMore"
+            @click.native="$router.push({name: '搜索结果', params:{id: n.productBaseId}})"
             class="v-message-large"
           />
         </mt-tab-container-item>

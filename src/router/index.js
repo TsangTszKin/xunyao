@@ -91,7 +91,7 @@ export default new Router({
     component: GoodsSave
   },
   {
-    path: '/shopApply',
+    path: '/shopApply/:id?',
     name: '商铺入驻申请',
     component: ShopApply,
     meta: {

@@ -22,7 +22,6 @@ import Something from '@/components/car/something.vue'
 import Footer from '@/components/car/footer.vue'
 import FooterIndex from '@/common/_footer.vue'
 import { Header } from 'mint-ui'
-import cartService from '@/api/cartService';
 import common from '@/util/common';
 
 export default {
@@ -42,16 +41,8 @@ export default {
   mounted() {
 
     window.scrollTo(0, 0);
-
-    this.cartList();
   },
   methods: {
-    cartList() {
-      cartService.cartList().then(res => {
-        if (!common.isOk(res)) return
-
-      })
-    }
   }
 
 }

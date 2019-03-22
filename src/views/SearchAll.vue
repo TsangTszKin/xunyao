@@ -29,6 +29,7 @@
           style="margin-top: 10px; text-align:center;"
           v-if="searchType == '1' && goodsList.length == 0"
         >暂无数据</p>
+        <v-baseline v-else/>
       </mt-tab-container-item>
 
       <mt-tab-container-item id="2">
@@ -44,6 +45,7 @@
           style="margin-top: 10px; text-align:center;"
           v-if="searchType == '2' && shopList.length == 0"
         >暂无数据</p>
+        <v-baseline v-else/>
       </mt-tab-container-item>
     </mt-tab-container>
 
@@ -91,6 +93,8 @@ import goodsService from '@/api/goodsService';
 import common from '@/util/common';
 import SearchkeyCell from '@/components/search/searchKeyCell';
 import commonService from '@/api/commonService';
+import Baseline from '@/common/_baseline.vue'
+
 
 export default {
   data() {
@@ -156,7 +160,8 @@ export default {
     'mt-cell': Cell,
     'mt-navbar': Navbar,
     'mt-tab-item': TabItem,
-    'v-search-key-cell': SearchkeyCell
+    'v-search-key-cell': SearchkeyCell,
+    'v-baseline': Baseline,
   },
   mounted() {
     this.initHistorySearchKey();
@@ -171,6 +176,7 @@ export default {
       if (common.isEmpty(this.searchValue)) return
       if (isInitPageno) {
         this.page = 1;
+        window.scrollTo(0, 0);
       }
       this.isInit = true;
       // this.$messagebox("搜索");
@@ -223,16 +229,24 @@ export default {
       })
     },
     getShopList() {
+      if (this.searchType != 2) return
       if (!this.isInit) return
+      if (this.isEnd) return
       Indicator.open('加载中...');
+      this.loading = true;
       shopService.getShopList(this.page, this.searchValue).then(res => {
         this.loading = false;
         Indicator.close();
         if (!common.isOk(res)) return
-        if (common.isEmpty(res.data.data.list)) {
+        if (common.isEmpty(res.data.data)) {
           this.isEnd = true;
         } else {
-          res.data.data.list.forEach(element => {
+          res.data.data.forEach(element => {
+            if (element.distance > 1000) {
+              element.distance = (element.distance / 1000).toFixed(1) + 'km';
+            } else {
+              element.distance = element.distance.toFixed(1) + 'm';
+            }
             element.shopService = common.stringToArray(element.shopService);
             this.shopList.push(element)
           })
@@ -245,8 +259,11 @@ export default {
       })
     },
     getGoodsList() {
+      if (this.searchType != 1) return
       if (!this.isInit) return
+      if (this.isEnd) return
       Indicator.open('加载中...');
+      this.loading = true;
       goodsService.searchGoodsList(this.searchValue, this.page).then(res => {
         this.loading = false;
         Indicator.close();
@@ -301,6 +318,8 @@ export default {
     searchType: function (newvs, oldvs) {
       console.log("newvs", newvs);
       console.log("oldvs", oldvs);
+      window.scrollTo(0, 0);
+      this.isEnd = false;
       this.page = 1;
       this.shopGoodsList = [];
       this.goodsList = [];

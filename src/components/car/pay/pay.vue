@@ -1,19 +1,12 @@
 <template lang="html">
 
 <div class="pay">
-        <v-header class="mint-header">
-                <h1 slot="title">确认订单</h1></v-header>
+     
+         <mt-header title="确认订单">
+          <mt-button icon="back" slot="left" @click="$router.go(-1)"></mt-button>
+        </mt-header>
+
         <div class="v-content">
-                <mt-radio title="收货方式" align="right" v-model="getType" :options="[{label: '到店自取',value: '1'},{label: '货到付款',value: '2'}]"></mt-radio>
-                <div class="pay-address" v-if="getType == '2'" @click="modal.address = true">
-                        <div>
-                                <p class="main-address-per">收货人:
-                                        <span>{{mainData.address.receiverName}}</span></p>
-                                <p class="main-address-tel">{{mainData.address.receiverPhone}}</p></div>
-                        <p>收货地址:
-                                <span>{{mainData.address.province}}{{mainData.address.city}}{{mainData.address.district}}{{mainData.address.receiverAddress}}</span></p>
-                        <i class="fa fa-angle-right fa-lg" style="position: absolute;top: 53px;right: 5px;"></i>
-                </div>
                 <div class="shop-order" v-for="(item, i) in $store.state.cart.cartList" :key="i" v-if="item.cartList.length > 0">
                         <ul class="shop-panel">
                                 <li>
@@ -35,15 +28,40 @@
                                         </ul>
                                 </li>
                         </ul>
-                        <div class="pay-address" style="padding-left: 3vw" v-if="getType == 2">
+                        <mt-radio
+                          title="收货方式"
+                          v-model="saveData[i].getType"
+                          @click.native="currentShopIndex = i"
+                          :options="[{
+                            label: '到店自取',
+                            value: '1'
+                          },{
+                            label: '货到付款',
+                            value: '2'
+                          }]"
+                          class="sex-box"
+                          style="background-color: #fff;"
+                        ></mt-radio>
+                        <div class="pay-address" v-if="saveData[i].getType == '2'" @click="modal.address = true;currentShopIndex = i">
+                            <div>
+                                  <p class="main-address-per">收货人:
+                                          <span>{{saveData[i].receiverName}}</span></p>
+                                  <p class="main-address-tel">{{saveData[i].receiverPhone}}</p>
+                            </div>
+                            <p>收货地址:
+                                  <span>{{saveData[i].address}}</span>
+                            </p>
+                            <i class="fa fa-angle-right fa-lg" style="position: absolute;top: 53px;right: 5px;"></i>
+                       </div>
+                        <div class="pay-address" style="padding-left: 3vw" v-if="saveData[i].getType == 2">
                                 <div>
                                         <p class="main-address-per" style="line-height: 32px;">好友代收</p>
                                         <p class="main-address-tel">
-                                                <mt-switch v-model="mainData.isFriendGet[i]"></mt-switch>
+                                                <mt-switch v-model="saveData[i].isFriendGet"></mt-switch>
                                         </p>
                                 </div>
                         </div>
-                        <a class="mint-cell mint-field" v-if="mainData.isFriendGet[i]">
+                        <a class="mint-cell mint-field" v-if="saveData[i].isFriendGet">
                                 <div class="mint-cell-left"></div>
                                 <div class="mint-cell-wrapper">
                                         <div class="mint-cell-title">
@@ -136,17 +154,17 @@
                         </div>
                         <v-baseline />
                 </mt-popup>
-                <mt-popup v-model="modal.limitHour" position="bottom" style="width: 100%;height: 30%;">
-                        <mt-picker :slots="mainData == 1?slot1: slot2" @change="limitHourChange"></mt-picker>
+                <mt-popup v-model="modal.limitHour" position="bottom" style="width: 100%;height: 30%;" v-if="$store.state.cart.cartList.length > 0">
+                        <mt-picker v-if="saveData[currentShopIndex].getType == 1" :slots="slot1" @change="limitHourChange"></mt-picker>
+                        <mt-picker v-else :slots="slot2" @change="limitHourChange"></mt-picker>
                 </mt-popup>
         </div>
-        <v-footer @submitCart="submitCart"></v-footer>
+        <v-footer @submitCart="submitCart" v-if="$store.state.cart.cartList.length > 0"></v-footer>
 </div>
 
 </template>
 
 <script>
-import Util from '../../../util/common'
 import Header from '@/common/_header.vue'
 import Footer from '@/components/car/pay/footer.vue';
 import AddressPicker from '@/components/AddressPicker';
@@ -157,7 +175,7 @@ import userService from '@/api/userService';
 import shopService from '@/api/shopService';
 import cartService from '@/api/cartService';
 import { MessageBox, Radio, Field, Switch, Popup, Picker, Indicator, Toast } from 'mint-ui';
-import common from '../../../util/common';
+import common from '@/util/common';
 import bus from '@/util/bus';
 import Baseline from '@/common/_baseline.vue';
 
@@ -183,7 +201,6 @@ export default {
         coupon1: false,
         limitHour: false
       },
-      isFriendGet: false,
       friend: {
         name: '李小白',
         id: '',
@@ -196,7 +213,6 @@ export default {
       currentShopIndex: 0,
       mainData: {
         getType: '1',
-        isFriendGet: [],
         address: {
           "id": 1,
           "createBy": null,
@@ -220,7 +236,6 @@ export default {
           "isLabel": null
         }
       },
-      getType: '1',
       couponList: [],
       slot1: [
         {
@@ -242,10 +257,8 @@ export default {
   },
 
   computed: {
-
     //所有商品列表
     carList() {
-
       return this.$store.state.detail.selectedList
     },
     deliveryTime() {
@@ -259,20 +272,20 @@ export default {
   },
   mounted() {
 
+    if (this.$store.state.cart.cartList.length == 0){
+      this.$router.push({name: '购物车'});
+    }
 
     window.scrollTo(0, 0);
     this.listener();
     this.getDefaultAddress();
 
-
-
     this.saveData.forEach(element => {
-      this.mainData.isFriendGet.push(false);
       this.couponList.push(0);
       common.isEmpty(element.limitHour) ? element.limitHour = 6 : element.limitHour;
     });
 
-    this.resetCardList(this.packData());
+
 
     $(".v-picker").height($('#app').height());
   },
@@ -313,13 +326,28 @@ export default {
     getDefaultAddress() {
       userService.getDefaultAddress().then(res => {
         if (!common.isOk(res)) return
-        this.mainData.address = res.data.data || this.mainData.address;
+        this.saveData.forEach(element => {
+          if (!common.isEmpty(res.data.data)) {
+            element.address = `${res.data.data.province}${res.data.data.city}${res.data.data.district}${res.data.data.receiverAddress}`;
+          } else {
+            element.address = '';
+          }
 
+          element.receiverName = res.data.data.receiverName;
+          element.receiverPhone = res.data.data.receiverPhone;
+          element.receiverId = res.data.data.id;
+        })
+        this.resetCardList(this.packData());
       })
     },
     selectAddress(address) {
+      console.log("address", address)
       this.modal.address = false;
-      this.mainData.address = address;
+      // this.saveData[this.currentShopIndex].address = address;
+      this.saveData[this.currentShopIndex].address = `${address.province}${address.city}${address.district}${address.receiverAddress}`;
+      this.saveData[this.currentShopIndex].receiverName = address.receiverName;
+      this.saveData[this.currentShopIndex].receiverPhone = address.receiverPhone;
+      this.saveData[this.currentShopIndex].receiverId = address.id;
       this.resetCardList(this.packData());
     },
     getBuyerCouponForShop(shopId) {
@@ -342,16 +370,6 @@ export default {
       this.modal.coupon1 = false;
       this.couponList[this.currentShopIndex] = coupon.cash;
 
-
-      // let totalCash = 0;
-      // this.couponList.forEach(element => {
-      //   totalCash += element;
-      // })
-      // console.log(totalCash);
-
-      // const totalFree = this.$store.state.cart.totalFeeTemp;
-      // const sureFee = this.$store.state.cart.sureFeeTemp;
-      // console.log(totalFree);
       switch (coupon.type) {
         case 1:
           this.saveData[this.currentShopIndex].couponName = `满${coupon.meet}免邮`;
@@ -398,6 +416,10 @@ export default {
           }
           return
         } else {
+          this.$store.commit("CHANGE_CART_LIST", []);
+          this.$store.commit("CHANGE_CART_DATA", {});
+          this.$store.commit("CHANGE_CART_SUREFREE", 0);
+          this.$store.commit("CHANGE_CART_TOTALFREE", 0);
           Toast({
             message: '提交成功',
             iconClass: 'fa fa-check',
@@ -429,11 +451,11 @@ export default {
     packData() {
       let data = {}
       this.saveData.forEach(element => {
-        element.getType = Number(this.mainData.getType);
-        element.receiverId = this.mainData.address.id;
-        element.address = `${this.mainData.address.province}${this.mainData.address.city}${this.mainData.address.district}${this.mainData.address.receiverAddress}`;
+        element.isFriendGet = element.isFriendGet || false;
+        // element.address = `${element.address.province}${element.address.city}${element.address.district}${element.address.receiverAddress}`;
         data[element.shopId] = element;
       })
+      console.log("data", data)
       return data
     },
     getOrderInfo(id) {
@@ -453,6 +475,13 @@ export default {
             cartList.push(element);
           }
         }
+
+        for (let i = 0; i < this.saveData.length; i++) {
+          const element = this.saveData[i];
+          cartList[i].receiverName = element.receiverName;
+          cartList[i].receiverPhone = element.receiverPhone;
+          cartList[i].isFriendGet = element.isFriendGet;
+        }
         this.$store.commit("CHANGE_CART_LIST", cartList);
         this.$store.commit("CHANGE_CART_DATA", data);
         this.$store.commit("CHANGE_CART_SUREFREE", res.data.sureFee);
@@ -469,26 +498,18 @@ export default {
       // immediate: true,
       deep: true
     },
-    // mainData: {
+    // getType: {
     //   handler(newValue, oldName) {
-    //     this.$store.commit('CHANGE_CART_GETTYPE', newValue.getType)
-    //   },
-    //   immediate: true,
-    //   deep: true
-    // },
-    getType: {
-      handler(newValue, oldName) {
-        // this.$store.commit('CHANGE_CART_GETTYPE', newValue);
-        this.saveData.forEach(element => {
-          element.limitHour = 6;
-        })
-        this.mainData.getType = newValue;
-        this.resetCardList(this.packData());
+    //     // this.$store.commit('CHANGE_CART_GETTYPE', newValue);
+    //     this.saveData.forEach(element => {
+    //       element.limitHour = 6;
+    //     })
+    //     this.mainData.getType = newValue;
+    //     this.resetCardList(this.packData());
 
-      },
-      // immediate: true,
-      deep: true
-    }
+    //   },
+    //   deep: true
+    // }
 
   }
 
@@ -541,7 +562,7 @@ export default {
     margin-top: 10px;
     > ul.shop-panel {
       // margin: 10px;
-      padding: 10px;
+      padding: 10px 10px 0 10px;
       // border: 1px solid #dcdcdcc7;
       // border-radius: 8px;
       > li {

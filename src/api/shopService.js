@@ -1,5 +1,7 @@
 import { Toast } from 'mint-ui';
 import axios from '@/http/api.js'
+import common from '@/util/common';
+
 const prefix = axios.defaults.baseURL;
 
 const errorHandler = error => {
@@ -23,13 +25,24 @@ export default {
 		return axios.post(`${prefix}/app/other/uploadFile`, param, config).catch(errorHandler);
 	},
 	shopApply(params) {
-		return axios.post(`${prefix}/app/shop/shopEnterApply?shopName=${params.shopName}&shopLogo=${params.shopLogo}&address=${params.address}&telephone=${params.telephone}&realName=${params.realName}&cardId1=${params.cardId1}&cardId2=${params.cardId2}&drugBusinessCert=${params.drugBusinessCert}&businessLicense=${params.businessLicense}&foodBusinessCert=${params.foodBusinessCert}&drugQualityCert=${params.drugQualityCert}&openAccountCert=${params.openAccountCert}&drugRegisterCert=${params.drugRegisterCert}&longitude=${params.longitude}&latitude=${params.latitude}&province=${params.province}&city=${params.city}&district=${params.district}`).catch(errorHandler)
+		let idString = '';
+		if (!common.isEmpty(params.id)) {
+			idString = `&id=${params.id}`;
+		}
+		return axios.post(`${prefix}/app/shop/shopEnterApply?shopName=${params.shopName}&shopLogo=${params.shopLogo}&address=${params.address}&telephone=${params.telephone}&realName=${params.realName}&cardId1=${params.cardId1}&cardId2=${params.cardId2}&drugBusinessCert=${params.drugBusinessCert}&businessLicense=${params.businessLicense}&foodBusinessCert=${params.foodBusinessCert}&drugQualityCert=${params.drugQualityCert}&openAccountCert=${params.openAccountCert}&drugRegisterCert=${params.drugRegisterCert}&longitude=${params.longitude}&latitude=${params.latitude}&province=${params.province}&city=${params.city}&district=${params.district}${idString}`).catch(errorHandler)
+	},
+	getShopApply() {
+		return axios.get(`${prefix}/app/shop/getShopEnterApply`).catch(errorHandler)
 	},
 	getLngAndLatBtAddress(address) {
 		return axios.get(`http://api.map.baidu.com/geocoder/v2/?address=${encodeURIComponent(address)}&output=json&ak=AuOY7KgIDlUnzBsTxL7YZeo8UAfpYXmQ`).catch(errorHandler);
 	},
-	getShopList(page, keyword) {
-		return axios.post(`${prefix}/app/shop/shopList?pageno=${page}&size=10&keyword=${keyword}`).catch(errorHandler);
+	getShopList(page, keyword, filterParams) {
+		let filterParamsString = '';
+		if (!common.isEmpty(filterParams)) {
+			filterParamsString = `&fp=${filterParams.fp}&yb=${filterParams.yb}&xh=${filterParams.sm}`
+		}
+		return axios.post(`${prefix}/app/shop/shopList?pageno=${page}&size=10&keyword=${keyword}&longitude=${localStorage.lng}&latitude=${localStorage.lat}${filterParamsString}`).catch(errorHandler);
 	},
 	getShopInfo(shopId) {
 		return axios.post(`${prefix}/app/shop/index?shopId=${shopId}`).catch(errorHandler);

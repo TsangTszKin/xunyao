@@ -35,6 +35,7 @@
           <!-- <span class="location">地址：广东省广州市天河区车陂社区</span> -->
         </p>
         <p class="location">地址：{{shop.address}}</p>
+        <p class="location2">库存更新间隔：{{shop.stockUpdateDate?shop.stockUpdateDate:'无'}}</p>
       </div>
       <div style="clear: both;"></div>
     </div>
@@ -219,7 +220,7 @@ export default {
       float: left;
       // padding: 5px 8px;
       // text-align: center;
-      margin: 16px 0 0 10px;
+      margin: 6px 0 0 10px;
       > .name {
         height: 25px;
         color: #000;
@@ -236,6 +237,11 @@ export default {
         height: 15px;
         font-size: 12px;
         margin-top: 2px;
+      }
+      > .location2 {
+        height: 15px;
+        font-size: 10px;
+        margin-top: 5px;
       }
     }
   }
