@@ -86,4 +86,7 @@ export default {
 	getBreakMoneyList(pageno) {
 		return axios.get(`${prefix}/app/my/getBreakMoneyList?pageno=${pageno}&size=100`).catch(errorHandler)
 	},
+	withdrawCashApply(bankCard, bankName, money) {
+		return axios.put(`${prefix}/app/my/withdrawCashApply?bankCard=${bankCard}&bankName=${bankName}&money=${money}`).catch(errorHandler)
+	}
 }

@@ -23,7 +23,7 @@
             </router-link>
              <router-link class="my-vip-bottom ho" :to="{ name: ''}">
               <div>
-                <i class="fa fa-cny fa-lg"></i>
+                <i class="fa fa-lock fa-lg"></i>
               </div>
               <p>
                 <span>冻结金额</span><span style="position: absolute;
@@ -32,33 +32,57 @@
             </router-link>
             <router-link class="my-vip-bottom ho" :to="{ name: '充值'}">
               <div>
-                <!-- <i class="fa fa-cny fa-lg"></i> -->
+                <i class="fa fa-credit-card-alt fa-sm" style="margin-left: -2px;"></i>
               </div>
               <p>
-                <span>充值</span><i class="icon-go"></i>
+                <span>充值</span><i class="fa fa-angle-right fa-lg"></i>
               </p>
             </router-link>
-            <!-- <router-link class="my-vip-bottom ho" :to="{ name: ''}">
-              <div>
+             <a class="my-vip-bottom ho" @click="modal = true">
+               <div>
+                <i class="fa fa-money fa-lg" style="margin-left: -2px;"></i>
               </div>
               <p>
-                <span>提现</span><i class="icon-go"></i>
+                <span>提现</span><i class="fa fa-angle-right fa-lg"></i>
               </p>
-            </router-link> -->
+            </a>
           </section>
 
-           <!-- <section class="my-vip">
-            <router-link class="my-vip-top ho" :to="{ name: ''}" >
-              <div class="my-vip-top-div">
-                <i class="fa fa-credit-card-alt fa-lg"></i>
-              </div>
-              <p>
-                <span>银行卡管理</span><i class="icon-go"></i>
-              </p>
-            </router-link>
-            
-          </section> -->
-
+                <mt-popup v-model="modal" position="bottom" style="width: 100%;height: 100%;">
+                        <mt-header title="提现申请">
+                                <mt-button icon="back" slot="left" @click="modal = false"></mt-button>
+                        </mt-header>
+                        <div style="padding-top: 40px;">
+                               <mt-field label="银行卡号" placeholder="请输入银行卡号" v-model="withdrawCashApply.bankCard"></mt-field> 
+                                <a class="mint-cell mint-field" @click="modal2 = true">
+                                        <div class="mint-cell-left"></div>
+                                        <div class="mint-cell-wrapper">
+                                                <div class="mint-cell-title">
+                                                        <span class="mint-cell-text">银行卡类型</span></div>
+                                                <div class="mint-cell-value" style="position: relative;">
+                                                        <div>{{withdrawCashApply.bankName?withdrawCashApply.bankName:'选择银行卡类型'}}</div>
+                                                        <i class="fa fa-angle-right fa-lg" style="position: absolute;right: 10px;font-size: 14px;top: 4px;"></i>
+                                                        <div class="mint-field-clear" style="display: none;">
+                                                                <i class="mintui mintui-field-error"></i>
+                                                        </div>
+                                                        <span class="mint-field-state is-default">
+                                                                <i class="mintui mintui-field-default"></i>
+                                                        </span>
+                                                        <div class="mint-field-other"></div>
+                                                </div>
+                                        </div>
+                                        <div class="mint-cell-right"></div>
+                                </a>
+                                <mt-field label="提现金额" type="number" placeholder="请输入提现金额" v-model="withdrawCashApply.money"></mt-field> 
+                              <div style="padding: 20px;">
+                                    <mt-button @click="withdrawCashApplySubmit" type="primary" size="large">提现</mt-button>
+                              </div>
+                                
+                        </div>
+                </mt-popup>
+                <mt-popup v-model="modal2" position="bottom" style="width: 100%;height: 30%;" >
+                        <mt-picker :slots="slot" @change="bankNameChange"></mt-picker>
+                </mt-popup>
          
 
       </div>
@@ -71,7 +95,7 @@
 
 import Baseline from '@/common/_baseline.vue'
 import Footer from '@/common/_footer.vue'
-import { Badge, Header } from 'mint-ui';
+import { Badge, Header, Popup, Field, Picker, Toast, Button } from 'mint-ui';
 import userService from '@/api/userService';
 import common from '@/util/common';
 
@@ -81,6 +105,10 @@ export default {
     'v-footer': Footer,
     'mt-badge': Badge,
     'mt-header': Header,
+    'mt-popup': Popup,
+    'mt-field': Field,
+    'mt-picker': Picker,
+    'mt-button': Button
   },
   mounted() {
     window.scrollTo(0, 0);
@@ -89,10 +117,26 @@ export default {
   data() {
     return {
       money: 0.0,
-      lockMoney: 0.0
+      lockMoney: 0.0,
+      modal: false,
+      modal2: false,
+      withdrawCashApply: {
+        bankCard: '',
+        bankName: '',
+        money: ''
+      },
+      slot: [
+        {
+          flex: 1,
+          values: ['中国农业银行', '中国建设银行', '中国工商银行', '交通银行', '中国邮政储蓄银行', '中国银行', '中国光大银行', '招商银行', '浦发银行', '华夏银行', '中国民生银行', '广发银行', '平安银行', '兴业银行', '恒丰银行', '浙商银行', '渤海银行', '其他'],
+          className: 'slot1',
+          textAlign: 'center'
+        }
+      ]
     }
   },
   computed: {
+
     getUserNickName() {
       return this.$store.state.user.user.nickname
     },
@@ -111,6 +155,43 @@ export default {
         this.money = res.data.money || this.money;
         this.lockMoney = res.data.lockMoney || this.lockMoney;
       })
+    },
+    bankNameChange(picker, values) {
+      console.log(picker, values);
+      if (!common.isEmpty(values[0])) {
+        this.withdrawCashApply.bankName = values[0];
+      }
+    },
+    withdrawCashApplySubmit() {
+      if (!this.verify()) return;
+      userService.withdrawCashApply(this.withdrawCashApply.bankCard, this.withdrawCashApply.bankName, this.withdrawCashApply.money).then(res => {
+        if (!common.isOk(res)) return
+        Toast({
+          message: '成功提交申请',
+          iconClass: 'fa fa-check',
+          duration: 500
+        });
+        this.modal = false;
+      })
+    },
+    verify() {
+      console.log(this.withdrawCashApply);
+      if (common.isEmpty(this.withdrawCashApply.bankCard)) {
+        Toast("请输入银行卡号");
+        return false
+      }
+      if (common.isEmpty(this.withdrawCashApply.bankName)) {
+        Toast("请选择银行卡类型");
+        return false
+      }
+      if (common.isEmpty(this.withdrawCashApply.money)) {
+        Toast("请输入提现金额");
+        return false
+      } else if (String(this.withdrawCashApply.money).split(".").length > 2) {
+        Toast("请输入正确的提现金额");
+        return false
+      }
+      return true
     }
   }
 }
@@ -300,7 +381,7 @@ export default {
           i {
             position: absolute;
             right: 0;
-            top: 0.4vw;
+            top: 1.5vw;
           }
         }
       }

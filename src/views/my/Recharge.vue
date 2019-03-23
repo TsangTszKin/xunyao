@@ -157,6 +157,10 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.mint-cell-wrapper {
+    background-image: none !important;
+    border-bottom: none !important;
+}
 .recharge {
   > .v-content {
     > .denomination {
@@ -166,6 +170,7 @@ export default {
       justify-content: space-around;
       align-items: center;
       align-content: center;
+      height: 60px;
     }
     > .footer {
       height: 60px;

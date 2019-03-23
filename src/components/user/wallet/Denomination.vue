@@ -27,7 +27,7 @@ export default {
   line-height: 40px;
   text-align: center;
   color: #000;
-  margin-bottom: 15px;
+  // margin-bottom: 15px;
 }
 .selected {
   background-color: #38af43;
