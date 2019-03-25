@@ -24,7 +24,7 @@
               <span class="my-indent-left">我的订单</span>
               <div class="my-indent-right">
                   <span>全部订单</span>
-                  <i class="icon-go"></i>
+                  <i class="fa fa-angle-right fa-lg" style="position:absolute!important;top:17px!important;right:-10px!important;color:gainsboro!important;"></i>
               </div>
           </router-link>
 
@@ -55,94 +55,94 @@
                 <i class="fa fa-cube fa-lg"></i>
               </div>
               <p>
-                <span>店员通</span><i class="icon-go"></i>
+                <span>店员通</span><i class="fa fa-angle-right fa-lg" style="color:gainsboro;top:5px;"></i>
               </p>
             </router-link>
           </section> -->
 
           <section class="my-vip">
-            <router-link class="my-vip-bottom ho" :to="{ name: '钱包'}">
+            <router-link class="my-vip-bottom ho" :to="{ name: '钱包'}" style="position: relative;">
               <div>
                 <i class="fa fa-cny fa-lg"></i>
               </div>
-              <p>
-                <span>钱包</span><i class="icon-go" style="    margin-left: 5px;"></i>
+              <p >
+                <span>钱包</span><i class="fa fa-angle-right fa-lg" style="color:gainsboro;top:5px;"></i>
               </p>
             </router-link>
-            <router-link class="my-vip-bottom ho" :to="{ name: '优惠券'}">
+            <router-link class="my-vip-bottom ho" :to="{ name: '优惠券'}" style="position: relative;">
               <div>
                 <i class="fa fa-ticket fa-lg"></i>
               </div>
               <p>
-                <span>优惠券</span><i class="icon-go"></i>
+                <span>优惠券</span><i class="fa fa-angle-right fa-lg" style="color:gainsboro;top:5px;"></i>
               </p>
             </router-link>
           </section>
 
            <section class="my-vip">
-            <router-link class="my-vip-top ho" :to="{ name: '收货地址'}" >
+            <router-link class="my-vip-top ho" :to="{ name: '收货地址'}" style="position: relative;">
               <div class="my-vip-top-div">
                 <i class="fa fa-map-marker fa-lg"  style="    margin-left: 5px;"></i>
               </div>
               <p>
-                <span>收货地址</span><i class="icon-go"></i>
+                <span>收货地址</span><i class="fa fa-angle-right fa-lg" style="color:gainsboro;top:5px;"></i>
               </p>
             </router-link>
-            <router-link class="my-vip-top ho" :to="{ name: '我的好友'}" >
+            <router-link class="my-vip-top ho" :to="{ name: '我的好友'}"style="position: relative;" >
               <div class="my-vip-top-div">
                 <i class="fa fa-users fa-lg"></i>
               </div>
               <p>
-                <span>我的好友</span><i class="icon-go"></i>
+                <span>我的好友</span><i class="fa fa-angle-right fa-lg" style="color:gainsboro;top:5px;"></i>
               </p>
             </router-link>
-            <router-link class="my-vip-bottom ho" :to="{ name: '足迹'}">
+            <router-link class="my-vip-bottom ho" :to="{ name: '足迹'}" style="position: relative;">
               <div>
                 <i class="fa fa-eye fa-lg"></i>
               </div>
               <p>
-                <span>足迹</span><i class="icon-go"></i>
+                <span>足迹</span><i class="fa fa-angle-right fa-lg" style="color:gainsboro;top:5px;"></i>
               </p>
             </router-link>
-            <router-link class="my-vip-bottom ho" :to="{ name: '我的关注'}">
+            <router-link class="my-vip-bottom ho" :to="{ name: '我的关注'}" style="position: relative;">
               <div>
                  <i class="fa fa-heart fa-lg"></i>
               </div>
               <p>
-                <span>我的关注</span><i class="icon-go"></i>
+                <span>我的关注</span><i class="fa fa-angle-right fa-lg" style="color:gainsboro;top:5px;"></i>
               </p>
             </router-link>
-            <router-link class="my-vip-bottom ho" :to="{ name: '反馈'}">
+            <router-link class="my-vip-bottom ho" :to="{ name: '反馈'}" style="position: relative;">
               <div>
                  <i class="fa fa-feed fa-lg" style="    margin-left: 2px;"></i>
               </div>
               <p>
-                <span>反馈</span><i class="icon-go"></i>
+                <span>反馈</span><i class="fa fa-angle-right fa-lg" style="color:gainsboro;top:5px;"></i>
               </p>
             </router-link>
           </section>
 
            <section class="my-settle" v-if="shopApplyStatus != -2">
-              <a class="my-settle-top" @click="shopApply">
+              <a class="my-settle-top" @click="shopApply" style="position: relative;">
                   <div >
                    <i class="fa fa-handshake-o fa-lg"></i>
                   </div>
 
                   <p style="position: relative;">
                     <span>商家入驻</span><i class="icon-go"  style="margin-left: -3px;"></i>
-                    <span style="position: absolute; right: 0px;">{{shopApplyLabel}}</span></span>
+                    <span style="position: absolute; right: 15px;">{{shopApplyLabel}}</span><i class="fa fa-angle-right fa-lg" style="color:gainsboro;top:5px;"></i>
                   </p>
               </a>
           </section>
 
            <section class="my-settle">
-             <router-link :to="{ name: '设置'}" class="my-settle-top" >
+             <router-link :to="{ name: '设置'}" class="my-settle-top" style="position: relative;">
                   <div>
                    <i class="fa fa-cog fa-lg"></i>
                   </div>
 
                   <p>
-                    <span>设置</span><i class="icon-go"></i>
+                    <span>设置</span><i class="fa fa-angle-right fa-lg" style="color:gainsboro;top:5px;"></i>
                   </p>
               </router-link>
           </section>
@@ -218,7 +218,7 @@ export default {
         case 2:
           //审核不通过
           MessageBox.confirm('审核不通过', '确定执行此操作?').then(action => {
-            this.$router.push({ name: "商铺入驻申请", params: { id: this.shopApplyId} })
+            this.$router.push({ name: "商铺入驻申请", params: { id: this.shopApplyId } })
           });
           break;
         default:
@@ -359,6 +359,7 @@ export default {
       }
 
       .my-indent-right {
+        position: relative;
         span {
           display: inline-block;
           .fz(font-size, 28);

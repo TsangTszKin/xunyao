@@ -187,7 +187,12 @@ export default {
       if (common.isEmpty(this.withdrawCashApply.money)) {
         Toast("请输入提现金额");
         return false
-      } else if (String(this.withdrawCashApply.money).split(".").length > 2) {
+      }
+      if (String(this.withdrawCashApply.money).split(".").length > 2) {
+        Toast("请输入正确的提现金额");
+        return false
+      }
+      if (isNaN(this.withdrawCashApply.money) || this.withdrawCashApply.money <= 0) {
         Toast("请输入正确的提现金额");
         return false
       }
