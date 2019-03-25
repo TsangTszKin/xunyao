@@ -31,7 +31,7 @@
                         <mt-radio
                           title="收货方式"
                           v-model="saveData[i].getType"
-                          @click.native="currentShopIndex = i"
+                          @click.native="changeGetType();currentShopIndex = i"
                           :options="[{
                             label: '到店自取',
                             value: '1'
@@ -272,8 +272,8 @@ export default {
   },
   mounted() {
 
-    if (this.$store.state.cart.cartList.length == 0){
-      this.$router.push({name: '购物车'});
+    if (this.$store.state.cart.cartList.length == 0) {
+      this.$router.push({ name: '购物车' });
     }
 
     window.scrollTo(0, 0);
@@ -488,12 +488,18 @@ export default {
         this.$store.commit("CHANGE_CART_TOTALFREE", res.data.totalFee);
         this.saveData = cartList;
       })
+    },
+    changeGetType() {
+      let self = this;
+      setTimeout(() => {
+        self.resetCardList(self.packData());
+      }, 500);
     }
   },
   watch: {
     saveData: {
-      handler(newValue, oldName) {
-        this.$store.commit('CHANGE_CART_LIST', newValue)
+      handler(newValue, oldValue) {
+        this.$store.commit('CHANGE_CART_LIST', newValue);
       },
       // immediate: true,
       deep: true

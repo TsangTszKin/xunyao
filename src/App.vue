@@ -10,6 +10,7 @@ import Loading from '@/common/_loading';
 import cartService from '@/api/cartService';
 import common from '@/util/common';
 import otherService from '@/api/otherService';
+import userService from '@/api/userService';
 
 export default {
   components: {
@@ -79,8 +80,8 @@ export default {
     }
   },
   mounted() {
-    this.getCartList();
-    this.getNoReadMessageCount();
+    this.getMyHomeInfo();
+
     // localStorage.removeItem("cityName");
 
     // if (!localStorage.haveReload) {
@@ -125,6 +126,20 @@ export default {
         this.messageCount.count2 = res.data.count2;
         this.messageCount.count3 = res.data.count3;
         this.$store.commit("CHANGE_USER_MESSAGECOUNT", this.messageCount)
+      })
+    },
+    getMyHomeInfo() {
+      userService.getMyHomeInfo().then(res => {
+        if (!common.isOk(res)) return
+        res.data.loginUser.user.id = res.data.loginUser.id;
+        res.data.loginUser.user.idCard = res.data.loginUser.idCard;
+        res.data.loginUser.user.sex = res.data.loginUser.sex;
+        res.data.loginUser.user.realname = res.data.loginUser.realname;
+        res.data.loginUser.user.type = res.data.loginUser.type;
+        localStorage.user = JSON.stringify(res.data.loginUser.user);
+        this.$store.commit("CHANGE_USER_INFO", res.data.loginUser.user);
+        this.getCartList();
+        this.getNoReadMessageCount();
       })
     }
   }

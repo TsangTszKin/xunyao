@@ -8,11 +8,12 @@
     </mt-tab-item>
      <mt-tab-item id="消息" style="position: relative;">
       <i slot="icon" class="fa fa-envelope fa-lg" style="font-size: 25px;"></i>
-      <mt-badge size="small" type="error" style=" position: absolute;top: 0px;left: 50px;" v-if="$store.state.user.messageCount.all > 0">{{$store.state.user.messageCount.all}}</mt-badge>
+      <mt-badge size="small" type="error" style=" position: absolute;top: 0px;left: 45px;" v-if="$store.state.user.messageCount.all > 0">{{$store.state.user.messageCount.all}}</mt-badge>
         消息
     </mt-tab-item>
-    <mt-tab-item id="购物车">
+    <mt-tab-item id="购物车" style="position: relative;">
       <i slot="icon" class="fa fa-shopping-cart fa-lg" style="font-size: 27px;"></i>
+      <mt-badge size="small" type="error" style=" position: absolute;top: 0px;left: 45px;" v-if="$store.getters.getCartAllCount > 0">{{$store.getters.getCartAllCount}}</mt-badge>
       购物车
     </mt-tab-item>
     <mt-tab-item id="商品列表" v-if="isShop">

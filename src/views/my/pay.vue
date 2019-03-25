@@ -4,6 +4,8 @@
         <v-header class="mint-header">
                 <h1 slot="title">订单详情</h1></v-header>
         <div class="v-content">
+
+                <mt-field label="订单号" placeholder="订单号" type="text" v-model="order.orderSn" :readonly="true" :disableClear="true"></mt-field>
          
                 <mt-radio  title="收货方式" align="right" v-model="order.getType" :options="[{label: '到店自取',value: 1, disabled: true},{label: '货到付款',value: 2, disabled: true}]"></mt-radio>
                 <div class="pay-address" v-if="order.getType == 2">
@@ -64,7 +66,7 @@
                                 <div class="mint-cell-right"></div>
                         </a>
                         <!-- <mt-field label="配送时间" placeholder="" type="text" :readonly="true" :disableClear="true" :value="deliveryTime"></mt-field> -->
-                        <mt-field label="留言" placeholder="给店家留言" type="textarea" rows="1" v-model="order.memo"></mt-field>
+                        <mt-field label="留言" placeholder="给店家留言" type="textarea" rows="1" v-model="order.memo" :readonly="true" :disableClear="true"></mt-field>
                         <a class="mint-cell mint-field" >
                                 <div class="mint-cell-left"></div>
                                 <div class="mint-cell-wrapper">
