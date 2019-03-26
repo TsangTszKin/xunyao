@@ -40,6 +40,8 @@ import index from '@/http/mock.js' //模拟数据
 import { MessageBox, Popup } from 'mint-ui';
 import bus from '@/util/bus';
 import ToTop from '@/components/ToTop';
+import userService from '@/api/userService';
+import common from '@/util/common';
 
 export default {
   components: {
@@ -76,10 +78,36 @@ export default {
     closeAdvert() {
       this.modal = false;
       window.scrollTo(0, 0);
+    },
+    getMyHomeInfo() {
+      userService.getMyHomeInfo().then(res => {
+        if (!common.isOk(res)) return
+        res.data.loginUser.user.id = res.data.loginUser.id;
+        res.data.loginUser.user.idCard = res.data.loginUser.idCard;
+        res.data.loginUser.user.sex = res.data.loginUser.sex;
+        res.data.loginUser.user.realname = res.data.loginUser.realname;
+        res.data.loginUser.user.type = res.data.loginUser.type;
+        localStorage.user = JSON.stringify(res.data.loginUser.user);
+        // localStorage.shop = JSON.stringify(res.data.loginUser.shop);
+
+        if (!common.isEmpty(res.data.loginUser.shop)) {
+          localStorage.shop = JSON.stringify(res.data.loginUser.shop);
+          store.commit("CHANGE_USER_ISSHOP", true);
+          store.commit("CHANGE_USER_SHOP", res.data.loginUser.shop);
+        } else {
+          localStorage.removeItem("shop");
+          store.commit("CHANGE_USER_ISSHOP", false);
+        }
+
+        this.$store.commit("CHANGE_USER_INFO", res.data.loginUser.user);
+        this.getCartList();
+        this.getNoReadMessageCount();
+      })
     }
   },
   mounted() {
     window.scrollTo(0, 0);
+    this.getMyHomeInfo();
     bus.$on("advert.show", (title, content) => {
       this.data.title = title;
       this.data.content = content;

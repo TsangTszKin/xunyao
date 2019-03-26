@@ -391,8 +391,25 @@ export default {
 
 
     },
+    verify(params) {
+      console.log(params);
+      for (const key in params) {
+        if (params.hasOwnProperty(key)) {
+          const element = params[key];
+          if (element.getType == 2) {
+            if (common.isEmpty(element.receiverId)) {
+              Toast("请选择收货地址");
+              return false
+            }
+          }
+        }
+      }
+      return true
+    },
     submitCart() {
       let params = this.packData();
+      if (!this.verify(params))
+        return
       Indicator.open();
       cartService.submit(params).then(res => {
         Indicator.close();
