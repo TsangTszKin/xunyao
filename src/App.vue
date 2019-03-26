@@ -137,6 +137,17 @@ export default {
         res.data.loginUser.user.realname = res.data.loginUser.realname;
         res.data.loginUser.user.type = res.data.loginUser.type;
         localStorage.user = JSON.stringify(res.data.loginUser.user);
+        // localStorage.shop = JSON.stringify(res.data.loginUser.shop);
+
+        if (!common.isEmpty(res.data.loginUser.shop)) {
+          localStorage.shop = JSON.stringify(res.data.loginUser.shop);
+          store.commit("CHANGE_USER_ISSHOP", true);
+          store.commit("CHANGE_USER_SHOP", res.data.loginUser.shop);
+        } else {
+          localStorage.removeItem("shop");
+          store.commit("CHANGE_USER_ISSHOP", false);
+        }
+
         this.$store.commit("CHANGE_USER_INFO", res.data.loginUser.user);
         this.getCartList();
         this.getNoReadMessageCount();

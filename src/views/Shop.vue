@@ -234,7 +234,7 @@ export default {
         }
       }
       > .location {
-        height: 15px;
+        height: auto;
         font-size: 12px;
         margin-top: 2px;
       }
