@@ -115,6 +115,7 @@ export default {
       userService.confirmOrder(id).then(res => {
         if (!common.isOk(res)) return
         Toast("已确认订单");
+        this.orderStatus = '1';
         this.getOrderList(this.orderStatus, 1);
       })
     }

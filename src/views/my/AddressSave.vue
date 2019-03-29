@@ -18,15 +18,16 @@
             <!---->
           </div>
           <div class="mint-cell-value">
-            <div style="width: 100%;">
-              <input
+            <div style="width: 100%;color:#000 !important;" @click="isShowAddress = true">
+              <!-- <input
                 placeholder="请选择省份城市"
                 type="text"
-                @click="isShowAddress = true"
+                disabled
                 style="font-size: inherit;width: 100%;"
                 :value="`${saveData.province} ${saveData.city} ${saveData.district}`"
                 readonly
-              >
+              > -->
+              {{saveData.province}} {{saveData.city}} {{saveData.district}}
             </div>
             <div class="mint-field-clear" style="display: none;">
               <i class="mintui mintui-field-error"></i>
