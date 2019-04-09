@@ -18,15 +18,16 @@
             <!---->
           </div>
           <div class="mint-cell-value">
-            <div style="width: 100%;">
-              <input
+            <div style="width: 100%;color:#000 !important;" @click="isShowAddress = true">
+              <!-- <input
                 placeholder="请选择省份城市"
                 type="text"
-                @click="isShowAddress = true"
+                disabled
                 style="font-size: inherit;width: 100%;"
                 :value="`${saveData.province} ${saveData.city} ${saveData.district}`"
                 readonly
-              >
+              > -->
+              {{saveData.province}} {{saveData.city}} {{saveData.district}}
             </div>
             <div class="mint-field-clear" style="display: none;">
               <i class="mintui mintui-field-error"></i>
@@ -55,6 +56,9 @@
       <div style="padding: 20px 20px;">
         <mt-button type="primary" size="large" @click="readySave">保存</mt-button>
       </div>
+      <div style="padding: 10px 20px 10px 20px;">
+        <mt-button type="danger" size="large" @click="delFunc">删除</mt-button>
+      </div>
     </div>
 
     <mt-popup v-model="isShowAddress" position="bottom" style="width: 100%;">
@@ -64,7 +68,7 @@
 </template>
 
 <script>
-import { Picker, Popup, Field, Cell, Switch, Button, Toast, Indicator } from 'mint-ui';
+import { Picker, Popup, Field, Cell, Switch, Button, Toast, Indicator, MessageBox } from 'mint-ui';
 import myaddress from '@/assets/city.json'
 import userService from '@/api/userService';
 import common from '@/util/common';
@@ -140,6 +144,31 @@ export default {
   created() {
   },
   methods: {
+    delFunc() {
+      if (common.isEmpty(this.saveData.id)) {
+        Toast("请先保存地址");
+        return
+      }
+      MessageBox({
+        title: '提示',
+        message: '确定删除吗？',
+        showCancelButton: true,
+        confirmButtonText: '确定',
+        cancelButtonText: '取消'
+      }).then(action => {
+        console.log("right", action);
+        if (action === 'confirm') {//去查看
+          userService.deleteAddress(this.saveData.id).then(res => {
+            if (!common.isOk(res)) return
+            Toast("删除成功");
+            this.$router.go(-1);;
+          })
+        }
+      }).catch(action => {
+        console.log("left", action);
+      });
+
+    },
     goBack() {
       this.$router.go(-1)
     },

@@ -10,9 +10,10 @@
         <span class="time-num">距离{{shop.distance}}</span>
       </div>-->
       <p class="start">地址： {{shop.address}}</p>
-      <p class="coupon" v-if="shop.shopService.length > 0">
+      <p class="coupon">
         <!-- <span v-for="(n, i) in shop.shopService" :key="i">{{n ==1 ?'开发票': n == 2? '医保':'送上门'}}</span> -->
         <img
+          v-if="shop.shopService.length > 0"
           :style="{height:n ==1 ?'23px': n == 2? '30px':'15px',marginRight: '10px'}"
           v-for="(n, i) in shop.shopService"
           :key="i"
@@ -111,6 +112,7 @@ li {
       font-size: 12px;
       margin-top: 5px;
       position: relative;
+      height: 30px;
       > span {
         // border: 1px solid #ef4f4f;
         padding: 0 2px;

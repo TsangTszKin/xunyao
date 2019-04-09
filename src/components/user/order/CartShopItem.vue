@@ -85,7 +85,11 @@ export default {
     let orderStatus = '';
     switch (this.cartShop.orderStatus) {
       case 0:
-        orderStatus = '待确认';
+        if (this.cartShop.insteadBuyerId == this.$store.state.user.user.id) {
+          orderStatus = '请确认';
+        } else {
+          orderStatus = '待好友确认';
+        }
         break;
 
       case 1:
@@ -93,7 +97,7 @@ export default {
         break;
 
       case 2:
-      if (this.cartShop.shopOrderStatus == 3) {
+        if (this.cartShop.shopOrderStatus == 3) {
           orderStatus = '待商家确认完成';
         } else if (this.cartShop.shopOrderStatus == 4) {
           orderStatus = '已完成';

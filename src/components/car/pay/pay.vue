@@ -84,7 +84,7 @@
                                 <div class="mint-cell-left"></div>
                                 <div class="mint-cell-wrapper">
                                         <div class="mint-cell-title">
-                                                <span class="mint-cell-text">{{mainData.getType == '1'?'自取时间':'送货时间'}}</span></div>
+                                                <span class="mint-cell-text">{{saveData[i].getType == '1'?'自取时间':'送货时间'}}</span></div>
                                         <div class="mint-cell-value" style="position: relative;">
                                                 <div>{{saveData[i].limitHour?saveData[i].limitHour+'小时内':'选择时间'}}</div>
                                                 <i class="fa fa-angle-right fa-lg" style="position: absolute;right: 10px;font-size: 14px;top: 4px;"></i>
@@ -391,8 +391,25 @@ export default {
 
 
     },
+    verify(params) {
+      console.log(params);
+      for (const key in params) {
+        if (params.hasOwnProperty(key)) {
+          const element = params[key];
+          if (element.getType == 2) {
+            if (common.isEmpty(element.receiverId)) {
+              Toast("请选择收货地址");
+              return false
+            }
+          }
+        }
+      }
+      return true
+    },
     submitCart() {
       let params = this.packData();
+      if (!this.verify(params))
+        return
       Indicator.open();
       cartService.submit(params).then(res => {
         Indicator.close();

@@ -40,6 +40,10 @@ import index from '@/http/mock.js' //模拟数据
 import { MessageBox, Popup } from 'mint-ui';
 import bus from '@/util/bus';
 import ToTop from '@/components/ToTop';
+import userService from '@/api/userService';
+import common from '@/util/common';
+import cartService from '@/api/cartService';
+import otherService from '@/api/otherService';
 
 export default {
   components: {
@@ -69,6 +73,12 @@ export default {
       data: {
         title: '',
         content: ''
+      },
+      messageCount: {
+        all: 0,
+        count1: 0,
+        count2: 0,
+        count3: 0,
       }
     }
   },
@@ -76,10 +86,72 @@ export default {
     closeAdvert() {
       this.modal = false;
       window.scrollTo(0, 0);
-    }
+    },
+    getMyHomeInfo() {
+      userService.getMyHomeInfo().then(res => {
+        if (!common.isOk(res)) return
+        res.data.loginUser.user.id = res.data.loginUser.id;
+        res.data.loginUser.user.idCard = res.data.loginUser.idCard;
+        res.data.loginUser.user.sex = res.data.loginUser.sex;
+        res.data.loginUser.user.realname = res.data.loginUser.realname;
+        res.data.loginUser.user.type = res.data.loginUser.type;
+        localStorage.user = JSON.stringify(res.data.loginUser.user);
+        // localStorage.shop = JSON.stringify(res.data.loginUser.shop);
+
+        if (!common.isEmpty(res.data.loginUser.shop)) {
+          localStorage.shop = JSON.stringify(res.data.loginUser.shop);
+          this.$store.commit("CHANGE_USER_ISSHOP", true);
+          this.$store.commit("CHANGE_USER_SHOP", res.data.loginUser.shop);
+        } else {
+          localStorage.removeItem("shop");
+          this.$store.commit("CHANGE_USER_ISSHOP", false);
+        }
+
+        this.$store.commit("CHANGE_USER_INFO", res.data.loginUser.user);
+        this.getCartList();
+        this.getNoReadMessageCount();
+      })
+    },
+    getCartList() {
+      cartService.cartList().then(res => {
+        if (!common.isOk(res)) return
+        let data = res.data.data;
+        let cartList = [];
+        for (const key in data) {
+          if (data.hasOwnProperty(key)) {
+            const element = data[key];
+            cartList.push(element);
+          }
+        }
+        this.$store.commit("CHANGE_CART_LIST", cartList);
+        this.$store.commit("CHANGE_CART_DATA", data);
+        this.$store.commit("CHANGE_CART_SUREFREE", res.data.sureFee);
+        this.$store.commit("CHANGE_CART_TOTALFREE", res.data.totalFee);
+        this.$store.commit("CHANGE_CART_SUREFREETEMP", res.data.sureFee);
+        this.$store.commit("CHANGE_CART_TOTALFREETEMP", res.data.totalFee);
+        this.$store.commit("CHANGE_CART_TIME", res.data.deliveryTime);
+      })
+    },
+    getNoReadMessageCount() {
+      otherService.getNoReadMessageCount().then(res => {
+        if (!common.isOk(res)) return
+        this.messageCount.all = res.data.total;
+        this.getNoReadMessageCount2();
+      })
+    },
+    getNoReadMessageCount2() {
+      otherService.getNoReadMessageCount2().then(res => {
+        if (!common.isOk(res)) return
+        this.messageCount.count1 = res.data.count1;
+        this.messageCount.count2 = res.data.count2;
+        this.messageCount.count3 = res.data.count3;
+        this.$store.commit("CHANGE_USER_MESSAGECOUNT", this.messageCount)
+      })
+    },
   },
   mounted() {
     window.scrollTo(0, 0);
+    this.getMyHomeInfo();
     bus.$on("advert.show", (title, content) => {
       this.data.title = title;
       this.data.content = content;
