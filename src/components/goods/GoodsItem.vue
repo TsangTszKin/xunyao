@@ -1,10 +1,10 @@
 <template>
-  <li class="goods" @click="$router.push({name: '详情页', params:{id: data.id}})">
-    <div class="ui-img-div">
+  <li class="goods" >
+    <div class="ui-img-div" @click="$router.push({name: '详情页', params:{id: data.id}})">
       <img :src="data.productImg">
     </div>
     <div class="brief" style="width: calc(60% - 14px)">
-      <p class="name">{{this.data.name}}</p>
+      <p class="name" @click="$router.push({name: '详情页', params:{id: data.id}})">{{this.data.name}}</p>
       <p class="size">{{this.data.specification}}</p>
       <p class="status">
         <span style="font-size: 13px;color:red;">参考价￥{{this.data.discountPrice}}</span>
@@ -14,13 +14,17 @@
           <i style="margin: 0 3px;">有</i>
         </span>-->
       </p>
-      <p class="status" style="height: 20px;">
+      <p class="status" style="height: 20px;position: relative;">
         <span class="stock" style="position: relative;">
           库存：
           <i style="margin: 0 3px;color: red;" v-if="this.data.stock == 0">无</i>
           <i style="margin: 0 3px;" v-else>有</i>
-          <!-- <i style="margin: 0 3px;">有</i> -->
         </span>
+        <i
+          style="margin: 0px 3px;position: absolute; right: 10px;top: 5px;color: orange;"
+          class="fa fa-cart-plus"
+          @click="addCart"
+        ></i>
       </p>
       <!-- <div class="shop">
         <p class="name">{{this.data.shopName}}</p>
@@ -36,6 +40,10 @@
 </template>
 
 <script>
+import { Toast } from 'mint-ui';
+import cartService from '@/api/cartService';
+import common from '@/util/common';
+
 export default {
   props: {
     data: {
@@ -43,6 +51,32 @@ export default {
       default: function () {
         return {}
       }
+    },
+  },
+  methods: {
+    addCart() {
+      let productId = this.data.id;
+      let quantity = 1;
+      let shopId = this.$route.params.id;
+      cartService.addCart(productId, quantity, shopId).then(res => {
+        if (!common.isOk(res)) return
+        Toast("已成功添加到购物车");
+        this.getCartList();
+      }).catch(() => { })
+    },
+    getCartList() {
+      cartService.cartList().then(res => {
+        if (!common.isOk(res)) return
+        let data = res.data.data;
+        let cartList = [];
+        for (const key in data) {
+          if (data.hasOwnProperty(key)) {
+            const element = data[key];
+            cartList.push(element);
+          }
+        }
+        this.$store.commit("CHANGE_CART_LIST", cartList);
+      })
     },
   }
 }

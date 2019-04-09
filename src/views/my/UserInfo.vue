@@ -9,6 +9,29 @@
 
       <mt-field label="昵称" placeholder v-model="saveData.name"></mt-field>
       <mt-field label="真实姓名" :placeholder="saveData.realname2" v-model="saveData.realname"></mt-field>
+      <a class="mint-cell mint-field" @click="openDatePicker">
+        <div class="mint-cell-left"></div>
+        <div class="mint-cell-wrapper">
+          <div class="mint-cell-title">
+            <span class="mint-cell-text">出生日期</span>
+          </div>
+          <div class="mint-cell-value" style="position: relative;">
+            <div>{{saveData.borndate?saveData.borndate:'选择出生日期'}}</div>
+            <i
+              class="fa fa-angle-right fa-lg"
+              style="position: absolute;right: 10px;font-size: 14px;top: 4px;"
+            ></i>
+            <div class="mint-field-clear" style="display: none;">
+              <i class="mintui mintui-field-error"></i>
+            </div>
+            <span class="mint-field-state is-default">
+              <i class="mintui mintui-field-default"></i>
+            </span>
+            <div class="mint-field-other"></div>
+          </div>
+        </div>
+        <div class="mint-cell-right"></div>
+      </a>
       <!-- <mt-field label="性别" placeholder v-model="saveData.name"></mt-field> -->
       <mt-field label="手机号" placeholder type="number" v-model="saveData.mobile"></mt-field>
       <mt-field label="身份证号" placeholder v-model="saveData.idCard"></mt-field>
@@ -28,11 +51,19 @@
         <mt-button type="primary" size="large" @click="save">保存</mt-button>
       </p>
     </div>
+    <mt-datetime-picker
+      ref="datePicker"
+      type="date"
+      year-format="{value} 年"
+      month-format="{value} 月"
+      date-format="{value} 日"
+      @confirm="datePickerComfirm"
+    ></mt-datetime-picker>
   </div>
 </template>
 
 <script>
-import { Button, Header, Field, Indicator, Toast, Radio } from 'mint-ui';
+import { Button, Header, Field, Indicator, Toast, Radio, DatetimePicker } from 'mint-ui';
 import ImgPicker from '@/components/ImgPicker';
 import common from '@/util/common';
 import userService from '@/api/userService';
@@ -44,7 +75,8 @@ export default {
     'mt-field': Field,
     'mt-button': Button,
     ImgPicker,
-    'mt-radio': Radio
+    'mt-radio': Radio,
+    'mt-datetime-picker': DatetimePicker
   },
   data() {
     return {
@@ -55,12 +87,20 @@ export default {
         idCard: this.$store.state.user.user.idCard,
         sex: String(this.$store.state.user.user.sex),
         realname: '',
+        borndate: '',
         realname2: common.isEmpty(this.$store.state.user.user.realname) ? '' : String(this.$store.state.user.user.realname).substr(0, 1) + "**",
         realname3: this.$store.state.user.user.realname,
       }
     }
   },
   methods: {
+    datePickerComfirm(value) {
+      // console.log(common.formatDate(new Date(value)));
+      this.saveData.borndate = common.formatDate(new Date(value));
+    },
+    openDatePicker() {
+      this.$refs.datePicker.open();
+    },
     changeFile(src, fieldKey) {
       this.saveData[fieldKey] = src;
     },
@@ -76,9 +116,17 @@ export default {
       return url
     },
     save() {
+      if (!common.isPhone(this.saveData.mobile)) {
+        Toast("请填写正确的手机号");
+        return
+      }
+      if (!common.isIDCardNo(this.saveData.idCard)) {
+        Toast("请填写正确的身份证号");
+        return
+      }
       let self = this;
       Indicator.open();
-      userService.updateUser(this.saveData.mobile, this.saveData.name, this.saveData.imgUrl, this.saveData.idCard, this.saveData.sex, common.isEmpty(this.saveData.realname) ? this.saveData.realname3 : this.saveData.realname).then(res => {
+      userService.updateUser(this.saveData.mobile, this.saveData.name, this.saveData.imgUrl, this.saveData.idCard, this.saveData.sex, common.isEmpty(this.saveData.realname) ? this.saveData.realname3 : this.saveData.realname, this.saveData.borndate).then(res => {
         Indicator.close();
         if (!common.isOk(res)) return
         Toast({

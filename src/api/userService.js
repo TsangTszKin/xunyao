@@ -80,8 +80,8 @@ export default {
 	reChargeNotify(xmlData) {
 		return axios.post(`${prefix}/app/my/recharge/notify`, xmlData).catch(errorHandler)
 	},
-	updateUser(phone, nickname, headimgurl, idCard, sex, realname) {
-		return axios.post(`${prefix}/app/my/updateUser?phone=${phone}&nickname=${nickname}&headimgurl=${headimgurl}&idCard=${idCard}&sex=${sex}&realname=${realname}`).catch(errorHandler)
+	updateUser(phone, nickname, headimgurl, idCard, sex, realname, borndate) {
+		return axios.post(`${prefix}/app/my/updateUser?phone=${phone}&nickname=${nickname}&headimgurl=${headimgurl}&idCard=${idCard}&sex=${sex}&realname=${realname}&borndate=${borndate}`).catch(errorHandler)
 	},
 	getBreakMoneyList(pageno) {
 		return axios.get(`${prefix}/app/my/getBreakMoneyList?pageno=${pageno}&size=100`).catch(errorHandler)

@@ -95,6 +95,14 @@ export default {
     let s = date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds();
     return Y + M + D + h + m + s;
   },
+  formatDate(time) {
+    //   格式：yyyy-MM-dd
+    let date = new Date(Number(time));
+    let Y = date.getFullYear() + '-';
+    let M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
+    let D = date.getDate() < 10 ? '0' + date.getDate() + ' ' : date.getDate() + ' ';
+    return Y + M + D;
+  },
   isOk(res) {
     if (this.isEmpty(res)) {
       console.error("后台返回数据有误");
@@ -169,6 +177,22 @@ export default {
     var bd_lng = z * Math.cos(theta) + 0.0065;
     var bd_lat = z * Math.sin(theta) + 0.006;
     return [bd_lng, bd_lat]
+  },
+  isPhone(value) {
+    var myreg = /^[1][3,4,5,7,8][0-9]{9}$/;
+    if (!myreg.test(value)) {
+      return false;
+    } else {
+      return true;
+    }
+  },
+  isIDCardNo(value) {
+    var myreg = /^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$|^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X)$/;
+    if (!myreg.test(value)) {
+      return false;
+    } else {
+      return true;
+    }
   }
 
 }

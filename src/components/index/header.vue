@@ -309,6 +309,11 @@ export default {
       this.popupVisible = false;
       MessageBox.prompt('请输入好友手机号').then(({ value, action }) => {
         console.log(value);
+        if (!common.isPhone(value)) {
+          Toast("请填写正确的手机号");
+          return
+        }
+
         self.addFriendForApi(value);
       });
     },
