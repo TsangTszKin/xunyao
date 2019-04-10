@@ -2,9 +2,11 @@
   <div class="goods-save">
     <mt-header title="个人信息">
       <mt-button icon="back" slot="left" @click="$router.go(-1)"></mt-button>
+      <i slot="right" v-show="status === 0" @click="status = 1">编辑</i>
+      <i slot="right" v-show="status === 1" @click="status = 0">退出编辑</i>
     </mt-header>
 
-    <div class="v-content">
+    <div class="v-content" v-show="status === 1">
       <ImgPicker label="头像" :value="saveData.imgUrl" fieldKey="imgUrl" @changeFile="changeFile"/>
 
       <mt-field label="昵称" placeholder v-model="saveData.name"></mt-field>
@@ -51,6 +53,22 @@
         <mt-button type="primary" size="large" @click="save">保存</mt-button>
       </p>
     </div>
+
+    <div class="v-content" v-show="status === 0">
+      <ImgPicker
+        :disabled="true"
+        label="头像"
+        :value="saveData.imgUrl"
+        fieldKey="imgUrl"
+      />
+      <mt-cell title="昵称" :value="saveData.name"></mt-cell>
+      <mt-cell title="真实姓名" :value="saveData.realname2"></mt-cell>
+      <mt-cell title="出生日期" :value="saveData.borndate"></mt-cell>
+      <mt-cell title="手机号" :value="saveData.mobile"></mt-cell>
+      <mt-cell title="身份证号" :value="saveData.idCard"></mt-cell>
+      <mt-cell title="性别" :value="saveData.sex == 1?'男':'女'"></mt-cell>
+    </div>
+
     <mt-datetime-picker
       ref="datePicker"
       type="date"
@@ -63,7 +81,7 @@
 </template>
 
 <script>
-import { Button, Header, Field, Indicator, Toast, Radio, DatetimePicker } from 'mint-ui';
+import { Button, Header, Field, Indicator, Toast, Radio, DatetimePicker, Cell } from 'mint-ui';
 import ImgPicker from '@/components/ImgPicker';
 import common from '@/util/common';
 import userService from '@/api/userService';
@@ -76,10 +94,12 @@ export default {
     'mt-button': Button,
     ImgPicker,
     'mt-radio': Radio,
-    'mt-datetime-picker': DatetimePicker
+    'mt-datetime-picker': DatetimePicker,
+    'mt-cell': Cell
   },
   data() {
     return {
+      status: 0,//0只读状态，1读写状态
       saveData: {
         imgUrl: this.$store.state.user.user.headimgurl,
         name: this.$store.state.user.user.nickname,

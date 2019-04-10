@@ -12,11 +12,7 @@
         <div class="goods-ui-div">
           <img :src="value" v-if="value">
           <i v-else class="fa fa-camera fa-lg"></i>
-          <input
-            placeholder="请选择商品图片"
-            type="file"
-            @change="changeFile"
-          >
+          <input v-if="!disabled" placeholder="请选择商品图片" type="file" @change="changeFile">
         </div>
         <div class="mint-field-clear" style="display: none;">
           <i class="mintui mintui-field-error"></i>
@@ -49,6 +45,10 @@ export default {
     label: {
       type: String,
       default: '图片'
+    },
+    disabled: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
