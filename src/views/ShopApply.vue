@@ -124,7 +124,28 @@
           <mt-field label="备注" placeholder="请输入备注" v-model="saveData.remarks"></mt-field>
           <mt-field label="后台登录帐号" placeholder="请输入帐号" v-model="saveData.username"></mt-field>
           <mt-field label="后台登录密码" placeholder="请输入密码" v-model="saveData.password"></mt-field>
-
+          <p style="text-align: center;margin: 10px;">
+            <i
+              class="fa fa-check-square-o"
+              aria-hidden="true"
+              style="margin-right: 10px;"
+              v-if="isRead"
+              @click="isRead = false"
+            ></i>
+            <i
+              class="fa fa-square-o"
+              aria-hidden="true"
+              style="margin-right: 10px;"
+              @click="isRead = true"
+              v-else
+            ></i>
+            我已阅读并同意
+            <a
+              href="javascript:void;"
+              style="color: blue;"
+              @click="modal = true"
+            >《相关条约》</a>
+          </p>
           <p class="save-btn">
             <mt-button type="primary" size="large" @click="save">保存</mt-button>
           </p>
@@ -138,11 +159,17 @@
       </mt-tab-container>
     </div>
     <v-map @getPoint="getPoint" v-show="isShowMap"/>
+    <mt-popup v-model="modal" position="bottom" style="width: 100%;height: 100%;">
+      <mt-header title="相关条约">
+        <mt-button icon="back" slot="left" @click="modal = false"></mt-button>
+      </mt-header>
+      <div style="padding-top: 40px;">xxxxxxx</div>
+    </mt-popup>
   </div>
 </template>
 
 <script>
-import { Button, Header, Field, Indicator, Toast } from 'mint-ui';
+import { Button, Header, Field, Indicator, Toast, Popup } from 'mint-ui';
 import ImgPicker from '@/components/ImgPicker';
 import shopService from '@/api/shopService';
 import common from '@/util/common';
@@ -156,7 +183,8 @@ export default {
     'mt-field': Field,
     'mt-button': Button,
     ImgPicker,
-    'v-map': Map
+    'v-map': Map,
+    "mt-popup": Popup
   },
   mounted() {
     window.scrollTo(0, 0);
@@ -176,6 +204,8 @@ export default {
   data() {
     return {
       type: '1',
+      isRead: false,
+      modal: false,
       saveData: {
         'shopName': '',// '店铺名称',
         'shopLogo': '',// '店铺logo',(图片)
@@ -298,6 +328,10 @@ export default {
       }
       if (common.isEmpty(this.saveData.password)) {
         Toast("请输入后台登录密码");
+        return false
+      }
+      if (!this.isRead) {
+        Toast("请先同意相关条约");
         return false
       }
       return true
