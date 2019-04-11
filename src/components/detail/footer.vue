@@ -88,7 +88,7 @@ export default {
   },
   methods: {
     addIntoCar() {
-      if (this.$store.state.user.user.type != 1) {
+      if (localStorage.user && JSON.parse(localStorage.user).type != 1) {
         MessageBox({
           title: '提示',
           message: '请先完善您的信息！',

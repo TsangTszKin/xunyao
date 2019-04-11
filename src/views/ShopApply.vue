@@ -122,6 +122,8 @@
             @changeFile="changeFile"
           />
           <mt-field label="备注" placeholder="请输入备注" v-model="saveData.remarks"></mt-field>
+          <mt-field label="后台登录帐号" placeholder="请输入帐号" v-model="saveData.username"></mt-field>
+          <mt-field label="后台登录密码" placeholder="请输入密码" v-model="saveData.password"></mt-field>
 
           <p class="save-btn">
             <mt-button type="primary" size="large" @click="save">保存</mt-button>
@@ -193,7 +195,9 @@ export default {
         "province": '',
         "city": '',
         "district": '',
-        "openAccountCert": ''
+        "openAccountCert": '',
+        "username": '',
+        "password": ''
       },
       isShowMap: false
     }
@@ -286,6 +290,14 @@ export default {
       }
       if (common.isEmpty(this.saveData.longitude) || common.isEmpty(this.saveData.latitude)) {
         Toast("请选择经纬度");
+        return false
+      }
+      if (common.isEmpty(this.saveData.username)) {
+        Toast("请输入后台登录帐号");
+        return false
+      }
+      if (common.isEmpty(this.saveData.password)) {
+        Toast("请输入后台登录密码");
         return false
       }
       return true

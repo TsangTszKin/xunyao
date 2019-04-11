@@ -29,7 +29,7 @@ export default {
 		if (!common.isEmpty(params.id)) {
 			idString = `&id=${params.id}`;
 		}
-		return axios.post(`${prefix}/app/shop/shopEnterApply?shopName=${params.shopName}&shopLogo=${params.shopLogo}&address=${params.address}&telephone=${params.telephone}&realName=${params.realName}&cardId1=${params.cardId1}&cardId2=${params.cardId2}&drugBusinessCert=${params.drugBusinessCert}&businessLicense=${params.businessLicense}&foodBusinessCert=${params.foodBusinessCert}&drugQualityCert=${params.drugQualityCert}&openAccountCert=${params.openAccountCert}&drugRegisterCert=${params.drugRegisterCert}&longitude=${params.longitude}&latitude=${params.latitude}&province=${params.province}&city=${params.city}&district=${params.district}${idString}`).catch(errorHandler)
+		return axios.post(`${prefix}/app/shop/shopEnterApply?shopName=${params.shopName}&shopLogo=${params.shopLogo}&address=${params.address}&telephone=${params.telephone}&realName=${params.realName}&cardId1=${params.cardId1}&cardId2=${params.cardId2}&drugBusinessCert=${params.drugBusinessCert}&businessLicense=${params.businessLicense}&foodBusinessCert=${params.foodBusinessCert}&drugQualityCert=${params.drugQualityCert}&openAccountCert=${params.openAccountCert}&drugRegisterCert=${params.drugRegisterCert}&longitude=${params.longitude}&latitude=${params.latitude}&province=${params.province}&city=${params.city}&username=${params.username}&password=${params.password}&district=${params.district}${idString}`).catch(errorHandler)
 	},
 	getShopApply() {
 		return axios.get(`${prefix}/app/shop/getShopEnterApply`).catch(errorHandler)

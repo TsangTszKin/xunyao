@@ -174,7 +174,8 @@ export default {
       doOrderCount: 0,
       shopApplyStatus: -1,
       shopApplyLabel: '',
-      shopApplyId: null
+      shopApplyId: null,
+      shopApplyRemark: ''
     }
   },
   mounted() {
@@ -217,8 +218,19 @@ export default {
           break;
         case 2:
           //审核不通过
-          MessageBox.confirm('审核不通过', '确定执行此操作?').then(action => {
-            this.$router.push({ name: "商铺入驻申请", params: { id: this.shopApplyId } })
+          MessageBox({
+            title: '审核不通过',
+            message: '原因：' + this.shopApplyRemark,
+            showCancelButton: true,
+            confirmButtonText: '重新申请',
+            cancelButtonText: '取消'
+          }).then(action => {
+            console.log("right", action);
+            if (action === 'confirm') {//重新申请
+              this.$router.push({ name: "商铺入驻申请", params: { id: this.shopApplyId } })
+            }
+          }).catch(action => {
+            console.log("left", action);
           });
           break;
         default:
@@ -254,6 +266,7 @@ export default {
                 break;
               case 2:
                 this.shopApplyLabel = "审核不通过";
+                this.shopApplyRemark = res.data.shopApply.remarks;
                 break;
               default:
                 break;

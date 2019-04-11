@@ -39,11 +39,20 @@
         <p
           class="location2"
         >营业时间：{{shop.businessTime?shop.businessTime:'未设置'}} ~ {{shop.businessTime2?shop.businessTime2:'未设置'}}</p>
-        <p class="location2">
+        <p class="location2" style="width: fit-content; float: left;">
           <i class="fa fa-phone" aria-hidden="true" style="margin-right: 5px;"></i>
           {{shop.phone}}
           <i class="fa fa-user-o" aria-hidden="true" style="margin: 0 5px;"></i>
           {{shop.userName}}
+        </p>
+        <p class="coupon" style="width: fit-content; float: left;margin: -2px 0 0 5px;">
+          <img
+            v-if="shop.shopService.length > 0"
+            :style="{height:n ==1 ?'21px': n == 2? '26px':'13px',marginRight: '10px'}"
+            v-for="(n, i) in shop.shopService"
+            :key="i"
+            :src="n ==1 ?'/static/fapiao.png': n == 2? '/static/yibao.png':'/static/shangmen.png'"
+          >
         </p>
       </div>
       <div style="clear: both;"></div>
@@ -160,6 +169,7 @@ export default {
           this.shop = {};
         } else {
           this.shop = res.data.shop;
+          this.shop.shopService = [1, 2, 3]
         }
         this.favorite = res.data.favorite;
         this.adList = res.data.adList;

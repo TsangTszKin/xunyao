@@ -40,7 +40,7 @@
 </template>
 
 <script>
-import { Toast } from 'mint-ui';
+import { Toast, MessageBox } from 'mint-ui';
 import cartService from '@/api/cartService';
 import common from '@/util/common';
 
@@ -55,6 +55,25 @@ export default {
   },
   methods: {
     addCart() {
+      if (localStorage.user && JSON.parse(localStorage.user).type != 1) {
+        MessageBox({
+          title: '提示',
+          message: '请先完善您的信息！',
+          showCancelButton: true,
+          confirmButtonText: '去完善',
+          cancelButtonText: '以后再算'
+        }).then(action => {
+          console.log("right", action);
+          if (action === 'confirm') {//去查看
+            this.$router.push({ name: '个人信息' })
+          } else if (action === 'cancel') {//返回首页
+            // this.$router.push({ name: '首页' })
+          }
+        }).catch(action => {
+          console.log("left", action);
+        });
+        return
+      }
       let productId = this.data.id;
       let quantity = 1;
       let shopId = this.$route.params.id;
