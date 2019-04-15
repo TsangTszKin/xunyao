@@ -26,7 +26,7 @@
     </ul>
     <p v-if="goods.length == 0" style="text-align: center;">暂无数据</p>
     <!-- <i class="fa fa-cart-plus fa-2x" aria-hidden="true"></i> -->
-    <div style="position: absolute;bottom: 20%;right: 20px;width: 32px; height: 32px;" @click="$router.push({name: '购物车'})">
+    <div style="position: fixed;bottom: 20%;right: 20px;width: 32px; height: 32px;" @click="$router.push({name: '购物车'})">
       <div style="position: relative;">
         <img src="../../assets/images/购物车.png">
         <mt-badge

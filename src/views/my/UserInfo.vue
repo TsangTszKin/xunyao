@@ -107,7 +107,7 @@ export default {
         idCard: this.$store.state.user.user.idCard,
         sex: String(this.$store.state.user.user.sex),
         realname: '',
-        borndate: '',
+        borndate: this.$store.state.user.user.borndate,
         realname2: common.isEmpty(this.$store.state.user.user.realname) ? '' : String(this.$store.state.user.user.realname).substr(0, 1) + "**",
         realname3: this.$store.state.user.user.realname,
       }
@@ -166,6 +166,7 @@ export default {
         this.doOrderCount = res.data.doOrderCount;
         res.data.loginUser.user.id = res.data.loginUser.id;
         res.data.loginUser.user.idCard = res.data.loginUser.idCard;
+        res.data.loginUser.user.borndate = res.data.loginUser.borndate;
         res.data.loginUser.user.sex = res.data.loginUser.sex;
         res.data.loginUser.user.realname = res.data.loginUser.realname;
         res.data.loginUser.user.type = res.data.loginUser.type;

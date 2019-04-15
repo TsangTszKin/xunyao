@@ -5,7 +5,7 @@
       <!-- <router-link to="/goodsSave" slot="right">
         <mt-button>上传</mt-button>
       </router-link>-->
-      <i
+      <!-- <i
         class="fa fa-th-list fa-lg v-change"
         slot="right"
         v-if="$store.state.goods.listType === 1"
@@ -22,7 +22,7 @@
         slot="right"
         v-if="$store.state.goods.listType === 3"
         @click="changeGoodsListShowType(1)"
-      ></i>
+      ></i> -->
       <router-link :to="{name:'搜索页', params:{type: 'goods'}}" slot="right">
         <mt-button icon="search" ></mt-button>
       </router-link>
@@ -39,7 +39,7 @@ import { InfiniteScroll, Indicator, Button, Header, Search } from 'mint-ui';
 import GoodsItem from '@/components/goods/GoodsItem';
 import LoadingForList from '@/components/LoadingForList';
 import Footer from '@/common/_footer.vue'
-import Main from '@/components/shop/Main';
+import Main from '@/components/shop/MainBase';
 import shopService from '@/api/shopService';
 import userService from '@/api/userService';
 import common from '@/util/common';

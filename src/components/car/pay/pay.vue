@@ -121,6 +121,7 @@
                                 <div class="mint-cell-right"></div>
                         </a>
                         <mt-field label="邮费" :placeholder="saveData[i].postage?`${saveData[i].postage}元`:'无'" type="text" :readonly="true" :disableClear="true"></mt-field>
+                        <mt-field label="距离" v-show="saveData[i].distance" :placeholder="saveData[i].distance | distance" type="text" :readonly="true" :disableClear="true"></mt-field>
                 </div>
                 <div style="height: 55px"></div>
                 <mt-popup v-model="modal.address" position="bottom" style="width: 100%;height: 100%;">
@@ -534,6 +535,18 @@ export default {
     //   deep: true
     // }
 
+  },
+  filters: {
+    distance: function (value) {
+      if (!value) return '';
+      var distance = '';
+      if (value > 1000) {
+        distance = (value / 1000).toFixed(1) + 'km';
+      } else {
+        distance = value.toFixed(1) + 'm';
+      }
+      return distance
+    }
   }
 
 }

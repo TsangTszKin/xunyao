@@ -134,6 +134,7 @@ export default {
         res.data.loginUser.user.id = res.data.loginUser.id;
         res.data.loginUser.user.idCard = res.data.loginUser.idCard;
         res.data.loginUser.user.sex = res.data.loginUser.sex;
+        res.data.loginUser.user.borndate = res.data.loginUser.borndate;
         res.data.loginUser.user.realname = res.data.loginUser.realname;
         res.data.loginUser.user.type = res.data.loginUser.type;
         localStorage.user = JSON.stringify(res.data.loginUser.user);
