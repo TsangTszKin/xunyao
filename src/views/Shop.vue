@@ -185,7 +185,13 @@ export default {
         if (common.isEmpty(res.data.classList)) {
           this.$store.commit('CHANGE_SHOP_SELECT_CATE', {});
         } else {
-          this.$store.commit('CHANGE_SHOP_SELECT_CATE', res.data.classList[0]);
+          this.classList.unshift({
+            id: 0,
+            className: '所有',
+            bySort: 1
+          });
+          // console.log(" this.classList",  this.classList);
+          this.$store.commit('CHANGE_SHOP_SELECT_CATE', this.classList[0]);
         }
       })
     },
