@@ -55,12 +55,7 @@
     </div>
 
     <div class="v-content" v-show="status === 0">
-      <ImgPicker
-        :disabled="true"
-        label="头像"
-        :value="saveData.imgUrl"
-        fieldKey="imgUrl"
-      />
+      <ImgPicker :disabled="true" label="头像" :value="saveData.imgUrl" fieldKey="imgUrl"/>
       <mt-cell title="昵称" :value="saveData.name"></mt-cell>
       <mt-cell title="真实姓名" :value="saveData.realname2"></mt-cell>
       <mt-cell title="出生日期" :value="saveData.borndate"></mt-cell>
@@ -76,6 +71,8 @@
       month-format="{value} 月"
       date-format="{value} 日"
       @confirm="datePickerComfirm"
+      :startDate="startDate"
+      :endDate="endDate"
     ></mt-datetime-picker>
   </div>
 </template>
@@ -110,7 +107,9 @@ export default {
         borndate: this.$store.state.user.user.borndate,
         realname2: common.isEmpty(this.$store.state.user.user.realname) ? '' : String(this.$store.state.user.user.realname).substr(0, 1) + "**",
         realname3: this.$store.state.user.user.realname,
-      }
+      },
+      startDate: new Date(),
+      endDate: new Date()
     }
   },
   methods: {
@@ -175,9 +174,15 @@ export default {
       })
     }
   },
+  beforeMount() {
+
+  },
   mounted() {
     window.scrollTo(0, 0);
-    console.log(this.$store.state.user.user)
+    console.log(this.$store.state.user.user);
+    this.startDate = new Date('1919-01-01');
+    this.endDate = new Date('2019-01-01');
+    console.log("startDate", this.startDate);
   }
 }
 </script>

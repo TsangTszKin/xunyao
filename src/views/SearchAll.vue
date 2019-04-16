@@ -1,5 +1,8 @@
 <template>
   <div class="search">
+    <mt-header title="搜索">
+      <mt-button icon="back" slot="left" @click="$router.go(-1)"></mt-button>
+    </mt-header>
     <mt-search
       v-model="searchValue"
       :result.sync="searchResult"
@@ -8,9 +11,9 @@
       :autofocus="true"
       :show="true"
       @keyup.enter.native="search(true)"
-      style="position: fixed;top: 0;width: 100%;z-index: 1;height: 40px;"
+      style="position: fixed;top: 45px;width: 100%;z-index: 1;height: 40px;"
     ></mt-search>
-    <mt-navbar v-model="searchType" style="margin-top: 40px;">
+    <mt-navbar v-model="searchType" style="margin-top: 85px;">
       <mt-tab-item id="1">药品</mt-tab-item>
       <mt-tab-item id="2">店铺</mt-tab-item>
     </mt-navbar>

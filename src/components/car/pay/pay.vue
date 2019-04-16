@@ -540,11 +540,7 @@ export default {
     distance: function (value) {
       if (!value) return '';
       var distance = '';
-      if (value > 1000) {
-        distance = (value / 1000).toFixed(1) + 'km';
-      } else {
-        distance = value.toFixed(1) + 'm';
-      }
+      distance = value.toFixed(1) + '公里';
       return distance
     }
   }
