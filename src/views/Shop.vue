@@ -35,7 +35,6 @@
           <!-- <span class="location">地址：广东省广州市天河区车陂社区</span> -->
         </p>
         <p class="location">地址：{{shop.address}}</p>
-        <p class="location2">库存更新间隔：{{shop.stockUpdateDate?shop.stockUpdateDate:'未设置'}}</p>
         <p
           class="location2"
         >营业时间：{{shop.businessTime?shop.businessTime:'未设置'}} ~ {{shop.businessTime2?shop.businessTime2:'未设置'}}</p>
@@ -59,6 +58,8 @@
     </div>
     <shop-swiper :adList="adList"/>
     <shop-main :categories="classList" :shopId="shop.shopId"/>
+
+    <p class="stockTime">库存更新间隔：{{shop.stockUpdateDate?shop.stockUpdateDate:'未设置'}}</p>
 
     <mt-popup
       v-model="popupVisible"
@@ -253,7 +254,7 @@ export default {
       float: left;
 
       border: 1px solid gainsboro;
-      margin-top: 20px;
+      margin-top: 14px;
       > img {
         // width: 100%;
         height: 100%;
@@ -287,6 +288,12 @@ export default {
         margin-top: 5px;
       }
     }
+  }
+  .stockTime {
+    text-align: center;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
   }
 }
 </style>
