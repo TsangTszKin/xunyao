@@ -116,18 +116,10 @@ export default {
       otherService.getNoReadMessageCount().then(res => {
         if (!common.isOk(res)) return
         this.messageCount.all = res.data.total;
-        this.getNoReadMessageCount2();
+        // this.getNoReadMessageCount2();
       })
     },
-    getNoReadMessageCount2() {
-      otherService.getNoReadMessageCount2().then(res => {
-        if (!common.isOk(res)) return
-        this.messageCount.count1 = res.data.count1;
-        this.messageCount.count2 = res.data.count2;
-        this.messageCount.count3 = res.data.count3;
-        this.$store.commit("CHANGE_USER_MESSAGECOUNT", this.messageCount)
-      })
-    },
+   
     getMyHomeInfo() {
       userService.getMyHomeInfo().then(res => {
         if (!common.isOk(res)) return

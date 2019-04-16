@@ -125,6 +125,7 @@ export default {
   },
   mounted() {
     window.scrollTo(0, 0);
+    this.getNoReadMessageCount2();
     this.getMessageList(1);
     this.getMessageList(2);
     this.getMessageList(3);
@@ -134,6 +135,15 @@ export default {
     showMore(sendby, message, id, type) {
       MessageBox(sendby, message);
       this.updateMessage(id, type);
+    },
+    getNoReadMessageCount2() {
+      otherService.getNoReadMessageCount2().then(res => {
+        if (!common.isOk(res)) return
+        this.messageCount.count1 = res.data.count1;
+        this.messageCount.count2 = res.data.count2;
+        this.messageCount.count3 = res.data.count3;
+        this.$store.commit("CHANGE_USER_MESSAGECOUNT", this.messageCount)
+      })
     },
     getMessageList(type) {
       otherService.getMessageList(type, 1).then(res => {
