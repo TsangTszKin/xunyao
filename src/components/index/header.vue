@@ -100,7 +100,7 @@ export default {
             self.$router.push({ name: '定位' });
             Indicator.close();
           }
-        }, 3000);
+        }, 6000);
       }
 
     }

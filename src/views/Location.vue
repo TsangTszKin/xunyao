@@ -12,7 +12,7 @@
           <i class="fa fa-sort-down fa-lg"></i>
         </p>
         <div class="search" style="width: calc(100% - 90px);">
-          <input type="text" id="suggestId" size="20" value placeholder="请输入地址">
+          <input type="text" id="suggestId" size="20" :value="this.city" placeholder="请输入地址">
         </div>
         <div class="v-clear"></div>
       </div>
@@ -113,6 +113,8 @@ export default {
         {          "input": "suggestId"
           , "location": map
         });
+
+        console.log("ac",  ac);
 
       ac.addEventListener("onhighlight", function (e) {  //鼠标放在下拉列表上的事件
 

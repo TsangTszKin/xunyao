@@ -20,7 +20,7 @@ export default {
 				"Content-Type": "multipart/form-data"
 			}
 		}; //添加请求头
-		return axios.post(`http://47.106.168.53:8091/app/other/uploadFile`, param, config).catch(errorHandler);
+		return axios.post(`${prefix}/app/other/uploadFile`, param, config).catch(errorHandler);
 	},
 	getHotSearchKeyWord(shopId, type) {
 		return axios.get(`${prefix}/app/product/getHotSearchKeyword?shopId=${shopId}&type=${type}`).catch(errorHandler);
