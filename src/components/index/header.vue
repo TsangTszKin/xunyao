@@ -74,8 +74,8 @@ export default {
       localStorage.lng = this.$route.query.lng;
       bus.$emit("getNearShopList", this.$route.query.lat, this.$route.query.lng);
     } else {
-      if (!common.isEmpty(sessionStorage.cityName)) {
-        this.city = sessionStorage.cityName;
+      if (!common.isEmpty(localStorage.cityName)) {
+        this.city = localStorage.cityName;
         setTimeout(() => {
           bus.$emit("getNearShopList", localStorage.lat, localStorage.lng);
         }, 1000);
