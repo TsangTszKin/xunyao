@@ -1,5 +1,5 @@
 <template>
-  <mt-swipe :auto="4000" style="height: 90px;
+  <mt-swipe :auto="4000" style="height: 100px;
     padding: 5px;
     background-color: #dcdcdc80;">
     <mt-swipe-item v-for="(item, index) in adList" :key="index">

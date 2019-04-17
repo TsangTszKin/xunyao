@@ -114,7 +114,7 @@ export default {
           , "location": map
         });
 
-        console.log("ac",  ac);
+      
 
       ac.addEventListener("onhighlight", function (e) {  //鼠标放在下拉列表上的事件
 
@@ -160,6 +160,8 @@ export default {
         });
         local.search(myValue);
       }
+
+      document.getElementById("suggestId").focus();
     }
   }
 }
