@@ -11,7 +11,7 @@
     width: 100%;
     z-index: 999;"
       >
-        <mt-tab-item id="1">
+        <mt-tab-item id="1" style="position: ralative;">
           <mt-badge
             size="small"
             type="error"
@@ -19,7 +19,7 @@
             v-if="$store.state.user.messageCount.count1 > 0"
           >{{$store.state.user.messageCount.count1}}</mt-badge>店铺消息
         </mt-tab-item>
-        <mt-tab-item id="2">
+        <mt-tab-item id="2" style="position: ralative;">
           <mt-badge
             size="small"
             type="error"
@@ -27,7 +27,7 @@
             v-if="$store.state.user.messageCount.count2 > 0"
           >{{$store.state.user.messageCount.count2}}</mt-badge>系统消息
         </mt-tab-item>
-        <mt-tab-item id="3">
+        <mt-tab-item id="3" style="position: ralative;">
           <mt-badge
             size="small"
             type="error"
@@ -125,6 +125,7 @@ export default {
   },
   mounted() {
     window.scrollTo(0, 0);
+    this.messageCount.all = this.$store.state.user.messageCount.all;
     this.getNoReadMessageCount2();
     this.getMessageList(1);
     this.getMessageList(2);
@@ -225,5 +226,9 @@ export default {
   .mint-cell-swipe-button {
     line-height: 65px;
   }
+}
+
+.mint-navbar .mint-tab-item {
+  position: relative;
 }
 </style>

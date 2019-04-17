@@ -65,60 +65,22 @@ export default {
     'mt-popup': Popup
   },
   mounted() {
-
-
-    //方案一 ，H5定位
-    // if (navigator.geolocation) {
-    //   navigator.geolocation.getCurrentPosition(showPosition, showError);
-    // } else {
-    //   alert("浏览器不支持地理定位。");
-    // }
-    // function showPosition(position) {
-    //   var lat = position.coords.latitude; //纬度 
-    //   var lag = position.coords.longitude; //经度 
-    //   alert('纬度:' + lat + ',经度:' + lag);
-    //   console.log('纬度:' + lat + ',经度:' + lag)
-    // }
-    // function showError(error) {
-    //   switch (error.code) {
-    //     case error.PERMISSION_DENIED:
-    //       alert("定位失败,用户拒绝请求地理定位");
-    //       break;
-    //     case error.POSITION_UNAVAILABLE:
-    //       alert("定位失败,位置信息是不可用");
-    //       break;
-    //     case error.TIMEOUT:
-    //       alert("定位失败,请求获取用户位置超时");
-    //       break;
-    //     case error.UNKNOWN_ERROR:
-    //       alert("定位失败,定位系统失效");
-    //       break;
-    //   }
-    // }
-
-
-
     let self = this;
     if (!common.isEmpty(this.$route.query.business)) {
       this.city = this.$route.query.business;
       localStorage.cityName = this.city;
+      sessionStorage.cityName = this.city;
       localStorage.lat = this.$route.query.lat;
       localStorage.lng = this.$route.query.lng;
       bus.$emit("getNearShopList", this.$route.query.lat, this.$route.query.lng);
     } else {
-      if (!common.isEmpty(localStorage.cityName)) {
-        this.city = localStorage.cityName;
+      if (!common.isEmpty(sessionStorage.cityName)) {
+        this.city = sessionStorage.cityName;
         setTimeout(() => {
           bus.$emit("getNearShopList", localStorage.lat, localStorage.lng);
         }, 1000);
       } else {
         let timer = setInterval(() => {
-
-          //方案二 ，百度地图浏览器定位（优先调用浏览器H5定位接口，如果失败会调用IP定位）
-          // if (!common.isEmpty(BMap)) {
-          //   self.locationInit();
-          //   clearInterval(timer);
-          // }
 
           //方案三 ，微信定位
           if (!common.isEmpty(wx)) {
