@@ -21,7 +21,9 @@ export default {
 				"Content-Type": "multipart/form-data"
 			}
 		}; //添加请求头
-		return axios.post(`${prefix}/app/other/uploadFile?limit=60`, param, config).catch(errorHandler);
+		return axios.post(`${prefix}/app/other/uploadFile?limit=60`, param, config).catch(()=>{
+			Toast("文件上传失败，请上传小于60kb的图片")
+		});
 	},
 	getHotSearchKeyWord(shopId, type) {
 		return axios.get(`${prefix}/app/product/getHotSearchKeyword?shopId=${shopId}&type=${type}`).catch(errorHandler);
