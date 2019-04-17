@@ -91,6 +91,9 @@ export default {
 
 
   },
+  beforeDestroy(){
+    localStorage.removeItem("cityName");
+  },
   methods: {
     getCartList() {
       cartService.cartList().then(res => {
