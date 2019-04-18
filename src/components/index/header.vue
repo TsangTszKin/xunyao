@@ -66,6 +66,9 @@ export default {
   },
   mounted() {
     let self = this;
+    // setTimeout(() => {
+    //   localStorage.removeItem("cityName");
+    // }, 5000*60);
     if (!common.isEmpty(this.$route.query.business)) {
       this.city = this.$route.query.business;
       localStorage.cityName = this.city;
