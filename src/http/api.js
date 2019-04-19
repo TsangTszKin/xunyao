@@ -8,6 +8,7 @@ const api = axios.create();
 // api.defaults.baseURL = 'http://47.106.168.53:8091';
 // api.defaults.baseURL = 'http://zwdjack.iok.la:40229';
 api.defaults.baseURL = 'http://testapi.gu-dao.cn';
+api.defaults.baseURLForUpdateFile = 'http://39.107.90.230:8091';
 // api.defaults.timeout = 100000;
 api.defaults.headers.post['Content-Type'] = '"application/json;charset=UTF-8';
 api.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';

@@ -1,6 +1,7 @@
 import { Toast } from 'mint-ui';
 import axios from '@/http/api.js'
 const prefix = axios.defaults.baseURL;
+const prefixForUpdateFile = axios.defaults.baseURLForUpdateFile;
 
 const errorHandler = error => {
 	// Toast("操作失败，请稍候再试！");
@@ -26,7 +27,7 @@ export default {
 				"Content-Type": "multipart/form-data"
 			}
 		}; //添加请求头
-		return axios.post(`${prefix}/app/other/uploadFile${limit}`, param, config).catch(() => {
+		return axios.post(`${prefixForUpdateFile}/app/other/uploadFile${limit}`, param, config).catch(() => {
 			Toast("文件上传失败")
 		});
 	},
