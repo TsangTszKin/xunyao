@@ -7,7 +7,7 @@
     </mt-header>
 
     <div class="v-content" v-show="status === 1">
-      <ImgPicker label="头像" :value="saveData.imgUrl" fieldKey="imgUrl" @changeFile="changeFile"/>
+      <ImgPicker label="头像" :value="saveData.imgUrl" fieldKey="imgUrl" :limit="60" @changeFile="changeFile"/>
 
       <mt-field label="昵称" placeholder v-model="saveData.name"></mt-field>
       <mt-field label="真实姓名" :placeholder="saveData.realname2" v-model="saveData.realname"></mt-field>

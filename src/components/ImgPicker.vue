@@ -49,6 +49,10 @@ export default {
     disabled: {
       type: Boolean,
       default: false
+    },
+    limit: {
+      type: Number,
+      default: 0
     }
   },
   data() {
@@ -61,13 +65,15 @@ export default {
       // console.log(e);
       if (e.target.files.length <= 0) return
       Indicator.open('上传中...');
-      commonService.fileUpload(e).then((res) => {
+      commonService.fileUpload(e, this.limit).then((res) => {
         Indicator.close();
         if (res.data.code == 0) {
           Toast("上传成功");
           let filepath = res.data.url;
           this.imgUrl = filepath;
           this.$emit("changeFile", filepath, this.fieldKey);
+        }else {
+          Toast(res.data.msg);
         }
       }).catch(() => Indicator.close())
       //   let src = this.getObjectURL(e.target.files[0]);
