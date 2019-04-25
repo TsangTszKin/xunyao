@@ -403,6 +403,10 @@ export default {
               return false
             }
           }
+          if (!common.isEmpty(element.distance) && element.distance > 8  && element.getType == 2) {
+            Toast("收货地址距离不能大于8公里");
+            return
+          }
         }
       }
       return true
@@ -491,6 +495,9 @@ export default {
           if (data.hasOwnProperty(key)) {
             const element = data[key];
             cartList.push(element);
+            if (!common.isEmpty(element.distance) && element.distance > 8 && element.getType == 2) {
+              Toast("收货地址距离不能大于8公里");
+            }
           }
         }
 

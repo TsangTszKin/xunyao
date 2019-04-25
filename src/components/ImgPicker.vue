@@ -24,6 +24,7 @@
       </div>
     </div>
     <div class="mint-cell-right"></div>
+    <img id="preImgUrl" :src="preImgUrl" v-show="false">
     <!---->
   </a>
 </template>
@@ -31,6 +32,7 @@
 <script>
 import commonService from '@/api/commonService';
 import { Indicator, Toast } from 'mint-ui';
+import common from '@/util/common';
 
 export default {
   props: {
@@ -57,11 +59,23 @@ export default {
   },
   data() {
     return {
-      imgUrl: ''
+      imgUrl: '',
+      preImgUrl: ""
     }
   },
   methods: {
     changeFile(e) {
+      // if (this.label == '头像') {
+      //   this.preImgUrl = common.getObjectURL(e.target.files[0]);
+      //   let width = window.document.getElementById("preImgUrl").width;
+      //   let height = window.document.getElementById("preImgUrl").height;
+      //   console.log("width height", width, height);
+
+      //   if (width != height) {
+      //     Toast("请选择宽高相等的图片上传");
+      //     return
+      //   }
+      // }
       // console.log(e);
       if (e.target.files.length <= 0) return
       Indicator.open('上传中...');
@@ -72,7 +86,7 @@ export default {
           let filepath = res.data.url;
           this.imgUrl = filepath;
           this.$emit("changeFile", filepath, this.fieldKey);
-        }else {
+        } else {
           Toast(res.data.msg);
         }
       }).catch(() => Indicator.close())

@@ -10,6 +10,7 @@ var x_PI = 3.14159265358979324 * 3000.0 / 180.0;
 var PI = 3.1415926535897932384626;
 var a = 6378245.0;
 var ee = 0.00669342162296594323;
+import $ from 'jquery'
 
 
 export default {
@@ -193,6 +194,57 @@ export default {
     } else {
       return true;
     }
+  },
+  getImgFile_width_and_height(file) {
+    console.log("file", file);
+    var isAllow = false;
+
+    if (file.files && file.files[0]) {
+      var fileData = file.files[0];
+
+      //读取图片数据
+      var reader = new FileReader();
+      reader.onload = function (e) {
+        var data = e.target.result;
+        //加载图片获取图片真实宽度和高度
+        var image = new Image();
+        image.onload = function () {
+          var width = image.width;
+          var height = image.height;
+          return [width, height]
+        };
+        image.src = data;
+      };
+      reader.readAsDataURL(fileData);
+
+    } else {
+      //IE下使用滤镜来处理图片尺寸控制
+      //文件name中IE下是完整的图片本地路径
+      // var input = D.get('#uploader');
+      // //var input = uploader.get('target').all('input').getDOMNode();
+      // input.select();
+      // //确保IE9下，不会出现因为安全问题导致无法访问
+      // input.blur();
+      // var src = document.selection.createRange().text;
+      // var img = $('<img style="filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=image);width:300px;visibility:hidden;"  />').appendTo('body').getDOMNode();
+      // img.filters.item('DXImageTransform.Microsoft.AlphaImageLoader').src = src;
+      // var width = img.offsetWidth;
+      // var height = img.offsetHeight;
+      // $(img).remove();
+      // return [width, height]
+    }
+
+  },
+  getObjectURL(file) {
+    var url = null;
+    if (window.createObjectURL != undefined) {
+      url = window.createObjectURL(file)
+    } else if (window.URL != undefined) {
+      url = window.URL.createObjectURL(file)
+    } else if (window.webkitURL != undefined) {
+      url = window.webkitURL.createObjectURL(file)
+    }
+    return url
   }
 
 }
