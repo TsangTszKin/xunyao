@@ -322,6 +322,7 @@ export default {
 
       > img {
         width: 100%;
+        height: 100%;
       }
       // span {
       //   .fz(font-size, 54);
