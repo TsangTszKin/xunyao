@@ -61,7 +61,7 @@
     </div>
 
     <div class="v-content" v-show="status === 0">
-      <ImgPicker :disabled="true" label="头像" :value="saveData.imgUrl" fieldKey="imgUrl"  />
+      <ImgPicker :disabled="true" label="头像" :value="saveData.imgUrl" fieldKey="imgUrl"/>
       <mt-cell title="昵称" :value="saveData.name"></mt-cell>
       <mt-cell title="真实姓名" :value="saveData.realname2"></mt-cell>
       <mt-cell title="出生日期" :value="saveData.borndate"></mt-cell>
@@ -146,15 +146,19 @@ export default {
       this.saveData.idCard = this.saveData.idCard.replace(/\s*/g, "");
       this.saveData.realname = this.saveData.realname.replace(/\s*/g, "");
 
-      if (!common.isPhone(this.saveData.mobile)) {
-        Toast("请填写正确的手机号");
-        return
+      if (!common.isEmpty(this.saveData.mobile)) {
+        if (!common.isPhone(this.saveData.mobile)) {
+          Toast("请填写正确的手机号");
+          return
+        }
       }
-      console.log("this.saveData.idCard", this.saveData.idCard)
-      if (!common.isIDCardNo(this.saveData.idCard)) {
-        Toast("请填写正确的身份证号");
-        return
+      if (!common.isEmpty(this.saveData.idCard)) {
+        if (!common.isIDCardNo(this.saveData.idCard)) {
+          Toast("请填写正确的身份证号");
+          return
+        }
       }
+
       let self = this;
 
       Indicator.open();
