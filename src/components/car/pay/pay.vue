@@ -403,8 +403,8 @@ export default {
               return false
             }
           }
-          if (!common.isEmpty(element.distance) && element.distance > 8  && element.getType == 2) {
-            Toast("收货地址距离不能大于8公里");
+          if (!common.isEmpty(element.distance) && element.distance > 8 && element.getType == 2) {
+            Toast("大于8公里以外的订单不支持货到付款");
             return
           }
         }
